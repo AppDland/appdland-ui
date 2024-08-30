@@ -1,1 +1,0 @@
-export { InputApp } from './components/InputApp';

@@ -1,0 +1,43 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "module": "ESNext",
+        "target": "ES2023",
+        "lib": [
+            "ES6",
+            "DOM",
+            "ES2016",
+            "ES2017",
+            "es2021"
+        ],
+        "jsx": "react",
+        "declaration": true,
+        "moduleResolution": "node",
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "esModuleInterop": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "strict": true,
+        "plugins": [
+            {
+                "name": "typescript-plugin-css-modules",
+                "options": {
+                    "classnameTransform": "dashes",
+                    "customMatcher": "\\.m\\.css$",
+                    "customRenderer": "./myRenderer.js",
+                    "dotenvOptions": {},
+                    "postcssOptions": {},
+                    "rendererOptions": {}
+                }
+            }
+        ]
+    },
+    "include": [
+        "src"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}

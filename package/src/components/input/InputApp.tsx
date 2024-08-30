@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { InputAppProps } from './InputApp.types';
-import { formatMoney, formatRevertComas, formatUpperEach } from '../functions/formats';
+import { formatMoney, formatRevertComas, formatUpperEach } from '../../functions/formats';
+import "./styles.css";
 
 export const InputApp: React.FC<InputAppProps> = (
     {
         disabled = false,
-        capitalize = false,
+        style = "box",
+        showDecimal = true,
         ...props
     }
 ) => {
@@ -14,6 +16,7 @@ export const InputApp: React.FC<InputAppProps> = (
     const [focused, setFocused] = useState(false);
     const [innerVal, setInnerVal] = useState<string>();
     const [decimal, setDecimal] = useState("");
+    const [inputWidth, setInputWidth] = useState(0);
 
     const inputRef = useRef<HTMLInputElement>(null);
     const inputDecimalRef = useRef<HTMLInputElement>(null);
@@ -47,12 +50,12 @@ export const InputApp: React.FC<InputAppProps> = (
 
     const innerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value;
-        if (capitalize) {
+        if (props.type === "text" && props.capitalize) {
             value = formatUpperEach(value);
         } else if (props.type === "money") {
 
             value = String(formatRevertComas(value));
-
+            console.log(value);
             if (isNaN(Number(value))) {
                 return;
             } else {
@@ -115,9 +118,22 @@ export const InputApp: React.FC<InputAppProps> = (
         }
     }
 
+    useEffect(() => {
+        if (innerVal) {
+            const lenght = String(formatRevertComas(innerVal)).length;
+            if (lenght < 4) {
+                setInputWidth((lenght - 0.1) * 10);
+            } else if (lenght < 7) {
+                setInputWidth(lenght * 10);
+            } else {
+                setInputWidth((lenght + 0.4) * 10);
+            }
+        }
+    }, [innerVal]);
+
     return (
         <div
-            className='inputgb-container'
+            className={`inputgb-container ${style === "box" ? "inputgb-container-box" : "inputgb-container-bottom-line"}`}
             onClick={handleClick}
             style={{
                 borderColor: props.validator === true
@@ -126,12 +142,13 @@ export const InputApp: React.FC<InputAppProps> = (
             }}
         >
             <p
-                className="inputgb-placeholder"
+                className={`inputgb-placeholder`}
                 style={{
-                    top: placeholderActive ? "-5%" : "48%",
+                    top: placeholderActive ? "-45%" : "5%",
                     left: placeholderActive ? "10px" : "0",
                     fontSize: placeholderActive ? "small" : "medium",
-                    width: placeholderActive ? "auto" : "100%"
+                    width: placeholderActive ? "auto" : "100%",
+                    color: focused ? "black" : "gray"
                 }}
             >
                 {props.placeholder}
@@ -152,22 +169,22 @@ export const InputApp: React.FC<InputAppProps> = (
                 onBlur={handleBlur}
                 onKeyUp={handleKeyUp}
                 disabled={disabled}
-                maxLength={props.maxLength
-                    ? props.maxLength + (props.type === "money" ? (props.maxLength / 3 - 1) : 0)
-                    : undefined
+                maxLength={props.type === "money"
+                    ? 19
+                    : props.maxLength ? props.maxLength : undefined
                 }
                 className="inputgb-input"
                 style={{
                     padding: props.type === "money" ? "10px 0" : "10px",
-                    width: innerVal
+                    width: innerVal && showDecimal
                         ? props.percentage
                             ? `${innerVal.length * 10 + 20}px`
-                            : `${String(formatRevertComas(innerVal)).length * 10}px`
+                            : `${inputWidth}px`
                         : "100%"
                 }}
             />
             {
-                props.type === "money" && innerVal ? (
+                props.type === "money" && innerVal && showDecimal ? (
                     <input
                         ref={inputDecimalRef}
                         type="text"
