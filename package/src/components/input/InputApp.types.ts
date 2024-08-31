@@ -37,4 +37,16 @@ export interface InputAppProps {
     onFocus?: () => void;
     percentage?: boolean;
     disabled?: boolean;
+    /**
+     * @default "left"
+     */
+    textAlign?: "left" | "center";
+    /**
+     * @default "solid"
+     */
+    background?: "solid" | "transparent";
+    /**
+     * @default "medium"
+     */
+    fontSize?: "medium" | "large";
 }

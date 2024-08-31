@@ -1,135 +1,39 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { InputAppProps } from './InputApp.types';
-import { formatMoney, formatRevertComas, formatUpperEach } from '../../functions/formats';
 import "./styles.css";
+import useInput from './useInput';
 
 export const InputApp: React.FC<InputAppProps> = (
     {
         disabled = false,
         style = "box",
         showDecimal = true,
+        textAlign = "left",
+        background = "solid",
+        fontSize = "medium",
         ...props
     }
 ) => {
 
-    const [placeholderActive, setPlaceholderActive] = useState(false);
-    const [focused, setFocused] = useState(false);
-    const [innerVal, setInnerVal] = useState<string>();
-    const [decimal, setDecimal] = useState("");
-    const [inputWidth, setInputWidth] = useState(0);
-
-    const inputRef = useRef<HTMLInputElement>(null);
-    const inputDecimalRef = useRef<HTMLInputElement>(null);
-
-    const handleClick = (e: any) => {
-        if (disabled === false) {
-            setPlaceholderActive(true);
-            setFocused(true);
-            if (e.target.contains(inputDecimalRef.current)) {
-                inputDecimalRef.current?.focus();
-            } else {
-                inputRef.current?.focus();
-            }
-        }
-    }
-
-    const handleBlur = () => {
-        if (props.value === "") {
-            setPlaceholderActive(false);
-        }
-        setFocused(false);
-    }
-
-    const handleFocus = () => {
-        setPlaceholderActive(true);
-        setFocused(true);
-        if (props.onFocus) {
-            props.onFocus();
-        }
-    }
-
-    const innerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = e.target.value;
-        if (props.type === "text" && props.capitalize) {
-            value = formatUpperEach(value);
-        } else if (props.type === "money") {
-
-            value = String(formatRevertComas(value));
-            console.log(value);
-            if (isNaN(Number(value))) {
-                return;
-            } else {
-                const converted = formatMoney(Number(value));
-                setInnerVal(converted === "0" ? "" : converted)
-            }
-        } else if (props.type === "number") {
-            if (isNaN(Number(value))) {
-                return;
-            } else if (props.percentage === true) {
-                setInnerVal(value);
-            }
-        }
-        console.log("will save")
-        props.onChange(value === "0" ? "" : value);
-    }
-
-    useEffect(() => {
-        if (props.value.length > 0 && placeholderActive === false) {
-            setPlaceholderActive(true);
-        } else if (props.value.length === 0 && placeholderActive === true && focused === false) {
-            console.log("yes")
-            setPlaceholderActive(false);
-        }
-    }, [props.value, placeholderActive]);
-
-    useEffect(() => {
-        if (props.type === "money" && props.value.length > 0) {
-            const [integer, decimal] = props.value.split(".");
-            setInnerVal(formatMoney(Number(integer)));
-            if (Number(decimal) > 0) {
-                setDecimal(decimal);
-            }
-        }
-    }, [props.value, props.type]);
-
-    const handleDecimalInput = (e: any) => {
-        console.log(e.target.value);
-    }
-
-    const handleKeyUp = (e: any) => {
-        if (e.key === "." || e.key === ",") {
-            inputDecimalRef.current?.focus();
-        }
-    }
-
-    const handleDecimalKeyDown = (e: any) => {
-        const position = e.target.selectionStart;
-        console.log(position);
-        if (position === 0 && e.key === "Backspace") {
-            inputRef.current?.focus();
-        }
-    }
-
-    const handleDecimalChange = (e: any) => {
-        let value = String(e.target.value);
-        if (value.length <= 2) {
-            setDecimal(value);
-            props.onChange(props.value.split(".")[0] + "." + value);
-        }
-    }
-
-    useEffect(() => {
-        if (innerVal) {
-            const lenght = String(formatRevertComas(innerVal)).length;
-            if (lenght < 4) {
-                setInputWidth((lenght - 0.1) * 10);
-            } else if (lenght < 7) {
-                setInputWidth(lenght * 10);
-            } else {
-                setInputWidth((lenght + 0.4) * 10);
-            }
-        }
-    }, [innerVal]);
+    const {
+        placeholderActive,
+        innerVal,
+        decimal,
+        inputWidth,
+        focused,
+        inputRef,
+        inputDecimalRef,
+        innerShowDecimal,
+        handleClick,
+        handleBlur,
+        handleFocus,
+        innerChange,
+        handleKeyUp,
+        handleDecimalKeyDown,
+        handleDecimalChange,
+        handleDecimalFocus,
+        handleDecimalBlur
+    } = useInput({ disabled, showDecimal, fontSize, ...props });
 
     return (
         <div
@@ -138,29 +42,44 @@ export const InputApp: React.FC<InputAppProps> = (
             style={{
                 borderColor: props.validator === true
                     ? "red"
-                    : focused ? "black" : 'lightgray'
+                    : focused ? "black" : 'lightgray',
+                backgroundColor: background === "solid" ? "white" : "transparent"
             }}
         >
             <p
                 className={`inputgb-placeholder`}
                 style={{
-                    top: placeholderActive ? "-45%" : "5%",
-                    left: placeholderActive ? "10px" : "0",
+                    top: background === "solid"
+                        ? placeholderActive ? "-16%" : "45%"
+                        : "45%",
+                    left: placeholderActive
+                        ? textAlign === "left" ? "10px" : undefined
+                        : textAlign === "left" ? "0" : undefined,
                     fontSize: placeholderActive ? "small" : "medium",
-                    width: placeholderActive ? "auto" : "100%",
-                    color: focused ? "black" : "gray"
+                    width: placeholderActive ? "auto" : "auto",
+                    color: focused ? "black" : "lightgray",
+                    textAlign: textAlign,
+                    opacity: background === "transparent"
+                        ? placeholderActive ? "0" : "1"
+                        : undefined,
+                    backgroundColor: background === "solid" ? "white" : "transparent"
                 }}
             >
                 {props.placeholder}
             </p>
             {
-                props.type === "money" &&
-                <p className="inputgb-money">$</p>
+                props.type === "money" && (
+                    focused
+                        ? <p className="inputgb-money">$</p>
+                        : props.value.length > 0
+                            ? <p className="inputgb-money">$</p>
+                            : null
+                )
             }
             <input
                 ref={inputRef}
                 type={props.type === "money" || props.type === "number" ? "text" : props.type}
-                inputMode={props.type === "money" || props.type === "number" ? "numeric" : "none"}
+                inputMode={props.type === "money" || props.type === "number" ? "decimal" : "none"}
                 autoComplete="off"
                 value={innerVal ? innerVal : props.value}
                 onChange={innerChange}
@@ -180,7 +99,8 @@ export const InputApp: React.FC<InputAppProps> = (
                         ? props.percentage
                             ? `${innerVal.length * 10 + 20}px`
                             : `${inputWidth}px`
-                        : "100%"
+                        : "100%",
+                        fontSize: fontSize
                 }}
             />
             {
@@ -193,11 +113,15 @@ export const InputApp: React.FC<InputAppProps> = (
                         autoCorrect="off"
                         maxLength={2}
                         value={decimal}
+                        onFocus={handleDecimalFocus}
                         onChange={handleDecimalChange}
                         onKeyDown={handleDecimalKeyDown}
-                        onInput={handleDecimalInput}
+                        onBlur={handleDecimalBlur}
                         placeholder="00"
                         className="inputgb-decimal"
+                        style={{
+                            opacity: innerShowDecimal ? "1" : "0"
+                        }}
                     />
                 ) : props.percentage === true && innerVal ? (
                     <p className="inputgb-percentage">%</p>
