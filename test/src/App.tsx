@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { InputApp, ButtonApp } from "@juandland/appdland-ui"
+import { InputApp, ButtonApp, FormApp, useFormApp } from "@juandland/appdland-ui"
 function App() {
 
     const [values, setValues] = useState("");
@@ -7,6 +7,18 @@ function App() {
     useEffect(() => {
         console.log(values);
     }, [values]);
+
+    const { validateFormat } = useFormApp();
+
+    const validateForm = () => {
+        const inputVal = validateFormat(values).isString().min(5).isValid();
+
+        console.log(inputVal)
+
+        return inputVal;
+    }
+
+
     return (
         <div style={{
             backgroundColor: "red",
@@ -16,10 +28,11 @@ function App() {
             flexDirection: "column",
             justifyContent: "center"
         }}>
-            <form
-                onSubmit={(e) =>{
-                    e.preventDefault();
-                    console.log("submited")
+            <FormApp
+                onSubmit={() => console.log("submited")}
+                validateForm={validateForm}
+                style={{
+                    borderStyle: "solid"
                 }}
             >
                 <InputApp
@@ -40,12 +53,8 @@ function App() {
                         backgroundColor: "blue",
                         textColor: "red"
                     }}
-                    onClick={() => {
-                        console.log("clicked")
-                    }}
                 />
-            </form>
-
+            </FormApp>
         </div>
     );
 }
