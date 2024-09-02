@@ -1,3 +1,4 @@
+import { CSSProperties } from "react";
 
 export interface InputAppProps {
     /**
@@ -49,4 +50,20 @@ export interface InputAppProps {
      * @default "medium"
      */
     fontSize?: "medium" | "large";
+    register?: () => void;
+    /**
+     * Muestra el mensaje de error (errorMessage) en la ubicación del placeholder
+     * @default false
+     */
+    errorOnPlaceholder?: boolean;
+    /**
+     * Muestra el mensaje de error (errorMessage) debajo del input
+     * @default false
+     */
+    errorBelowInput?: boolean;
+    /**
+     * Mensaje de error, se muestra cuando la propiedad "validator" sea verdadera
+     */
+    errorMessage?: string;
+    errorMessageStyle?: CSSProperties;
 }

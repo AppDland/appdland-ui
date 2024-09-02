@@ -1,7 +1,7 @@
 import React from 'react';
 import { InputAppProps } from './InputApp.types';
-import "./styles.css";
 import useInput from './useInput';
+import "./styles.css";
 
 export const InputApp: React.FC<InputAppProps> = (
     {
@@ -11,6 +11,8 @@ export const InputApp: React.FC<InputAppProps> = (
         textAlign = "left",
         background = "solid",
         fontSize = "medium",
+        errorOnPlaceholder = false,
+        errorBelowInput = false,
         ...props
     }
 ) => {
@@ -57,7 +59,9 @@ export const InputApp: React.FC<InputAppProps> = (
                         : textAlign === "left" ? "0" : undefined,
                     fontSize: placeholderActive ? "small" : "medium",
                     width: placeholderActive ? "auto" : "auto",
-                    color: focused ? "black" : "lightgray",
+                    color: props.validator === true
+                        ? focused ? "red" : "lightpink"
+                        : focused ? "black" : "lightgray",
                     textAlign: textAlign,
                     opacity: background === "transparent"
                         ? placeholderActive ? "0" : "1"
@@ -65,7 +69,11 @@ export const InputApp: React.FC<InputAppProps> = (
                     backgroundColor: background === "solid" ? "white" : "transparent"
                 }}
             >
-                {props.placeholder}
+                {
+                    errorOnPlaceholder && errorBelowInput === false && props.validator
+                        ? props.errorMessage + '*'
+                        : props.placeholder
+                }
             </p>
             {
                 props.type === "money" && (
@@ -100,7 +108,7 @@ export const InputApp: React.FC<InputAppProps> = (
                             ? `${innerVal.length * 10 + 20}px`
                             : `${inputWidth}px`
                         : "100%",
-                        fontSize: fontSize
+                    fontSize: fontSize
                 }}
             />
             {
@@ -126,6 +134,19 @@ export const InputApp: React.FC<InputAppProps> = (
                 ) : props.percentage === true && innerVal ? (
                     <p className="inputgb-percentage">%</p>
                 ) : null
+            }
+            {
+                errorBelowInput && errorOnPlaceholder === false && props.validator && (
+                    <p
+                        className='inputgb-error-message'
+                        style={{
+                            fontSize: fontSize === "large" ? "small" : "x-small",
+                            ...props.errorMessageStyle
+                        }}
+                    >
+                        {props.errorMessage}*
+                    </p>
+                )
             }
         </div>
     )

@@ -8,20 +8,10 @@ function App() {
         console.log(values);
     }, [values]);
 
-    const { validateFormat } = useFormApp();
-
-    const validateForm = () => {
-        const inputVal = validateFormat(values).isString().min(5).isValid();
-
-        console.log(inputVal)
-
-        return inputVal;
-    }
-
+    const { register, validateForm } = useFormApp();
 
     return (
         <div style={{
-            backgroundColor: "red",
             height: "100vh",
             boxSizing: "border-box",
             display: "flex",
@@ -30,20 +20,22 @@ function App() {
         }}>
             <FormApp
                 onSubmit={() => console.log("submited")}
-                validateForm={validateForm}
-                style={{
-                    borderStyle: "solid"
-                }}
+                validateForm={() => validateForm({
+                    onMinError: "minimo perro"
+                })}
             >
                 <InputApp
-                    value={values}
-                    onChange={setValues}
-                    type='money'
+                    {
+                    ...register("inputPrueba", {
+                        max: 1
+                    })
+                    }
+                    type='text'
                     placeholder='Ingresa Texto'
                     style='box'
                     textAlign='left'
-                    background='transparent'
                     fontSize='large'
+                    errorOnPlaceholder
                 />
                 <ButtonApp
                     title='boton'

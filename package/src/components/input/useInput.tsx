@@ -72,6 +72,12 @@ const useInput = (props: InputAppProps) => {
         }
     }, [innerVal]);
 
+    useEffect(() => {
+        if (props.register) {
+            props.register();
+        }
+    }, []);
+
     const handleClick = (e: any) => {
         if (props.disabled === false) {
             setPlaceholderActive(true);
