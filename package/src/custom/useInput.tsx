@@ -53,15 +53,18 @@ export const useInputGroup = (): [GroupInt, (key: string, value: string, validat
     }
 
     const register = (key: string, settings?: registerConfig) => {
-        setState({
-            ...state,
-            [key]: {
-                value: "",
-                validate: false,
-                ...settings
-            }
-
-        });
+        if (!state[key]) {
+            setState({
+                ...state,
+                [key]: {
+                    value: "",
+                    validate: false,
+                    ...settings
+                }
+    
+            });
+        }
+        
     }
 
     return [state, setter, register];

@@ -13,7 +13,6 @@ interface RegisterInt {
     value: string;
     onChange: (param: string) => void;
     validator: boolean;
-    register: () => void;
     errorMessage: string;
     maxLength: number | undefined;
 }
@@ -38,7 +37,6 @@ interface useFormAppInt {
      * - value
      * - onChange
      * - validator
-     * - register
      * - errorMessage
      * - maxLength
      * 
@@ -75,14 +73,16 @@ export const useFormApp: () => useFormAppInt = () => {
     const [form, setForm, registerInput] = useInputGroup();
 
     useEffect(() => {
+        let vals = {};
         for (const input of Object.keys(form)) {
             const { value, type } = form[input];
+            vals = {
+                ...vals,
+                [input]: type === "number" && Number(value) > 0 ? Number(value) : value
+            }
 
-            setFormValues({
-                ...formValues,
-                [input]: type === "number" ? Number(value) : value
-            })
         }
+        setFormValues(vals);
     }, [form]);
 
     const validateFormat: (value: string | number) => FormatsInt = function (value: string | number) {
@@ -179,11 +179,12 @@ export const useFormApp: () => useFormAppInt = () => {
 
     const register: (name: string, settings?: registerConfig) => RegisterInt = (name: string, settings?: registerConfig) => {
 
+        registerInput(name, settings);
+
         return {
             value: form[name]?.value || "",
             onChange: (val: string) => setForm(name, val),
             validator: form[name]?.validate || false,
-            register: () => registerInput(name, settings),
             errorMessage: form[name]?.errorMessage || "",
             maxLength: settings?.max ? settings.max : undefined
         }

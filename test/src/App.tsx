@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { InputApp, ButtonApp, FormApp, useFormApp } from "@juandland/appdland-ui"
 function App() {
-    
+
     const { register, validateForm, form, formValues } = useFormApp();
-    
-    useEffect(() => {
-        console.log(formValues);
-    }, [formValues]);
 
     return (
         <div style={{
@@ -17,15 +13,32 @@ function App() {
             justifyContent: "center"
         }}>
             <FormApp
-                onSubmit={() => console.log("submited")}
+                onSubmit={() => console.log(formValues)}
                 validateForm={() => validateForm()}
             >
                 <InputApp
                     {
-                    ...register("inputPrueba", {
+                    ...register("value", {
                         min: 5,
                         max: 10,
-                        onMinError: "Mínimo 5 carácteres perrooooo"
+                        onMinError: "Mínimo 5 carácteres perrooooo",
+                        type: 'number'
+                    })
+                    }
+                    type='number'
+                    placeholder='Ingresa Texto'
+                    style='box'
+                    textAlign='left'
+                    fontSize='large'
+                    errorOnPlaceholder
+                />
+                <InputApp
+                    {
+                    ...register("mount", {
+                        min: 5,
+                        max: 10,
+                        onMinError: "Mínimo 5 carácteres perrooooo",
+                        type: "number"
                     })
                     }
                     type='number'

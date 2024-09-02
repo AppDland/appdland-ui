@@ -50,7 +50,6 @@ export interface InputAppProps {
      * @default "medium"
      */
     fontSize?: "medium" | "large";
-    register?: () => void;
     /**
      * Muestra el mensaje de error (errorMessage) en la ubicación del placeholder
      * @default false
