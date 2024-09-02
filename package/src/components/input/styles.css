@@ -1,7 +1,7 @@
 .inputgb-container{
     position: relative;
     cursor: text;
-    margin: 15px 5px;
+    margin: 20px 5px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -64,7 +64,9 @@
 
 .inputgb-percentage{
     z-index: 4;
-    margin-left: -10px;
+    margin: 0;
+    width: 100%;
+    margin-left: -8px;
 }
 
 .inputgb-error-message{

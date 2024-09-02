@@ -8,6 +8,14 @@ interface ValidateInputInt {
 
 interface inputCompleteInt extends registerConfig, ValidateInputInt { };
 
+interface errorEventsInt{
+    onFormatError?: string;
+    onRequiredError?: string;
+    onMinError?: string;
+    onMaxError?: string;
+    onPositiveNumberError?: string;
+}
+
 export interface registerConfig {
     min?: number;
     max?: number;
@@ -19,10 +27,12 @@ export interface registerConfig {
      * @default true
      */
     required?: boolean;
-    onFormatError?: string;
-    onRequiredError?: string;
-    onMinError?: string;
-    onMaxError?: string;
+    /**
+     * Números positivos únicamente
+     * @default true
+     */
+    positive?: boolean;
+    errorEvents?: errorEventsInt;
 }
 
 export interface GroupInt {
@@ -40,8 +50,8 @@ export const useInputGroup = (): [GroupInt, (key: string, value: string, validat
      * @param errorMessage mensaje de error
      */
     const setter = (key: string, value: string, validate: boolean = false, errorMessage?: string) => {
-        setState({
-            ...state,
+        setState(prevState => ({
+            ...prevState,
             [key]: {
                 ...state[key],
                 value,
@@ -49,22 +59,22 @@ export const useInputGroup = (): [GroupInt, (key: string, value: string, validat
                 errorMessage
             }
 
-        });
+        }));
     }
 
     const register = (key: string, settings?: registerConfig) => {
         if (!state[key]) {
-            setState({
-                ...state,
+            setState(prevState => ({
+                ...prevState,
                 [key]: {
                     value: "",
                     validate: false,
                     ...settings
                 }
-    
-            });
+
+            }));
         }
-        
+
     }
 
     return [state, setter, register];

@@ -6,6 +6,7 @@ interface FormatsInt {
     format: (type: "string" | "number", errorMessage?: string | undefined) => FormatsInt;
     min: (param: number | undefined, errorMessage?: string | undefined) => FormatsInt;
     max: (param: number | undefined, errorMessage?: string | undefined) => FormatsInt;
+    positive: (param: boolean | undefined, errorMessage?: string | undefined) => FormatsInt;
     isValid: () => { state: boolean, error: string };
 }
 
@@ -155,6 +156,15 @@ export const useFormApp: () => useFormAppInt = () => {
                     }
                     return this;
                 },
+                positive(positive: boolean | undefined, errorMessage?: string | undefined) {
+                    if (validate && positive === true && Number(value) <= 0) {
+                        validate = false;
+                        error = errorMessage
+                            ? errorMessage
+                            : 'Ingresa un número positivo'
+                    }
+                    return this;
+                },
                 /**
                  * Método final
                  * @returns 
@@ -192,19 +202,24 @@ export const useFormApp: () => useFormAppInt = () => {
 
     const validateForm: () => boolean = () => {
         let validator = true;
+        let counter = 0;
         for (const input of Object.keys(form)) {
-            const { value, required, min, max, type, onRequiredError, onFormatError, onMinError, onMaxError } = form[input];
+            counter++;
+            const { value, required, min, max, type, positive, errorEvents } = form[input];
             let innerValidator = true;
             const innerValidate = validateFormat(
                 type === "number" && Number(value) > 0 ? Number(value) : value,
             );
 
-            const { state, error } = innerValidate.notEmpty(required === undefined ? true : required, onRequiredError)
-                .format(type ? type : "string", onFormatError)
-                .min(min, onMinError)
-                .max(max, onMaxError)
+            const { state, error } = innerValidate.notEmpty(required === undefined ? true : required, errorEvents?.onRequiredError)
+                .format(type ? type : "string", errorEvents?.onFormatError)
+                .min(min, errorEvents?.onMinError)
+                .max(max, errorEvents?.onMaxError)
+                .positive(positive === undefined ? true : positive, errorEvents?.onPositiveNumberError)
                 .isValid();
+
             if (state === false) {
+                console.log(counter);
                 setForm(input, value, true, error);
                 innerValidator = state;
             }
@@ -213,6 +228,7 @@ export const useFormApp: () => useFormAppInt = () => {
                 validator = false;
             }
         }
+
         return validator;
     }
 

@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { InputApp, ButtonApp, FormApp, useFormApp } from "@juandland/appdland-ui"
+import { InputApp, ButtonApp, FormApp, useFormApp, SelectApp } from "@juandland/appdland-ui"
 function App() {
 
-    const { register, validateForm, form, formValues } = useFormApp();
+    const { register, validateForm, form, formValues, setForm } = useFormApp();
+
+    useEffect(() => {
+        setTimeout(() => {
+            setForm("mount", "50");
+        }, 2000);
+    }, []);
 
     return (
         <div style={{
@@ -21,12 +27,14 @@ function App() {
                     ...register("value", {
                         min: 5,
                         max: 10,
-                        onMinError: "Mínimo 5 carácteres perrooooo",
-                        type: 'number'
+                        type: 'number',
+                        errorEvents:{
+                            onMinError: "Perrrooo"
+                        },
                     })
                     }
-                    type='number'
-                    placeholder='Ingresa Texto'
+                    type='money'
+                    placeholder='Ingresa Numero'
                     style='box'
                     textAlign='left'
                     fontSize='large'
@@ -37,15 +45,21 @@ function App() {
                     ...register("mount", {
                         min: 5,
                         max: 10,
-                        onMinError: "Mínimo 5 carácteres perrooooo",
                         type: "number"
                     })
                     }
                     type='number'
-                    placeholder='Ingresa Texto'
+                    placeholder='Ingresa Porcentaje'
                     style='box'
                     textAlign='left'
                     fontSize='large'
+                    percentage
+                    errorOnPlaceholder
+                />
+                <SelectApp
+                    {...register('selector')}
+                    options={["opcion 1", "opcion 2"]}
+                    placeHolder='Test de select'
                     errorOnPlaceholder
                 />
                 <ButtonApp
@@ -57,6 +71,8 @@ function App() {
                         textColor: "red"
                     }}
                 />
+
+
             </FormApp>
         </div>
     );

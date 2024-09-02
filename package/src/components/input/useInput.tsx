@@ -9,6 +9,7 @@ const useInput = (props: InputAppProps) => {
     const [inputWidth, setInputWidth] = useState(0);
     const [focused, setFocused] = useState(false);
     const [innerShowDecimal, setInnerShowDecimal] = useState(false);
+    const [isNegative, setIsNegative] = useState(false);
 
     const inputRef = useRef<HTMLInputElement>(null);
     const inputDecimalRef = useRef<HTMLInputElement>(null);
@@ -30,6 +31,9 @@ const useInput = (props: InputAppProps) => {
             if (Number(decimal) > 0) {
                 setDecimal(decimal);
             }
+        } else if (props.percentage === true && props.type === "number"){
+            console.log("executed")
+            setInnerVal(props.value);
         }
 
     }, [props.value, props.type]);
@@ -43,7 +47,7 @@ const useInput = (props: InputAppProps) => {
     useEffect(() => {
         if (innerVal) {
             const lenght = String(formatRevertComas(innerVal)).length;
-            
+
             const [
                 _first,
                 _second,
@@ -71,6 +75,7 @@ const useInput = (props: InputAppProps) => {
             }
         }
     }, [innerVal]);
+
 
     const handleClick = (e: any) => {
         if (props.disabled === false) {
@@ -107,19 +112,19 @@ const useInput = (props: InputAppProps) => {
 
     const innerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value;
+        //PASAR ESTA LOGICA AL EFECTO YA QUE SE EJECUTA DOS VECES
         if (props.type === "text" && props.capitalize) {
             value = formatUpperEach(value);
         } else if (props.type === "money") {
-
-            value = String(formatRevertComas(value));
-            if (isNaN(Number(value))) {
+            value = value === "-" ? value : String(formatRevertComas(value));
+            if (isNaN(Number(value)) && value !== "-") {
                 return;
             } else {
-                const converted = formatMoney(Number(value));
+                const converted = value === "-" ? value : formatMoney(Number(value));
                 setInnerVal(converted === "0" ? "" : converted)
             }
         } else if (props.type === "number") {
-            if (isNaN(Number(value))) {
+            if (isNaN(Number(value)) && value !== "-") {
                 return;
             } else if (props.percentage === true) {
                 setInnerVal(value);
@@ -148,6 +153,20 @@ const useInput = (props: InputAppProps) => {
             setFocused(false);
             inputRef.current?.blur();
         }
+
+        if (props.type === "money") {
+            if (
+                e.key === "-" ||
+                e.keyCode === 189 ||
+                e.code === "Minus"
+            ) {
+                props.onChange('-');
+                setIsNegative(true);
+            } else if (e.key === "Backspace" && innerVal?.length === 0) {
+                setIsNegative(false);
+            }
+        }
+
     }
 
     const handleDecimalKeyDown = (e: any) => {
@@ -191,7 +210,8 @@ const useInput = (props: InputAppProps) => {
         handleDecimalKeyDown,
         handleDecimalChange,
         handleDecimalFocus,
-        handleDecimalBlur
+        handleDecimalBlur,
+        isNegative
     }
 }
 

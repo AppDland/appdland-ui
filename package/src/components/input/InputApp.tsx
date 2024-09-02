@@ -34,7 +34,8 @@ export const InputApp: React.FC<InputAppProps> = (
         handleDecimalKeyDown,
         handleDecimalChange,
         handleDecimalFocus,
-        handleDecimalBlur
+        handleDecimalBlur,
+        isNegative
     } = useInput({ disabled, showDecimal, fontSize, ...props });
 
     return (
@@ -78,9 +79,13 @@ export const InputApp: React.FC<InputAppProps> = (
             {
                 props.type === "money" && (
                     focused
-                        ? <p className="inputgb-money">$</p>
+                        ? <p className="inputgb-money" style={{
+                            color: isNegative ? "red" : "black"
+                        }}>$</p>
                         : props.value.length > 0
-                            ? <p className="inputgb-money">$</p>
+                            ? <p className="inputgb-money" style={{
+                                color: isNegative ? "red" : "black"
+                            }}>$</p>
                             : null
                 )
             }
@@ -105,7 +110,7 @@ export const InputApp: React.FC<InputAppProps> = (
                     padding: props.type === "money" ? "10px 0" : "10px",
                     width: innerVal && showDecimal
                         ? props.percentage
-                            ? `${innerVal.length * 10 + 20}px`
+                            ? `${ innerVal.length * 10}px`
                             : `${inputWidth}px`
                         : "100%",
                     fontSize: fontSize
