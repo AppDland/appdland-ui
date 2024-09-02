@@ -146,6 +146,14 @@ const useInput = (props: InputAppProps) => {
         ) {
             inputDecimalRef.current?.focus();
         }
+        if (
+            e.key === "Enter" ||
+            e.keyCode === 13 ||
+            e.code === "Enter"
+        ) {
+            setFocused(false);
+            inputRef.current?.blur();
+        }
     }
 
     const handleDecimalKeyDown = (e: any) => {

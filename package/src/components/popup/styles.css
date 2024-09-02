@@ -5,7 +5,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(231, 231, 231, 0.2);
+    background-color: rgba(100, 100, 100, 0.7);
     -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
     user-select: none;
@@ -20,7 +20,7 @@
     padding: 10px;
     border-radius: 10px;
     background-color: #F5F5F5;
-    box-shadow: 0px 0px 30px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 5px 10px 2px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -45,4 +45,17 @@
     width: 60%;
     justify-self: center;
     align-self: center;
+}
+
+@media (max-width: 600px){
+    .popup-yes-no{
+        width: 90%;
+    }
+
+    .popup-yes-no p{
+        font-size: small;
+    }
+    .popup-yes-no-buttons{
+        width: 70%;
+    }
 }

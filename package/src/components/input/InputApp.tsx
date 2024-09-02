@@ -110,6 +110,7 @@ export const InputApp: React.FC<InputAppProps> = (
                         : "100%",
                     fontSize: fontSize
                 }}
+                spellCheck="false"
             />
             {
                 props.type === "money" && innerVal && showDecimal ? (

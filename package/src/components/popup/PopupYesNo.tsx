@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ButtonApp } from '../button/ButtonApp';
 import "./styles.css";
 
@@ -32,9 +32,26 @@ const PopupYesNo = ({ title, text, state, setState, onYes, onNo }: PopupYesNoInt
         document.body.style.overflow = "unset";
     }
 
+    const popupRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        
+        const closeModal = (e: any) => {
+            if (popupRef.current && popupRef.current.contains(e.target)) {
+                setState(false);
+            }
+        }
+
+        document.addEventListener("click", closeModal);
+
+        return () => {
+            document.removeEventListener("click", closeModal);
+        }
+    }, []);
+
     return (
-        <div className='popup-yes-no-back'>
-            <div className="popup-yes-no">
+        <div className='popup-yes-no-back' ref={popupRef}>
+            <div className="popup-yes-no" onClick={(e) => e.stopPropagation()}>
                 <h1>{title ? title : "Confirmar"}</h1>
                 <p>{text ? text : "¿Quieres continuar?"}</p>
                 <br />

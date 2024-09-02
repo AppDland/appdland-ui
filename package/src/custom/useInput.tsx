@@ -6,42 +6,26 @@ interface ValidateInputInt {
     errorMessage?: string;
 }
 
-// const modifyHook = (setState: any, keysValues: any) => {
-//     setState((prevState: any) => ({
-//         ...prevState,
-//         ...keysValues
-//     }));
-// };
-
-// export const useInput = (params?: ValidateInputInt): [ValidateInputInt, (value: string, validate?: boolean) => void] => {
-
-//     const [state, setState] = useState<ValidateInputInt>({
-//         value: params?.value || '',
-//         validate: params?.validate || false
-//     });
-
-//     const setter = (value: string, validate: boolean = false) => {
-//         modifyHook(setState, {
-//             value: value,
-//             validate: validate
-//         })
-//     }
-
-//     return [state, setter];
-// }
-
-// export default useInput;
-
 interface inputCompleteInt extends registerConfig, ValidateInputInt { };
 
 export interface registerConfig {
     min?: number;
     max?: number;
+    /**
+     * @default "string"
+     */
     type?: 'string' | 'number';
+    /**
+     * @default true
+     */
     required?: boolean;
+    onFormatError?: string;
+    onRequiredError?: string;
+    onMinError?: string;
+    onMaxError?: string;
 }
 
-interface GroupInt {
+export interface GroupInt {
     [key: string]: inputCompleteInt;
 }
 export const useInputGroup = (): [GroupInt, (key: string, value: string, validate?: boolean, errorMessage?: string) => void, (key: string, settings?: registerConfig) => void] => {
