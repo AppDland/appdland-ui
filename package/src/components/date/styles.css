@@ -1,0 +1,45 @@
+.date-picker-app-container {
+    position: relative;
+    margin: 20px 5px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 300px;
+    font-size: medium;
+    padding: 10.5px 10px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid;
+    border-color: lightgray;
+    user-select: none;
+    cursor: pointer;
+}
+
+.date-picker-app-placeholder {
+    z-index: 2;
+    position: absolute;
+    width: 100%;
+    box-sizing: border-box;
+    left: 0;
+    padding: 0 10px;
+    transform: translate(0, -50%);
+    transition-duration: 0.1s;
+    height: 60%;
+    display: flex;
+    align-items: center;
+}
+
+.date-picker-app-placeholder p {
+    margin: 0;
+    background-color: white;
+    width: fit-content;
+}
+
+.date-picker-app-input {
+    z-index: 1;
+    width: 100%;
+    font-size: medium;
+    border: none;
+    outline: none;
+    font-family: Arial, Helvetica, sans-serif;
+}

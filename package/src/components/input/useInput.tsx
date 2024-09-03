@@ -32,7 +32,6 @@ const useInput = (props: InputAppProps) => {
                 setDecimal(decimal);
             }
         } else if (props.percentage === true && props.type === "number"){
-            console.log("executed")
             setInnerVal(props.value);
         }
 

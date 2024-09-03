@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { InputApp, ButtonApp, FormApp, useFormApp, SelectApp } from "@juandland/appdland-ui"
+import { InputApp, ButtonApp, FormApp, useFormApp, SelectApp, DatePickerApp } from "@juandland/appdland-ui"
 function App() {
 
     const { register, validateForm, form, formValues, setForm } = useFormApp();
@@ -22,13 +22,18 @@ function App() {
                 onSubmit={() => console.log(formValues)}
                 validateForm={() => validateForm()}
             >
+                <DatePickerApp 
+                    {...register("datepicker")}
+                    placeholder='Fecha de prueba'
+                    maxToday
+                />
                 <InputApp
                     {
                     ...register("value", {
                         min: 5,
                         max: 10,
                         type: 'number',
-                        errorEvents:{
+                        errorEvents: {
                             onMinError: "Perrrooo"
                         },
                     })

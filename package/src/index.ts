@@ -5,3 +5,4 @@ export { FormApp } from './components/form/FormApp';
 export { useFormApp } from './components/form/useForm';
 export { SelectApp } from './components/select/SelectApp';
 export { SelectAppProps } from './components/select/SelectApp.types';
+export { DatePickerApp } from './components/date/DatePickerApp';
