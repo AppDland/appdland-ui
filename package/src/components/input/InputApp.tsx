@@ -40,7 +40,7 @@ export const InputApp: React.FC<InputAppProps> = (
 
     return (
         <div
-            className={`inputgb-container ${style === "box" ? "inputgb-container-box" : "inputgb-container-bottom-line"}`}
+            className={`appdland-ui-inputapp-container ${style === "box" ? "appdland-ui-inputapp-container-box" : "appdland-ui-inputapp-container-bottom-line"}`}
             onClick={handleClick}
             style={{
                 borderColor: props.validator === true
@@ -50,7 +50,7 @@ export const InputApp: React.FC<InputAppProps> = (
             }}
         >
             <p
-                className={`inputgb-placeholder`}
+                className={`appdland-ui-inputapp-placeholder`}
                 style={{
                     top: background === "solid"
                         ? placeholderActive ? "-16%" : "45%"
@@ -79,7 +79,7 @@ export const InputApp: React.FC<InputAppProps> = (
             {
                 props.type === "money" && (
                     props.value.length > 0
-                        ? <p className="inputgb-money" style={{
+                        ? <p className="appdland-ui-inputapp-money-symbol" style={{
                             color: isNegative ? "red" : "black"
                         }}>$</p>
                         : null
@@ -101,15 +101,20 @@ export const InputApp: React.FC<InputAppProps> = (
                     ? 19
                     : props.maxLength ? props.maxLength : undefined
                 }
-                className="inputgb-input"
+                className="appdland-ui-inputapp-input"
                 style={{
                     padding: props.type === "money" ? "10px 0" : "10px",
                     width: innerVal && showDecimal
-                        ? props.percentage
+                        ? props.type === "percentage"
                             ? `${innerVal.length * 10}px`
                             : `${inputWidth}px`
                         : "100%",
                     fontSize: fontSize,
+                    paddingLeft: props.type === "money"
+                        ? innerVal
+                            ? "0"
+                            : "10px"
+                        : "10px",
                     textAlign: textAlign
                 }}
                 spellCheck="false"
@@ -129,20 +134,20 @@ export const InputApp: React.FC<InputAppProps> = (
                         onKeyDown={handleDecimalKeyDown}
                         onBlur={handleDecimalBlur}
                         placeholder="00"
-                        className="inputgb-decimal"
+                        className="appdland-ui-inputapp-decimal"
                         style={{
                             opacity: innerShowDecimal ? "1" : "0",
                             width: textAlign === "left" ? "100%" : "15px"
                         }}
                     />
-                ) : props.percentage === true && innerVal ? (
-                    <p className="inputgb-percentage">%</p>
+                ) : props.type === "percentage" && innerVal ? (
+                    <p className="appdland-ui-inputapp-percentage-symbol">%</p>
                 ) : null
             }
             {
                 errorBelowInput && errorOnPlaceholder === false && props.validator && (
                     <p
-                        className='inputgb-error-message'
+                        className='appdland-ui-inputapp-error-message'
                         style={{
                             fontSize: fontSize === "large" ? "small" : "x-small",
                             ...props.errorMessageStyle

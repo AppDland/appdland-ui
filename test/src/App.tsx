@@ -6,12 +6,6 @@ function App() {
 
     const { register, validateForm, form, formValues, setForm } = useFormApp();
 
-    useEffect(() => {
-        setTimeout(() => {
-            setForm("mount", "50");
-        }, 2000);
-    }, []);
-
     return (
         <div style={{
             height: "100vh",
@@ -47,7 +41,7 @@ function App() {
                     type='money'
                     placeholder='Ingresa Numero'
                     style='box'
-                    textAlign='center'
+                    textAlign='left'
                     fontSize='large'
                     errorOnPlaceholder
                 />
@@ -58,11 +52,12 @@ function App() {
                         max: 10,
                     })
                     }
-                    type='text'
+                    type='percentage'
                     placeholder='Ingresa Porcentaje'
                     style='box'
-                    textAlign='center'
+                    textAlign='left'
                     fontSize='large'
+                    defaultValue='50'
                     errorOnPlaceholder
                 />
                 <SelectApp
@@ -75,11 +70,15 @@ function App() {
                 <ButtonApp
                     validateSubmit
                     style='solid'
-                    buttonStyle={{
-                        backgroundColor: "black",
-                        textColor: "white"
+                    actionStyle='cancel'
+                    // buttonStyle={{
+                    //     backgroundColor: "black",
+                    //     textColor: "white",
+                    // }}
+                    icon={{
+                        icon: deleteIcon,
+                        invertColor: true,
                     }}
-                    // icon={deleteIcon}
                 >Boton</ButtonApp>
 
 

@@ -16,6 +16,25 @@ const useInput = (props: InputAppProps) => {
 
     //EFFECTS
     useEffect(() => {
+        if (props.defaultValue && props.defaultValue.length > 0) {
+            if (props.type === "money") {
+                const isNumber = Number(props.defaultValue);
+                if (!isNaN(isNumber)) {
+                    const formated = formatMoney(isNumber);
+                    setInnerVal(formated);
+                }
+
+            } else if (props.type === "percentage") {
+                const isNumber = Number(props.defaultValue);
+                if (!isNaN(isNumber)) {
+                    setInnerVal(props.defaultValue);
+                }
+            }
+            props.onChange(props.defaultValue);
+        }
+    }, []);
+
+    useEffect(() => {
         if (props.value.length > 0 && placeholderActive === false) {
             setPlaceholderActive(true);
         } else if (props.value.length === 0 && placeholderActive === true && focused === false) {
@@ -23,11 +42,6 @@ const useInput = (props: InputAppProps) => {
             setPlaceholderActive(false);
         }
     }, [props.value, placeholderActive]);
-
-    // useEffect(() => {
-        
-
-    // }, [props.value, props.type]);
 
     useEffect(() => {
         if (props.type === "money" && props.showDecimal) {
@@ -102,6 +116,7 @@ const useInput = (props: InputAppProps) => {
     }
 
     const innerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log("change");
         let value = e.target.value;
         //PASAR ESTA LOGICA AL EFECTO YA QUE SE EJECUTA DOS VECES
         if (props.type === "text" && props.capitalize) {
@@ -117,20 +132,10 @@ const useInput = (props: InputAppProps) => {
         } else if (props.type === "number") {
             if (isNaN(Number(value)) && value !== "-") {
                 return;
-            } else if (props.percentage === true) {
-                setInnerVal(value);
             }
+        } else if (props.type === "percentage") {
+            setInnerVal(value);
         }
-
-        // if (props.type === "money" && props.value.length > 0) {
-        //     const [integer, decimal] = props.value.split(".");
-        //     setInnerVal(formatMoney(Number(integer)));
-        //     if (Number(decimal) > 0) {
-        //         setDecimal(decimal);
-        //     }
-        // } else if (props.percentage === true && props.type === "number"){
-        //     setInnerVal(props.value);
-        // }
         props.onChange(value === "0" ? "" : value);
     }
 
@@ -161,7 +166,7 @@ const useInput = (props: InputAppProps) => {
                 e.keyCode === 189 ||
                 e.code === "Minus"
             ) {
-                if (props.value.length === 0) {                    
+                if (props.value.length === 0) {
                     props.onChange('-');
                     setIsNegative(true);
                 }

@@ -19,15 +19,24 @@ export const ButtonApp: React.FC<ButtonAppProps> = ({ validateSubmit, style = "s
         }
     }
 
+    const opacity = () => {
+        if (props.disabled === true) {
+            return {
+                opacity: "0.4",
+                cursor: "default"
+            }
+        } 
+    }
+
     return (
         <>
             <button
                 className={
-                    `general-button ${props.icon
-                        ? "general-button-icon"
+                    `appdland-ui-buttonapp-main ${props.icon
+                        ? "appdland-ui-buttonapp-icon"
                         : style === "border-line"
-                            ? "general-button-normal general-button-border-line"
-                            : "general-button-normal"
+                            ? "appdland-ui-buttonapp-normal appdland-ui-buttonapp-border-line"
+                            : "appdland-ui-buttonapp-normal"
                     }`
                 }
                 onClick={innerHandleClick}
@@ -35,11 +44,13 @@ export const ButtonApp: React.FC<ButtonAppProps> = ({ validateSubmit, style = "s
                 style={{
                     backgroundColor: buttonStyle?.borderColor || style !== "solid"
                         ? 'transparent'
-                        : props.actionStyle === "cancel"
+                        : props.actionStyle === "cancel" && !props.icon
                             ? "red"
                             : buttonStyle?.backgroundColor
                                 ? buttonStyle.backgroundColor
-                                : 'lightgray',
+                                : props.icon
+                                    ? 'transparent'
+                                    : 'lightgray',
                     color: props.actionStyle === "cancel"
                         ? style !== "solid"
                             ? "red"
@@ -51,9 +62,11 @@ export const ButtonApp: React.FC<ButtonAppProps> = ({ validateSubmit, style = "s
                         ? "red"
                         : buttonStyle?.borderColor
                             ? buttonStyle.borderColor
-                            : "black"
+                            : "black",
+                    ...opacity()
                 }}
                 ref={buttonRef}
+                disabled={props.disabled}
             >
                 {
                     props.icon ? (
@@ -62,9 +75,12 @@ export const ButtonApp: React.FC<ButtonAppProps> = ({ validateSubmit, style = "s
                             alt='button-icon'
                             style={{
                                 width: typeof props.icon !== "string" && props.icon.size ? `${props.icon.size}px` : "25px",
-                                height: typeof props.icon !== "string" && props.icon.size ? `${props.icon.size}px`: "25px"
+                                height: typeof props.icon !== "string" && props.icon.size ? `${props.icon.size}px` : "25px"
                             }}
-                            className={typeof props.icon !== "string" && props.icon.invertColor === true ? "general-button-icon-invert" : ""}
+                            className={
+                                props.actionStyle === "cancel"
+                                    ? "appdland-ui-buttonapp-icon-red"
+                                    : typeof props.icon !== "string" && props.icon.invertColor === true ? "appdland-ui-buttonapp-icon-invert" : ""}
                         />
                     ) : (
                         props.title ? props.title : props.children

@@ -37,4 +37,5 @@ export interface ButtonAppProps {
      * @param children
      */
     icon?: string | iconConfigInt;
+    disabled?: boolean;
 }

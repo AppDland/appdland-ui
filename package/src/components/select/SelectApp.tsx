@@ -49,10 +49,10 @@ export const SelectApp: React.FC<SelectAppProps> = ({ listAnimation = true, erro
     return (
         <div
             ref={listRef}
-            className="selector-box-general"
+            className="appdland-ui-selectapp-container"
         >
             <div
-                className="selector-first-box"
+                className="appdland-ui-selectapp-main-box"
                 onClick={handleClick}
                 style={{
 
@@ -64,7 +64,7 @@ export const SelectApp: React.FC<SelectAppProps> = ({ listAnimation = true, erro
                 {
                     props.placeHolder && (
                         <p
-                            className="selector-placeholder"
+                            className="appdland-ui-selectapp-placeholder"
                             style={{
                                 top: placeAction === false ? "50%" : "-10%",
                                 // marginLeft: placeAction === false ? "0" : "10px",
@@ -89,16 +89,16 @@ export const SelectApp: React.FC<SelectAppProps> = ({ listAnimation = true, erro
 
                 {
                     props.value.length > 0 ? (
-                        <p className="selector-option" style={{
+                        <p className="appdland-ui-selectapp-option-selected" style={{
                             textAlign: props.textAlign
                         }}>{props.value}</p>
 
                     ) : (
-                        <p className="selector-option selector-option-ghost">ghost</p>
+                        <p className="appdland-ui-selectapp-option-selected appdland-ui-selectapp-option-ghost">ghost</p>
                     )
                 }
 
-                <div className="selector-arrow">
+                <div className="appdland-ui-selectapp-arrow">
                     <p>
                         arrow
                     </p>
@@ -107,7 +107,7 @@ export const SelectApp: React.FC<SelectAppProps> = ({ listAnimation = true, erro
             {
                 openList === true || listAnimation === true ? (
                     <div
-                        className="selector-options-box"
+                        className="appdland-ui-selectapp-options-box"
                         style={{
                             height: listAnimation
                                 ? openList === true

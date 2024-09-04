@@ -1,4 +1,4 @@
-.selector-box-general {
+.appdland-ui-selectapp-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -9,9 +9,10 @@
     max-width: 300px;
     box-sizing: border-box;
     user-select: none;
+    max-height: 45px;
 }
 
-.selector-first-box {
+.appdland-ui-selectapp-main-box {
     width: 100%;
     height: 100%;
     outline: none;
@@ -21,7 +22,7 @@
     border-radius: 5px;
 }
 
-.selector-placeholder {
+.appdland-ui-selectapp-placeholder {
     position: absolute;
     transform: translate(-50%, -50%);
     transition-duration: 0.1s;
@@ -30,16 +31,16 @@
     padding: 0 10px;
 }
 
-.selector-option {
+.appdland-ui-selectapp-option-selected {
     padding: 10px;
     margin: 0;
 }
 
-.selector-option-ghost{
+.appdland-ui-selectapp-option-ghost{
     color: transparent;
 }
 
-.selector-arrow {
+.appdland-ui-selectapp-arrow {
     position: absolute;
     right: 10px;
     top: 50%;
@@ -49,7 +50,7 @@
 }
 
 
-.selector-options-box {
+.appdland-ui-selectapp-options-box {
     position: absolute;
     top: 100%;
     z-index: 100;
@@ -60,7 +61,7 @@
     overflow: hidden;
 }
 
-.selector-options-box p {
+.appdland-ui-selectapp-options-box p {
     padding: 0 20px;
     height: 45px;
     display: flex;
@@ -69,16 +70,16 @@
     border-bottom: 1px solid lightgray;
 }
 
-.selector-options-box p:hover {
+.appdland-ui-selectapp-options-box p:hover {
     background-color: rgb(236, 236, 236);
 }
 
-.selector-options-box p:first-child {
+.appdland-ui-selectapp-options-box p:first-child {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
 
-.selector-options-box p:last-child {
+.appdland-ui-selectapp-options-box p:last-child {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     border-bottom: none;

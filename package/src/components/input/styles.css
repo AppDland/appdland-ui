@@ -1,4 +1,4 @@
-.inputgb-container{
+.appdland-ui-inputapp-container{
     position: relative;
     cursor: text;
     margin: 20px 5px;
@@ -7,19 +7,20 @@
     justify-content: center;
     width: 100%;
     max-width: 300px;
+    max-height: 45px;
     box-sizing: border-box;
 }
 
-.inputgb-container-box{
+.appdland-ui-inputapp-container-box{
     border: 1px solid;
     border-radius: 5px;
 }
 
-.inputgb-container-bottom-line{
+.appdland-ui-inputapp-container-bottom-line{
     border-bottom: 1px solid;
 }
 
-.inputgb-placeholder {
+.appdland-ui-inputapp-placeholder {
     z-index: 5;
     position: absolute;
     padding: 0 10px;
@@ -29,15 +30,7 @@
     margin: 0;
 }
 
-.inputgb-input{
-    z-index: 2;
-    border: none;
-    outline: none;
-    border-radius: 5px;
-    background: none;
-}
-
-.inputgb-money {
+.appdland-ui-inputapp-money-symbol {
     z-index: 3;
     margin: 0;
     margin-left: 7px;
@@ -48,13 +41,20 @@
     align-items: center;
 }
 
-.inputgb-decimal{
+.appdland-ui-inputapp-input{
+    z-index: 2;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    background: none;
+}
+
+.appdland-ui-inputapp-decimal{
     z-index: 4;
     margin-bottom: -3px;
     border: none;
     outline: none;
     font-size: 11px;
-    /* width: 100%; */
     background: none;
 }
 
@@ -62,14 +62,14 @@
     opacity: 0.5;
 }
 
-.inputgb-percentage{
+.appdland-ui-inputapp-percentage-symbol{
     z-index: 4;
     margin: 0;
     width: 100%;
     margin-left: -8px;
 }
 
-.inputgb-error-message{
+.appdland-ui-inputapp-error-message{
     position: absolute;
     left: 10px;
     top: 30px;

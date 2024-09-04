@@ -12,6 +12,7 @@
     border-color: lightgray;
     user-select: none;
     cursor: pointer;
+    max-height: 45px;
 }
 
 .date-picker-app-box{

@@ -10,7 +10,7 @@ export interface InputAppProps {
      * 
      * @default "text"
      */
-    type: "text" | "number" | "password" | "money";
+    type: "text" | "number" | "password" | "money" | "percentage";
     value: string;
     /**
      * evento onChange
@@ -36,7 +36,6 @@ export interface InputAppProps {
      */
     showDecimal?: boolean;
     onFocus?: () => void;
-    percentage?: boolean;
     disabled?: boolean;
     /**
      * @default "left"
@@ -65,4 +64,8 @@ export interface InputAppProps {
      */
     errorMessage?: string;
     errorMessageStyle?: CSSProperties;
+    /**
+     * un valor por defecto para inicializar en el input
+     */
+    defaultValue?: string;
 }

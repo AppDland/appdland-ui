@@ -16,7 +16,6 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "esModuleInterop": true,
-        "noImplicitReturns": true,
         "noImplicitThis": true,
         "strict": true,
         "plugins": [
