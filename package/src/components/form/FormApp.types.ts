@@ -10,4 +10,5 @@ export interface FormAppProps {
     validateForm?: () => boolean;
     onSubmit: () => void;
     children?: React.ReactNode;
+    className?: string;
 }

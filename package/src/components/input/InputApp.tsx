@@ -78,15 +78,11 @@ export const InputApp: React.FC<InputAppProps> = (
             </p>
             {
                 props.type === "money" && (
-                    focused
+                    props.value.length > 0
                         ? <p className="inputgb-money" style={{
                             color: isNegative ? "red" : "black"
                         }}>$</p>
-                        : props.value.length > 0
-                            ? <p className="inputgb-money" style={{
-                                color: isNegative ? "red" : "black"
-                            }}>$</p>
-                            : null
+                        : null
                 )
             }
             <input
@@ -110,10 +106,11 @@ export const InputApp: React.FC<InputAppProps> = (
                     padding: props.type === "money" ? "10px 0" : "10px",
                     width: innerVal && showDecimal
                         ? props.percentage
-                            ? `${ innerVal.length * 10}px`
+                            ? `${innerVal.length * 10}px`
                             : `${inputWidth}px`
                         : "100%",
-                    fontSize: fontSize
+                    fontSize: fontSize,
+                    textAlign: textAlign
                 }}
                 spellCheck="false"
             />
@@ -134,7 +131,8 @@ export const InputApp: React.FC<InputAppProps> = (
                         placeholder="00"
                         className="inputgb-decimal"
                         style={{
-                            opacity: innerShowDecimal ? "1" : "0"
+                            opacity: innerShowDecimal ? "1" : "0",
+                            width: textAlign === "left" ? "100%" : "15px"
                         }}
                     />
                 ) : props.percentage === true && innerVal ? (

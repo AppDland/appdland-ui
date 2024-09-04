@@ -9,8 +9,15 @@ interface buttonStyleInt {
     borderColor?: string;
 }
 
+interface iconConfigInt{
+    size?: number;
+    icon?: string;
+    invertColor?: boolean;
+}
+
 export interface ButtonAppProps {
-    title: string;
+    title?: string;
+    children?: React.ReactNode;
     onClick?: () => void;
     /**
      * @default "solid"
@@ -22,4 +29,12 @@ export interface ButtonAppProps {
     actionStyle?: "default" | "cancel";
     buttonStyle?: buttonStyleInt;
     validateSubmit?: boolean | popupConfigInt;
+    /**
+     * Renderiza un boton de tipo icono
+     * 
+     * **IGNORA PROPIEDADES**
+     * @param title
+     * @param children
+     */
+    icon?: string | iconConfigInt;
 }

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { InputApp, ButtonApp, FormApp, useFormApp, SelectApp, DatePickerApp } from "@juandland/appdland-ui"
+import deleteIcon from "./delete.png";
+import "./App.css";
 function App() {
 
     const { register, validateForm, form, formValues, setForm } = useFormApp();
@@ -21,10 +23,13 @@ function App() {
             <FormApp
                 onSubmit={() => console.log(formValues)}
                 validateForm={() => validateForm()}
+                className='form-test'
             >
-                <DatePickerApp 
+                <DatePickerApp
                     {...register("datepicker")}
                     placeholder='Fecha de prueba'
+                    textAlign='center'
+                    style='box'
                     maxToday
                 />
                 <InputApp
@@ -32,6 +37,7 @@ function App() {
                     ...register("value", {
                         min: 5,
                         max: 10,
+                        required: false,
                         type: 'number',
                         errorEvents: {
                             onMinError: "Perrrooo"
@@ -41,7 +47,7 @@ function App() {
                     type='money'
                     placeholder='Ingresa Numero'
                     style='box'
-                    textAlign='left'
+                    textAlign='center'
                     fontSize='large'
                     errorOnPlaceholder
                 />
@@ -50,15 +56,13 @@ function App() {
                     ...register("mount", {
                         min: 5,
                         max: 10,
-                        type: "number"
                     })
                     }
-                    type='number'
+                    type='text'
                     placeholder='Ingresa Porcentaje'
                     style='box'
-                    textAlign='left'
+                    textAlign='center'
                     fontSize='large'
-                    percentage
                     errorOnPlaceholder
                 />
                 <SelectApp
@@ -68,14 +72,14 @@ function App() {
                     errorOnPlaceholder
                 />
                 <ButtonApp
-                    title='boton'
                     validateSubmit
                     style='solid'
                     buttonStyle={{
-                        backgroundColor: "blue",
+                        backgroundColor: "white",
                         textColor: "red"
                     }}
-                />
+                    icon={deleteIcon}
+                >Boton</ButtonApp>
 
 
             </FormApp>

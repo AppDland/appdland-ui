@@ -23,9 +23,11 @@ export const ButtonApp: React.FC<ButtonAppProps> = ({ validateSubmit, style = "s
         <>
             <button
                 className={
-                    `general-button ${style === "border-line"
-                        ? "general-button-border-line"
-                        : undefined
+                    `general-button ${props.icon
+                        ? "general-button-icon"
+                        : "general-button-normal " + style === "border-line"
+                            ? "general-button-border-line"
+                            : undefined
                     }`
                 }
                 onClick={innerHandleClick}
@@ -53,7 +55,21 @@ export const ButtonApp: React.FC<ButtonAppProps> = ({ validateSubmit, style = "s
                 }}
                 ref={buttonRef}
             >
-                {props.title}
+                {
+                    props.icon ? (
+                        <img
+                            src={typeof props.icon === "string" ? props.icon : props.icon.icon}
+                            alt='button-icon'
+                            style={{
+                                width: typeof props.icon !== "string" && props.icon.size ? `${props.icon.size}px` : "25px",
+                                height: typeof props.icon !== "string" && props.icon.size ? `${props.icon.size}px`: "25px"
+                            }}
+                            className={typeof props.icon !== "string" && props.icon.invertColor === true ? "general-button-icon-invert" : ""}
+                        />
+                    ) : (
+                        props.title ? props.title : props.children
+                    )
+                }
             </button>
             {
                 popupState && <PopupYesNo

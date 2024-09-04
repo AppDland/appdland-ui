@@ -17,6 +17,7 @@ export const FormApp: React.FC<FormAppProps> = (props) => {
                 }
             }}
             style={props.style}
+            className={props.className}
         >
             {props.children}
         </form>

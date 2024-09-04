@@ -24,18 +24,10 @@ const useInput = (props: InputAppProps) => {
         }
     }, [props.value, placeholderActive]);
 
-    useEffect(() => {
-        if (props.type === "money" && props.value.length > 0) {
-            const [integer, decimal] = props.value.split(".");
-            setInnerVal(formatMoney(Number(integer)));
-            if (Number(decimal) > 0) {
-                setDecimal(decimal);
-            }
-        } else if (props.percentage === true && props.type === "number"){
-            setInnerVal(props.value);
-        }
+    // useEffect(() => {
+        
 
-    }, [props.value, props.type]);
+    // }, [props.value, props.type]);
 
     useEffect(() => {
         if (props.type === "money" && props.showDecimal) {
@@ -129,6 +121,16 @@ const useInput = (props: InputAppProps) => {
                 setInnerVal(value);
             }
         }
+
+        // if (props.type === "money" && props.value.length > 0) {
+        //     const [integer, decimal] = props.value.split(".");
+        //     setInnerVal(formatMoney(Number(integer)));
+        //     if (Number(decimal) > 0) {
+        //         setDecimal(decimal);
+        //     }
+        // } else if (props.percentage === true && props.type === "number"){
+        //     setInnerVal(props.value);
+        // }
         props.onChange(value === "0" ? "" : value);
     }
 
@@ -159,8 +161,10 @@ const useInput = (props: InputAppProps) => {
                 e.keyCode === 189 ||
                 e.code === "Minus"
             ) {
-                props.onChange('-');
-                setIsNegative(true);
+                if (props.value.length === 0) {                    
+                    props.onChange('-');
+                    setIsNegative(true);
+                }
             } else if (e.key === "Backspace" && innerVal?.length === 0) {
                 setIsNegative(false);
             }
@@ -184,6 +188,7 @@ const useInput = (props: InputAppProps) => {
     }
 
     const handleDecimalFocus = () => {
+        inputRef.current?.focus();
         setInnerShowDecimal(true);
     }
     const handleDecimalBlur = () => {

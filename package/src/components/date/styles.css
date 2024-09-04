@@ -9,10 +9,19 @@
     padding: 10.5px 10px;
     box-sizing: border-box;
     border-radius: 5px;
-    border: 1px solid;
     border-color: lightgray;
     user-select: none;
     cursor: pointer;
+}
+
+.date-picker-app-box{
+    border: 1px solid;
+    border-radius: 5px;
+}
+
+.date-picker-app-bottom-line{
+    border-radius: 0;
+    border-bottom: 1px solid;
 }
 
 .date-picker-app-placeholder {
@@ -42,4 +51,5 @@
     border: none;
     outline: none;
     font-family: Arial, Helvetica, sans-serif;
+    justify-content: center;
 }

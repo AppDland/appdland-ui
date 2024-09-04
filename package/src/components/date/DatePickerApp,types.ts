@@ -6,4 +6,12 @@ export interface DatePickerAppProps{
     errorMessage?: string;
     placeholder?: string;
     maxToday?: boolean;
+    /**
+     * @default "left"
+     */
+    textAlign?: "left" | "center";
+    /**
+     * @default "box"
+     */
+    style?: "box" | "bottom-line";
 }

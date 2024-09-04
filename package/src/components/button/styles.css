@@ -1,17 +1,29 @@
 .general-button {
-    padding: 10px;
     cursor: pointer;
     border: none;
-    border-radius: 3px;
     margin: 10px;
-    width: 90%;
-    max-width: 150px;
     text-align: center;
     justify-content: center;
     display: flex;
     align-self: center;
     justify-self: center;
     -webkit-tap-highlight-color: transparent;
+}
+
+.general-button-icon{
+    padding: 5px;
+    border-radius: 10px;
+}
+.general-button-icon.general-button-icon-invert{
+    -webkit-filter: invert(100%); /* Safari/Chrome */
+    filter: invert(100%);
+}
+
+.general-button-normal{
+    padding: 10px;
+    width: 90%;
+    max-width: 150px;
+    border-radius: 3px;
 }
 
 .general-button:hover {

@@ -32,9 +32,11 @@ interface useFormAppInt {
      * 
      * | ATRIBUTOS |
      * 
-     * @param name asigna un nombre al input
-     * @param settings ajustes para validar el formulario
-     * @returns
+     * **name** asigna un nombre al input
+     * 
+     * **settings** ajustes para validar el formulario
+     * 
+     * *return*
      * - value
      * - onChange
      * - validator
@@ -48,8 +50,8 @@ interface useFormAppInt {
     register: (name: string, settings?: registerConfig) => RegisterInt;
     /**
      * La función que finalmente valida que los inputs cumplan los requisitos del formulario
-     * @param settings configuraciones opcionales
-     * @returns boolean
+     * 
+     * **settings** configuraciones opcionales
      */
     validateForm: () => boolean;
     /**
@@ -211,21 +213,25 @@ export const useFormApp: () => useFormAppInt = () => {
                 type === "number" && Number(value) > 0 ? Number(value) : value,
             );
 
-            const { state, error } = innerValidate.notEmpty(required === undefined ? true : required, errorEvents?.onRequiredError)
-                .format(type ? type : "string", errorEvents?.onFormatError)
-                .min(min, errorEvents?.onMinError)
-                .max(max, errorEvents?.onMaxError)
-                .positive(positive === undefined ? true : positive, errorEvents?.onPositiveNumberError)
-                .isValid();
+            if (required !== false || value !== "") {
+                const { state, error } = innerValidate.notEmpty(required === undefined ? true : required, errorEvents?.onRequiredError)
+                    .format(type ? type : "string", errorEvents?.onFormatError)
+                    .min(min, errorEvents?.onMinError)
+                    .max(max, errorEvents?.onMaxError)
+                    .positive(positive === undefined ? true : positive, errorEvents?.onPositiveNumberError)
+                    .isValid();
 
-            if (state === false) {
-                console.log(counter);
-                setForm(input, value, true, error);
-                innerValidator = state;
-            }
+                if (state === false) {
+                    console.log(counter);
+                    setForm(input, value, true, error);
+                    innerValidator = state;
+                }
 
-            if (innerValidator === false) {
-                validator = false;
+                if (innerValidator === false) {
+                    validator = false;
+                }
+            } else {
+                console.log(input);
             }
         }
 
