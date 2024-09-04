@@ -69,16 +69,17 @@ function App() {
                     {...register('selector')}
                     options={["opcion 1", "opcion 2"]}
                     placeHolder='Test de select'
+                    textAlign='center'
                     errorOnPlaceholder
                 />
                 <ButtonApp
                     validateSubmit
                     style='solid'
                     buttonStyle={{
-                        backgroundColor: "white",
-                        textColor: "red"
+                        backgroundColor: "black",
+                        textColor: "white"
                     }}
-                    icon={deleteIcon}
+                    // icon={deleteIcon}
                 >Boton</ButtonApp>
 
 

@@ -24,4 +24,5 @@ export interface SelectAppProps {
      * @default false
      */
     errorBelowSelect?: boolean;
+    textAlign?: "left" | "center";
 }

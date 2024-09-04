@@ -23,7 +23,7 @@
 
 .selector-placeholder {
     position: absolute;
-    transform: translate(0, -50%);
+    transform: translate(-50%, -50%);
     transition-duration: 0.1s;
     background-color: white;
     margin: 0;

@@ -67,8 +67,12 @@ export const SelectApp: React.FC<SelectAppProps> = ({ listAnimation = true, erro
                             className="selector-placeholder"
                             style={{
                                 top: placeAction === false ? "50%" : "-10%",
-                                marginLeft: placeAction === false ? "0" : "10px",
+                                // marginLeft: placeAction === false ? "0" : "10px",
                                 fontSize: placeAction === false ? "medium" : "small",
+                                left: props.textAlign === "left" ? "10px" : "50%",
+                                transform: props.textAlign === "left"
+                                    ? "translate(0, -50%)"
+                                    : "translate(-50%, -50%)",
                                 color: props.validator === true
                                     ? openList === false ? "lightpink" : "red"
                                     : openList ? "black" : "lightgray"
@@ -85,7 +89,9 @@ export const SelectApp: React.FC<SelectAppProps> = ({ listAnimation = true, erro
 
                 {
                     props.value.length > 0 ? (
-                        <p className="selector-option">{props.value}</p>
+                        <p className="selector-option" style={{
+                            textAlign: props.textAlign
+                        }}>{props.value}</p>
 
                     ) : (
                         <p className="selector-option selector-option-ghost">ghost</p>

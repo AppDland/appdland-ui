@@ -25,9 +25,9 @@ export const ButtonApp: React.FC<ButtonAppProps> = ({ validateSubmit, style = "s
                 className={
                     `general-button ${props.icon
                         ? "general-button-icon"
-                        : "general-button-normal " + style === "border-line"
-                            ? "general-button-border-line"
-                            : undefined
+                        : style === "border-line"
+                            ? "general-button-normal general-button-border-line"
+                            : "general-button-normal"
                     }`
                 }
                 onClick={innerHandleClick}
