@@ -6,7 +6,7 @@ interface ValidateInputInt {
     errorMessage?: string;
 }
 
-interface inputCompleteInt extends registerConfig, ValidateInputInt { };
+export interface inputCompleteInt extends registerConfig, ValidateInputInt { };
 
 interface errorEventsInt{
     onFormatError?: string;
@@ -35,12 +35,12 @@ export interface registerConfig {
     errorEvents?: errorEventsInt;
 }
 
-export interface GroupInt {
-    [key: string]: inputCompleteInt;
-}
-export const useInputGroup = (): [GroupInt, (key: string, value: string, validate?: boolean, errorMessage?: string) => void, (key: string, settings?: registerConfig) => void] => {
+// export interface GroupInt {
+//     [key: string]: inputCompleteInt;
+// }
+export const useInputGroup = (): [Record<string, inputCompleteInt>, (key: string, value: string, validate?: boolean, errorMessage?: string) => void, (key: string, settings?: registerConfig) => void] => {
 
-    const [state, setState] = useState<GroupInt>({});
+    const [state, setState] = useState<Record<string, inputCompleteInt>>({});
 
     /**
      * Cambiar estado 
@@ -62,6 +62,11 @@ export const useInputGroup = (): [GroupInt, (key: string, value: string, validat
         }));
     }
 
+    /**
+     * Registrar un nuevo input 
+     * @param key nombre del input
+     * @param settings configuracion
+     */
     const register = (key: string, settings?: registerConfig) => {
         if (!state[key]) {
             setState(prevState => ({

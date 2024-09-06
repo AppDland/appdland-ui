@@ -2,9 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { InputApp, ButtonApp, FormApp, useFormApp, SelectApp, DatePickerApp } from "@juandland/appdland-ui"
 import deleteIcon from "./delete.png";
 import "./App.css";
+
+interface formValsInt{
+    datepicker: string;
+    value: number;
+    mount: number;
+}
 function App() {
 
-    const { register, validateForm, form, formValues, setForm } = useFormApp();
+    const { register, validateForm, form, formValues, setForm } = useFormApp<formValsInt>();
+
+    useEffect(() => {
+        console.log(formValues.value);
+    }, [formValues]);
 
     return (
         <div style={{
@@ -23,7 +33,7 @@ function App() {
                     {...register("datepicker")}
                     placeholder='Fecha de prueba'
                     textAlign='center'
-                    style='box'
+                    style='bottom-line'
                     maxToday
                 />
                 <InputApp
@@ -40,7 +50,7 @@ function App() {
                     }
                     type='money'
                     placeholder='Ingresa Numero'
-                    style='box'
+                    style='bottom-line'
                     textAlign='left'
                     fontSize='large'
                     errorOnPlaceholder
@@ -54,7 +64,7 @@ function App() {
                     }
                     type='percentage'
                     placeholder='Ingresa Porcentaje'
-                    style='box'
+                    style='bottom-line'
                     textAlign='left'
                     fontSize='large'
                     defaultValue='50'
@@ -69,16 +79,16 @@ function App() {
                 />
                 <ButtonApp
                     validateSubmit
-                    style='solid'
-                    actionStyle='cancel'
+                    style='border-line'
+                    // actionStyle='cancel' 
                     // buttonStyle={{
                     //     backgroundColor: "black",
                     //     textColor: "white",
                     // }}
-                    icon={{
-                        icon: deleteIcon,
-                        invertColor: true,
-                    }}
+                    // icon={{
+                    //     icon: deleteIcon,
+                    //     invertColor: true,
+                    // }}
                 >Boton</ButtonApp>
 
 

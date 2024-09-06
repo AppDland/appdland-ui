@@ -86,11 +86,11 @@ const useInput = (props: InputAppProps) => {
         if (props.disabled === false) {
             setPlaceholderActive(true);
             setFocused(true);
-            if (e.target.contains(inputDecimalRef.current)) {
-                inputDecimalRef.current?.focus();
-            } else {
-                inputRef.current?.focus();
-            }
+            // if (e.target.contains(inputDecimalRef.current)) {
+            //     inputDecimalRef.current?.focus();
+            // } else {
+            inputRef.current?.focus();
+            // }
         }
     }
 
@@ -116,7 +116,6 @@ const useInput = (props: InputAppProps) => {
     }
 
     const innerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log("change");
         let value = e.target.value;
         //PASAR ESTA LOGICA AL EFECTO YA QUE SE EJECUTA DOS VECES
         if (props.type === "text" && props.capitalize) {
@@ -127,7 +126,11 @@ const useInput = (props: InputAppProps) => {
                 return;
             } else {
                 const converted = value === "-" ? value : formatMoney(Number(value));
-                setInnerVal(converted === "0" ? "" : converted)
+                const [integer, decimal] = converted.split(".");
+                setInnerVal(converted === "0" ? "" : integer);
+                if (decimal) {
+                    setDecimal(decimal);
+                }
             }
         } else if (props.type === "number") {
             if (isNaN(Number(value)) && value !== "-") {
@@ -185,21 +188,28 @@ const useInput = (props: InputAppProps) => {
     }
 
     const handleDecimalChange = (e: any) => {
-        let value = String(e.target.value);
-        if (value.length <= 2) {
-            setDecimal(value);
-            props.onChange(props.value.split(".")[0] + "." + value);
+        if (!isNaN(Number(e.target.value))) {
+            let value = String(e.target.value);
+            if (value.length <= 2) {
+                setDecimal(value);
+                props.onChange(props.value.split(".")[0] + "." + value);
+            }
         }
     }
 
     const handleDecimalFocus = () => {
-        inputRef.current?.focus();
         setInnerShowDecimal(true);
     }
     const handleDecimalBlur = () => {
         if (decimal.length === 0) {
             setInnerShowDecimal(false);
         }
+    }
+
+    const handleDecimalClick = () => {
+        // console.log("clicked");
+        // inputDecimalRef.current?.blur();
+        // inputRef.current?.focus();
     }
 
     return {
@@ -220,6 +230,7 @@ const useInput = (props: InputAppProps) => {
         handleDecimalChange,
         handleDecimalFocus,
         handleDecimalBlur,
+        handleDecimalClick,
         isNegative
     }
 }

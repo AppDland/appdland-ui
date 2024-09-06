@@ -49,7 +49,7 @@ export const DatePickerApp: React.FC<DatePickerAppProps> = (props) => {
 
     return (
         <div
-            className={`date-picker-app-container ${ props.style === "box" ? "date-picker-app-box" : "date-picker-app-bottom-line"}`}
+            className={`date-picker-app-container ${props.style === "box" ? "date-picker-app-box" : "date-picker-app-bottom-line"}`}
             onClick={handleClick}
             ref={inputRef}
             style={{
@@ -66,7 +66,9 @@ export const DatePickerApp: React.FC<DatePickerAppProps> = (props) => {
             >
                 <p
                     style={{
-                        color: 'lightgray',
+                        color: props.validator === true
+                            ? isFocused ? "red" : "lightpink"
+                            : isFocused ? "black" : 'lightgray',
                         fontSize: placeholderActive ? "small" : "medium",
                         padding: placeholderActive ? "0 10px" : "0",
                     }}
@@ -78,6 +80,7 @@ export const DatePickerApp: React.FC<DatePickerAppProps> = (props) => {
             </div>
             <input
                 onClick={(e) => e.stopPropagation()}
+                onFocus={() => setIsFocused(true)}
                 ref={datePickerRef}
                 type="date"
                 value={props.value}

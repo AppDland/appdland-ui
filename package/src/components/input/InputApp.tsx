@@ -35,6 +35,7 @@ export const InputApp: React.FC<InputAppProps> = (
         handleDecimalChange,
         handleDecimalFocus,
         handleDecimalBlur,
+        handleDecimalClick,
         isNegative
     } = useInput({ disabled, showDecimal, fontSize, ...props });
 
@@ -129,12 +130,14 @@ export const InputApp: React.FC<InputAppProps> = (
                         autoCorrect="off"
                         maxLength={2}
                         value={decimal}
+                        onClick={handleDecimalClick}
                         onFocus={handleDecimalFocus}
                         onChange={handleDecimalChange}
                         onKeyDown={handleDecimalKeyDown}
                         onBlur={handleDecimalBlur}
                         placeholder="00"
                         className="appdland-ui-inputapp-decimal"
+                        tabIndex={-1}
                         style={{
                             opacity: innerShowDecimal ? "1" : "0",
                             width: textAlign === "left" ? "100%" : "15px"

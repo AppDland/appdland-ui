@@ -11,7 +11,7 @@ interface buttonStyleInt {
 
 interface iconConfigInt{
     size?: number;
-    icon?: string;
+    icon?: string | React.ReactNode;
     invertColor?: boolean;
 }
 
@@ -36,6 +36,6 @@ export interface ButtonAppProps {
      * @param title
      * @param children
      */
-    icon?: string | iconConfigInt;
+    icon?: string | iconConfigInt | React.ReactNode;
     disabled?: boolean;
 }

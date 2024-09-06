@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { GroupInt, registerConfig, useInputGroup } from "../../custom/useInput";
+import { inputCompleteInt, registerConfig, useInputGroup } from "../../custom/useInput";
 
 interface FormatsInt {
     notEmpty: (param: boolean | undefined, errorMessage?: string | undefined) => FormatsInt;
@@ -18,7 +18,7 @@ interface RegisterInt {
     maxLength: number | undefined;
 }
 
-interface useFormAppInt {
+interface useFormAppInt<T> {
     /**
      * Registra un input, se debe usar con el operador Spread.
      *
@@ -57,21 +57,22 @@ interface useFormAppInt {
     /**
      * 
      */
-    form: GroupInt;
+    form: Record<string, inputCompleteInt>;
     setForm: (key: string, value: string, validate?: boolean, errorMessage?: string) => void;
     /**
      * Accede a un objeto con los inputs y sus values
      */
-    formValues: formValuesInt;
+    formValues: T | formValuesInt;
 }
 
-interface formValuesInt {
-    [key: string]: string | number;
+type formValuesInt = {
+    [key: string]: any;
 }
 
-export const useFormApp: () => useFormAppInt = () => {
 
-    const [formValues, setFormValues] = useState<formValuesInt>({});
+export const useFormApp: <T extends object = formValuesInt>() => useFormAppInt<T> = <T extends object = formValuesInt>() => {
+
+    const [formValues, setFormValues] = useState<T>({} as T);
 
     const [form, setForm, registerInput] = useInputGroup();
 
@@ -85,7 +86,7 @@ export const useFormApp: () => useFormAppInt = () => {
             }
 
         }
-        setFormValues(vals);
+        setFormValues(vals as T);
     }, [form]);
 
     const validateFormat: (value: string | number) => FormatsInt = function (value: string | number) {
