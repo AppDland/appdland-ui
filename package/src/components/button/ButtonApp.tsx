@@ -25,7 +25,7 @@ export const ButtonApp: React.FC<ButtonAppProps> = ({ validateSubmit, style = "s
                 opacity: "0.4",
                 cursor: "default"
             }
-        } 
+        }
     }
 
     return (
@@ -70,18 +70,26 @@ export const ButtonApp: React.FC<ButtonAppProps> = ({ validateSubmit, style = "s
             >
                 {
                     props.icon ? (
-                        <img
-                            src={typeof props.icon === "string" ? props.icon : props.icon.icon}
-                            alt='button-icon'
-                            style={{
-                                width: typeof props.icon !== "string" && props.icon.size ? `${props.icon.size}px` : "25px",
-                                height: typeof props.icon !== "string" && props.icon.size ? `${props.icon.size}px` : "25px"
-                            }}
-                            className={
-                                props.actionStyle === "cancel"
-                                    ? "appdland-ui-buttonapp-icon-red"
-                                    : typeof props.icon !== "string" && props.icon.invertColor === true ? "appdland-ui-buttonapp-icon-invert" : ""}
-                        />
+                        typeof props.icon !== "string" ? (
+                            typeof props.icon === "object" && "icon" in props.icon ? (
+                                typeof props.icon.icon === "string" ? (
+                                    <ImgComponent
+                                        path={props.icon.icon}
+                                        actionStyle={props.actionStyle}
+                                        size={props.icon.size}
+                                        invertColor={props.icon.invertColor}
+                                    />
+                                ) : (
+                                    props.icon.icon
+                                )
+                            ) : typeof props.icon !== "object" ? (
+                                props.icon
+                            ) : null
+                        ) : (
+                            <ImgComponent path={props.icon} />
+                        )
+
+
                     ) : (
                         props.title ? props.title : props.children
                     )
@@ -107,3 +115,25 @@ export const ButtonApp: React.FC<ButtonAppProps> = ({ validateSubmit, style = "s
 
     )
 }
+
+interface ImgComponentInt {
+    path: string;
+    size?: number;
+    actionStyle?: "default" | "cancel";
+    invertColor?: boolean;
+}
+
+const ImgComponent = ({ path, size, actionStyle, invertColor }: ImgComponentInt) => (
+    <img
+        src={path}
+        alt='button-icon'
+        style={{
+            width: size ? `${size}px` : "25px",
+            height: size ? `${size}px` : "25px"
+        }}
+        className={
+            actionStyle === "cancel"
+                ? "appdland-ui-buttonapp-icon-red"
+                : invertColor === true ? "appdland-ui-buttonapp-icon-invert" : ""}
+    />
+)

@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { LoadingProvider } from '@juandland/appdland-ui';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <LoadingProvider loadingColor='black' spinners={9} background='light'>
+      <App />
+    </LoadingProvider>
   </React.StrictMode>
 );
 

@@ -8,3 +8,4 @@ export { SelectApp } from './components/select/SelectApp';
 export { SelectAppProps } from './components/select/SelectApp.types';
 export { DatePickerApp } from './components/date/DatePickerApp';
 export { DatePickerAppProps } from './components/date/DatePickerApp,types';
+export { LoadingProvider, useLoading } from './components/loading/useLoading';

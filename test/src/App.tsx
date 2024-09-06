@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { InputApp, ButtonApp, FormApp, useFormApp, SelectApp, DatePickerApp } from "@juandland/appdland-ui"
+import { InputApp, ButtonApp, FormApp, useFormApp, SelectApp, DatePickerApp, useLoading } from "@juandland/appdland-ui"
 import deleteIcon from "./delete.png";
 import "./App.css";
 
-interface formValsInt{
+interface formValsInt {
     datepicker: string;
     value: number;
     mount: number;
@@ -11,9 +11,11 @@ interface formValsInt{
 function App() {
 
     const { register, validateForm, form, formValues, setForm } = useFormApp<formValsInt>();
+    const { setLoading } = useLoading();
 
     useEffect(() => {
         console.log(formValues.value);
+        // setLoading(true);
     }, [formValues]);
 
     return (
@@ -80,15 +82,16 @@ function App() {
                 <ButtonApp
                     validateSubmit
                     style='border-line'
-                    // actionStyle='cancel' 
-                    // buttonStyle={{
-                    //     backgroundColor: "black",
-                    //     textColor: "white",
-                    // }}
-                    // icon={{
-                    //     icon: deleteIcon,
-                    //     invertColor: true,
-                    // }}
+                    disabled
+                // actionStyle='cancel' 
+                // buttonStyle={{
+                //     backgroundColor: "black",
+                //     textColor: "white",
+                // }}
+                icon={{
+                    icon: deleteIcon,
+                    // invertColor: true,
+                }}
                 >Boton</ButtonApp>
 
 
