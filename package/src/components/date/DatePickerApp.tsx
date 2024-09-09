@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { DatePickerAppProps } from './DatePickerApp,types';
 import "./styles.css";
 
-export const DatePickerApp: React.FC<DatePickerAppProps> = (props) => {
+export const DatePickerApp: React.FC<DatePickerAppProps> = ({ style = {}, ...props }) => {
 
     const [placeholderActive, setPlaceholderActive] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
@@ -49,28 +49,71 @@ export const DatePickerApp: React.FC<DatePickerAppProps> = (props) => {
 
     return (
         <div
-            className={`date-picker-app-container ${props.style === "box" ? "date-picker-app-box" : "date-picker-app-bottom-line"}`}
+            className={`date-picker-app-container ${style.type === "bottom-line" ? "date-picker-app-bottom-line" : "date-picker-app-box"}`}
             onClick={handleClick}
             ref={inputRef}
             style={{
-                borderColor: props.validator === true ? "red" : "lightgray"
+                borderColor: props.validator === true
+                    ? "red"
+                    : isFocused
+                        ? style.color
+                            ? style.color
+                            : "black"
+                        : style.blurColor
+                            ? style.blurColor
+                            : "lightgray",
+                backgroundColor: style.backgroundColor
+                    ? style.backgroundColor
+                    : "white",
+                borderRadius: style.type === "bottom-line"
+                    ? "0"
+                    : style.borderRadius
+                        ? style.borderRadius
+                        : "5px"
+
             }}
         >
             <div
                 className='date-picker-app-placeholder'
                 style={{
-                    top: placeholderActive ? "-12%" : "50%",
-                    backgroundColor: placeholderActive ? 'transparent' : "white",
-                    justifyContent: props.textAlign
+                    top: style.backgroundColor
+                        ? "50%"
+                        : placeholderActive
+                            ? "-12%"
+                            : "50%",
+                    backgroundColor: style.backgroundColor
+                        ? style.backgroundColor
+                        : placeholderActive
+                            ? 'transparent'
+                            : "white",
+                    justifyContent: style.textAlign
+                        ? style.textAlign
+                        : "left",
+                    opacity: style.backgroundColor
+                        ? placeholderActive
+                            ? "0"
+                            : "1"
+                        : "1"
                 }}
             >
                 <p
                     style={{
                         color: props.validator === true
-                            ? isFocused ? "red" : "lightpink"
-                            : isFocused ? "black" : 'lightgray',
+                            ? isFocused
+                                ? "red"
+                                : "lightpink"
+                            : isFocused
+                                ? style.placeholderColor
+                                    ? style.placeholderColor
+                                    : "black"
+                                : style.blurPlaceholderColor
+                                    ? style.blurPlaceholderColor
+                                    : 'lightgray',
                         fontSize: placeholderActive ? "small" : "medium",
                         padding: placeholderActive ? "0 10px" : "0",
+                        backgroundColor: style.backgroundColor
+                            ? "transparent"
+                            : "white",
                     }}
                 >
                     {
@@ -88,10 +131,23 @@ export const DatePickerApp: React.FC<DatePickerAppProps> = (props) => {
                 className='date-picker-app-input'
                 max={props.maxToday ? today : undefined}
                 style={{
-                    display: props.textAlign === "left" ? 'block' : "flex"
+                    display: style.textAlign === "center" ? 'flex' : "block",
+                    backgroundColor: style.backgroundColor
+                        ? style.backgroundColor
+                        : "white",
+                    color: style.color
+                        ? style.color
+                        : "black",
+                    opacity: style.backgroundColor
+                        ? placeholderActive
+                            ? "1"
+                            : "0"
+                        : "1",
+                    fontSize: style.fontSize
+                        ? style.fontSize
+                        : "medium"
                 }}
             />
         </div>
-
     )
 }

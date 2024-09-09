@@ -3,16 +3,17 @@ interface popupConfigInt {
     text?: string;
 }
 
-interface buttonStyleInt {
-    backgroundColor?: string;
-    textColor?: string;
-    borderColor?: string;
-}
-
-interface iconConfigInt{
+interface iconConfigInt {
     size?: number;
     icon?: string | React.ReactNode;
     invertColor?: boolean;
+}
+
+interface StyleButtonInt {
+    type?: "solid" | "light" | "border-line";
+    backgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
 }
 
 export interface ButtonAppProps {
@@ -22,12 +23,11 @@ export interface ButtonAppProps {
     /**
      * @default "solid"
      */
-    style?: "solid" | "light" | "border-line";
+    style?: StyleButtonInt;
     /**
      * @default "default"
      */
     actionStyle?: "default" | "cancel";
-    buttonStyle?: buttonStyleInt;
     validateSubmit?: boolean | popupConfigInt;
     /**
      * Renderiza un boton de tipo icono

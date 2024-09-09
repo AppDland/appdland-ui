@@ -35,8 +35,14 @@ function App() {
                 <DatePickerApp
                     {...register("datepicker")}
                     placeholder='Fecha de prueba'
-                    textAlign='center'
-                    style='bottom-line'
+                    style={{
+                        backgroundColor: "transparent",
+                        color: "rgba(179, 224, 203, 0.88)",
+                        blurColor: "rgba(179, 224, 203, 0.5)",
+                        placeholderColor: "red",
+                        blurPlaceholderColor: "blue",
+                        fontSize: "medium",
+                    }}
                     maxToday
                 />
                 <InputApp
@@ -87,7 +93,7 @@ function App() {
                 />
                 <SelectApp
                     {...register('selector')}
-                    options={[{value: 'opcion 1', label: "OPCION"}, {value: 'opcion 2', label: "SEGUNDA"}]}
+                    options={[{ value: 'opcion 1', label: "OPCION" }, { value: 'opcion 2', label: "SEGUNDA" }]}
                     placeHolder='Test de select'
                     style={{
                         type: "box",
@@ -106,17 +112,17 @@ function App() {
                 />
                 <ButtonApp
                     validateSubmit
-                    style='border-line'
-                    disabled
-                // actionStyle='cancel' 
-                // buttonStyle={{
-                //     backgroundColor: "black",
-                //     textColor: "white",
+                    style={{
+                        type: "solid",
+                        backgroundColor: "blue",
+                        borderColor: "red",
+                        textColor: "white"
+                    }}
+                    // actionStyle='cancel' 
+                // icon={{
+                //     icon: deleteIcon,
+                //     // invertColor: true,
                 // }}
-                icon={{
-                    icon: deleteIcon,
-                    // invertColor: true,
-                }}
                 >Boton</ButtonApp>
 
 

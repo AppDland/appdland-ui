@@ -59,13 +59,17 @@ const PopupYesNo = ({ title, text, state, setState, onYes, onNo }: PopupYesNoInt
                     <ButtonApp
                         title="No"
                         onClick={clickNo}
-                        style='border-line'
+                        style={{
+                            type: "border-line"
+                        }}
                         actionStyle='cancel'
                     />
                     <ButtonApp
                         title="Si"
                         onClick={clickYes}
-                        style='border-line'
+                        style={{
+                            type: "border-line"
+                        }}
                     />
                 </div>
             </div>

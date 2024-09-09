@@ -1,4 +1,22 @@
 
+interface StyleDateInt{
+    /**
+     * @default "box"
+     */
+    type?: "box" | "bottom-line";
+    /**
+     * @default "left"
+     */
+    textAlign?: "left" | "center";
+    backgroundColor?: string;
+    fontSize?: "medium" | "large";
+    color?: string;
+    blurColor?: string;
+    borderRadius?: number;
+    placeholderColor?: string;
+    blurPlaceholderColor?: string;
+}
+
 export interface DatePickerAppProps{
     value: string;
     onChange: (val: string) => void;
@@ -6,12 +24,5 @@ export interface DatePickerAppProps{
     errorMessage?: string;
     placeholder?: string;
     maxToday?: boolean;
-    /**
-     * @default "left"
-     */
-    textAlign?: "left" | "center";
-    /**
-     * @default "box"
-     */
-    style?: "box" | "bottom-line";
+    style?: StyleDateInt;
 }

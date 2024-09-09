@@ -8,8 +8,6 @@
     font-size: medium;
     padding: 10.5px 10px;
     box-sizing: border-box;
-    border-radius: 5px;
-    border-color: lightgray;
     user-select: none;
     cursor: pointer;
     max-height: 45px;
@@ -41,16 +39,17 @@
 
 .date-picker-app-placeholder p {
     margin: 0;
-    background-color: white;
     width: fit-content;
 }
 
 .date-picker-app-input {
     z-index: 1;
     width: 100%;
-    font-size: medium;
     border: none;
     outline: none;
     font-family: Arial, Helvetica, sans-serif;
     justify-content: center;
+}
+.date-picker-app-input::-webkit-calendar-picker-indicator {
+    filter: invert(1);
 }

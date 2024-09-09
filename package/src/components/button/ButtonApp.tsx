@@ -3,7 +3,7 @@ import { ButtonAppProps } from './ButtonApp.types';
 import PopupYesNo from '../popup/PopupYesNo';
 import "./styles.css";
 
-export const ButtonApp: React.FC<ButtonAppProps> = ({ validateSubmit, style = "solid", buttonStyle, ...props }) => {
+export const ButtonApp: React.FC<ButtonAppProps> = ({ validateSubmit, style = {}, ...props }) => {
 
     const [popupState, setPopupState] = useState(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -34,7 +34,7 @@ export const ButtonApp: React.FC<ButtonAppProps> = ({ validateSubmit, style = "s
                 className={
                     `appdland-ui-buttonapp-main ${props.icon
                         ? "appdland-ui-buttonapp-icon"
-                        : style === "border-line"
+                        : style.type === "border-line"
                             ? "appdland-ui-buttonapp-normal appdland-ui-buttonapp-border-line"
                             : "appdland-ui-buttonapp-normal"
                     }`
@@ -42,26 +42,26 @@ export const ButtonApp: React.FC<ButtonAppProps> = ({ validateSubmit, style = "s
                 onClick={innerHandleClick}
                 type={props.onClick ? "button" : "submit"}
                 style={{
-                    backgroundColor: buttonStyle?.borderColor || style !== "solid"
+                    backgroundColor: style.type === "border-line" || style.type === "light"
                         ? 'transparent'
                         : props.actionStyle === "cancel" && !props.icon
                             ? "red"
-                            : buttonStyle?.backgroundColor
-                                ? buttonStyle.backgroundColor
+                            : style.backgroundColor
+                                ? style.backgroundColor
                                 : props.icon
                                     ? 'transparent'
                                     : 'lightgray',
                     color: props.actionStyle === "cancel"
-                        ? style !== "solid"
+                        ? style.type !== "solid"
                             ? "red"
                             : "white"
-                        : buttonStyle?.textColor
-                            ? buttonStyle.textColor
+                        : style.textColor
+                            ? style.textColor
                             : 'black',
                     borderColor: props.actionStyle === "cancel"
                         ? "red"
-                        : buttonStyle?.borderColor
-                            ? buttonStyle.borderColor
+                        : style.borderColor
+                            ? style.borderColor
                             : "black",
                     ...opacity()
                 }}
