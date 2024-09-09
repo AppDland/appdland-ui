@@ -51,14 +51,19 @@ const useInput = (props: InputAppProps) => {
 
     useEffect(() => {
         if (innerVal) {
-            const length = String(formatRevertComas(innerVal)).length;
 
             const multiplier = props.style?.fontSize === "medium" ? 9 : 10;
 
             const getSize = () => {
+                const length = String(formatRevertComas(innerVal)).length;
                 return (Math.trunc(length / 3.1) * 5) + (length * multiplier);
             }
-            setInputWidth(props.type === "money" ? getSize() : length * multiplier)
+            const numberSize = () => {
+                const length = innerVal.length - (innerVal.includes(".") ? 1 : 0);
+                return (innerVal.includes(".") ? 6 : 0) + (length * multiplier);
+            }
+            console.log(numberSize());
+            setInputWidth(props.type === "money" ? getSize() : numberSize())
         }
     }, [innerVal]);
 
@@ -118,6 +123,9 @@ const useInput = (props: InputAppProps) => {
                 return;
             }
         } else if (props.type === "percentage") {
+            if (isNaN(Number(value)) && value !== "-") {
+                return;
+            }
             setInnerVal(value);
         }
         props.onChange(value === "0" ? "" : value);

@@ -8,5 +8,8 @@ export default defineConfig({
     sourcemap: true,
     clean: true,
     external: ['react', 'react-dom'],
-    injectStyle: true
+    injectStyle: true,
+    loader: {
+        '.png': 'dataurl'
+    }
 })

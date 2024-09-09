@@ -18,15 +18,21 @@
     outline: none;
     font-size: medium;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.appdland-ui-selectapp-main-box-box {
     border: 1px solid;
-    border-radius: 5px;
+}
+
+.appdland-ui-selectapp-main-box-bottom-line {
+    border-bottom: 1px solid;
 }
 
 .appdland-ui-selectapp-placeholder {
     position: absolute;
     transform: translate(-50%, -50%);
     transition-duration: 0.1s;
-    background-color: white;
     margin: 0;
     padding: 0 10px;
 }
@@ -36,7 +42,7 @@
     margin: 0;
 }
 
-.appdland-ui-selectapp-option-ghost{
+.appdland-ui-selectapp-option-ghost {
     color: transparent;
 }
 
@@ -49,6 +55,10 @@
     align-items: center;
 }
 
+.appdland-ui-selectapp-arrow img{
+    width: 15px;
+    transition-duration: 0.2s;
+}
 
 .appdland-ui-selectapp-options-box {
     position: absolute;
@@ -83,4 +93,13 @@
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     border-bottom: none;
+}
+.appdland-ui-selectapp-options-placeholder{
+    padding: 0 20px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    border-bottom: 1px solid lightgray;
+    font-style: italic;
 }

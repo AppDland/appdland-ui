@@ -69,8 +69,16 @@ export const InputApp: React.FC<InputAppProps> = (
                         ? placeholderActive ? "-16%" : "45%"
                         : "45%",
                     left: placeholderActive
-                        ? style.textAlign === "left" ? "10px" : undefined
-                        : style.textAlign === "left" ? "0" : undefined,
+                        ? style.textAlign
+                            ? style.textAlign === "left"
+                                ? "10px"
+                                : undefined
+                            : "10px"
+                        : style.textAlign
+                            ? style.textAlign === "left"
+                                ? "0"
+                                : undefined
+                            : "0",
                     fontSize: placeholderActive ? "small" : "medium",
                     width: placeholderActive ? "auto" : "auto",
                     color: props.validator === true
@@ -82,7 +90,9 @@ export const InputApp: React.FC<InputAppProps> = (
                             : style.blurPlaceholderColor
                                 ? style.blurPlaceholderColor
                                 : "lightgray",
-                    textAlign: style.textAlign,
+                    textAlign: style.textAlign
+                        ? style.textAlign
+                        : "left",
                     opacity: style.background === "transparent"
                         ? placeholderActive ? "0" : "1"
                         : undefined,
@@ -111,7 +121,12 @@ export const InputApp: React.FC<InputAppProps> = (
             <input
                 ref={inputRef}
                 type={props.type === "money" || props.type === "number" ? "text" : props.type}
-                inputMode={props.type === "money" || props.type === "number" ? "decimal" : "none"}
+                inputMode={props.type === "money" || props.type === "number"
+                    ? "decimal"
+                    : props.type === "percentage"
+                        ? "numeric"
+                        : "text"
+                }
                 autoComplete="off"
                 value={innerVal ? innerVal : props.value}
                 onChange={innerChange}
@@ -136,7 +151,9 @@ export const InputApp: React.FC<InputAppProps> = (
                             ? "0"
                             : "10px"
                         : "10px",
-                    textAlign: style.textAlign,
+                    textAlign: style.textAlign
+                        ? style.textAlign
+                        : "left",
                     color: style.color
                         ? style.color
                         : "black"
@@ -163,7 +180,11 @@ export const InputApp: React.FC<InputAppProps> = (
                         tabIndex={-1}
                         style={{
                             opacity: innerShowDecimal ? "1" : "0",
-                            width: style.textAlign === "left" ? "100%" : "15px",
+                            width: style.textAlign
+                                ? style.textAlign === "left"
+                                    ? "100%"
+                                    : "15px"
+                                : "100%",
                             color: style.color
                                 ? style.color
                                 : "black"
@@ -173,7 +194,12 @@ export const InputApp: React.FC<InputAppProps> = (
                     <p
                         className="appdland-ui-inputapp-percentage-symbol"
                         style={{
-                            color: style.color ? style.color : "black"
+                            color: style.color ? style.color : "black",
+                            width: style.textAlign
+                                ? style.textAlign === "left"
+                                    ? "100%"
+                                    : "12px"
+                                : "100%"
                         }}
                     >%</p>
                 ) : null

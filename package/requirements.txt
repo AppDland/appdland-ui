@@ -1,7 +1,2 @@
-select default value
-select style type background transparent as input 
-select 
 button icon size
 button normal hover
-select create options with value and label
-input text color

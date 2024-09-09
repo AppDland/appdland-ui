@@ -14,7 +14,7 @@ function App() {
     const { setLoading } = useLoading();
 
     useEffect(() => {
-        console.log(formValues.value);
+        console.log(formValues);
         // setLoading(true);
     }, [formValues]);
 
@@ -56,11 +56,13 @@ function App() {
                     style={{
                         type: "box",
                         background: "transparent",
-                        color: "blue",
-                        blurColor: "green",
-                        fontSize: "large"
+                        color: "rgba(179, 224, 203, 0.88)",
+                        blurColor: "rgba(179, 224, 203, 0.5)",
+                        fontSize: "large",
+                        placeholderColor: "red",
+                        textAlign: "center"
                     }}
-                    defaultValue='444444'
+                    defaultValue='5555.5'
                     errorOnPlaceholder
                 />
                 <InputApp
@@ -75,18 +77,31 @@ function App() {
                     style={{
                         type: "box",
                         background: "transparent",
-                        color: "blue",
-                        blurColor: "green",
-                        fontSize: "large"
+                        color: "rgba(179, 224, 203, 0.88)",
+                        blurColor: "rgba(179, 224, 203, 0.5)",
+                        fontSize: "large",
+                        textAlign: "left"
                     }}
                     defaultValue='4'
                     errorOnPlaceholder
                 />
                 <SelectApp
                     {...register('selector')}
-                    options={["opcion 1", "opcion 2"]}
+                    options={[{value: 'opcion 1', label: "OPCION"}, {value: 'opcion 2', label: "SEGUNDA"}]}
                     placeHolder='Test de select'
-                    textAlign='center'
+                    style={{
+                        type: "box",
+                        background: "transparent",
+                        color: "rgba(179, 224, 203, 0.88)",
+                        blurColor: "rgba(179, 224, 203, 0.5)",
+                        textAlign: "center",
+                        borderRadius: 5,
+                        placeholderColor: "blue",
+                        blurPlaceholderColor: "green",
+                        listAnimation: true,
+                        showPlaceholderOnList: true
+                    }}
+                    defaultValue='opcion 2'
                     errorOnPlaceholder
                 />
                 <ButtonApp

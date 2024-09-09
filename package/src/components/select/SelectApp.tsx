@@ -1,14 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
-import { SelectAppProps } from "./SelectApp.types";
+import { OptionsInt, SelectAppProps } from "./SelectApp.types";
+import arrowIcon from "./arrow.png";
 import "./styles.css";
 
-export const SelectApp: React.FC<SelectAppProps> = ({ listAnimation = true, errorOnPlaceholder = false, ...props }) => {
+export const SelectApp: React.FC<SelectAppProps> = ({ style = { listAnimation: true, textAlign: "left" }, errorOnPlaceholder = false, ...props }) => {
 
     const [openList, setOpenList] = useState(false);
     const [placeAction, setPlaceAction] = useState(false);
+    const [innerVal, setInnerVal] = useState<string | OptionsInt>();
 
-    const handleSelect = (option: string) => {
-        props.onChange(option);
+    const handleSelect = (option: string | OptionsInt) => {
+        setInnerVal(option);
+        if (typeof option === "string") {
+            props.onChange(option);
+        } else {
+            props.onChange(option.value);
+        }
         setOpenList(false);
         setPlaceAction(true)
     }
@@ -35,13 +42,38 @@ export const SelectApp: React.FC<SelectAppProps> = ({ listAnimation = true, erro
         return () => {
             document.removeEventListener("click", listClick)
         }
-    }, [])
-
+    }, []);
 
     useEffect(() => {
-        if (props.value.length > 0 && placeAction === false) {
+        if (props.defaultValue) {
+            props.onChange(props.defaultValue);
+            const found = props.options.find((value) => typeof value === "string" ? value === props.defaultValue : value.value === props.defaultValue);
+            if (found) {
+                setInnerVal(found);
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        if (innerVal) {
+            if (typeof innerVal === "string") {
+                props.onChange(innerVal);
+            } else {
+                props.onChange(innerVal.value);
+            }
+        }
+    }, [innerVal]);
+
+    useEffect(() => {
+        if (
+            typeof innerVal === "string" && innerVal.length > 0 && placeAction === false ||
+            typeof innerVal === "object" && innerVal.value.length > 0 && placeAction === false
+        ) {
             setPlaceAction(true);
-        } else if (props.value.length === 0 && placeAction === true) {
+        } else if (
+            typeof innerVal === "string" && innerVal.length === 0 && placeAction === true ||
+            typeof innerVal === "object" && innerVal.value.length === 0 && placeAction === true
+        ) {
             setPlaceAction(false);
         }
     }, [props.value, placeAction]);
@@ -52,13 +84,32 @@ export const SelectApp: React.FC<SelectAppProps> = ({ listAnimation = true, erro
             className="appdland-ui-selectapp-container"
         >
             <div
-                className="appdland-ui-selectapp-main-box"
+                className={`appdland-ui-selectapp-main-box ${style.type && style.type === "box" ? "appdland-ui-selectapp-main-box-box" : "appdland-ui-selectapp-main-box-bottom-line"}`}
                 onClick={handleClick}
                 style={{
-
+                    borderRadius: style.type === "bottom-line"
+                        ? "0"
+                        : style.borderRadius
+                            ? style.borderRadius
+                            : "5px",
                     borderColor: props.validator === true
                         ? "red"
-                        : openList ? "black" : "rgba(0,0,0,0.2)"
+                        : openList
+                            ? style.color
+                                ? style.color
+                                : "black"
+                            : style.blurColor
+                                ? style.blurColor
+                                : "lightgray",
+                    backgroundColor: style.background
+                        ? style.background === "solid"
+                            ? style.backgroundColor
+                                ? style.backgroundColor
+                                : "white"
+                            : "transparent"
+                        : style.backgroundColor
+                            ? style.backgroundColor
+                            : "white"
                 }}
             >
                 {
@@ -66,16 +117,42 @@ export const SelectApp: React.FC<SelectAppProps> = ({ listAnimation = true, erro
                         <p
                             className="appdland-ui-selectapp-placeholder"
                             style={{
-                                top: placeAction === false ? "50%" : "-10%",
+                                top: style.background && style.background === "transparent"
+                                    ? "50%"
+                                    : style.backgroundColor
+                                        ? "50%"
+                                        : placeAction === false
+                                            ? "50%"
+                                            : "-10%",
                                 // marginLeft: placeAction === false ? "0" : "10px",
                                 fontSize: placeAction === false ? "medium" : "small",
-                                left: props.textAlign === "left" ? "10px" : "50%",
-                                transform: props.textAlign === "left"
-                                    ? "translate(0, -50%)"
-                                    : "translate(-50%, -50%)",
-                                color: props.validator === true
-                                    ? openList === false ? "lightpink" : "red"
-                                    : openList ? "black" : "lightgray"
+                                left: style.textAlign && style.textAlign === "center"
+                                    ? "50%"
+                                    : "0",
+                                transform: style.textAlign && style.textAlign === "center"
+                                    ? "translate(-50%, -50%)"
+                                    : "translate(0, -50%)",
+                                color: props.validator === false
+                                    ? openList
+                                        ? style.placeholderColor
+                                            ? style.placeholderColor
+                                            : "black"
+                                        : style.blurPlaceholderColor
+                                            ? style.blurPlaceholderColor
+                                            : "lightgray"
+                                    : openList === false
+                                        ? "lightpink"
+                                        : "red",
+                                backgroundColor: style.background && style.background === "transparent"
+                                    ? "transparent"
+                                    : style.backgroundColor
+                                        ? style.backgroundColor
+                                        : "white",
+                                opacity: style.background && style.background === "transparent" || style.backgroundColor
+                                    ? placeAction === false
+                                        ? "1"
+                                        : "0"
+                                    : '1'
                             }}
                         >
                             {
@@ -88,10 +165,15 @@ export const SelectApp: React.FC<SelectAppProps> = ({ listAnimation = true, erro
                 }
 
                 {
-                    props.value.length > 0 ? (
+                    typeof innerVal === "string" && innerVal.length > 0 || typeof innerVal === "object" && innerVal.value.length > 0 ? (
                         <p className="appdland-ui-selectapp-option-selected" style={{
-                            textAlign: props.textAlign
-                        }}>{props.value}</p>
+                            color: style.color
+                                ? style.color
+                                : "black",
+                            textAlign: style.textAlign
+                                ? style.textAlign
+                                : "left"
+                        }}>{typeof innerVal === "string" ? innerVal : innerVal.label}</p>
 
                     ) : (
                         <p className="appdland-ui-selectapp-option-selected appdland-ui-selectapp-option-ghost">ghost</p>
@@ -99,27 +181,38 @@ export const SelectApp: React.FC<SelectAppProps> = ({ listAnimation = true, erro
                 }
 
                 <div className="appdland-ui-selectapp-arrow">
-                    <p>
-                        arrow
-                    </p>
+                    <img
+                        alt="appdland-ui-arrow"
+                        src={arrowIcon as string}
+                        style={{
+                            rotate: openList
+                                ? "180deg"
+                                : "0deg"
+                        }}
+                    />
                 </div>
             </div>
             {
-                openList === true || listAnimation === true ? (
+                openList === true || style.listAnimation === true ? (
                     <div
                         className="appdland-ui-selectapp-options-box"
                         style={{
-                            height: listAnimation
+                            height: style.listAnimation
                                 ? openList === true
-                                    ? `${props.options.length * 45}px`
+                                    ? `${props.options.length * 45 + (style.showPlaceholderOnList === true ? 30 : 0)}px`
                                     : '0px'
                                 : 'auto',
-                            transitionDuration: listAnimation ? "0.3s" : undefined,
+                            transitionDuration: style.listAnimation ? "0.3s" : undefined,
                             boxShadow: openList === true
                                 ? "0px 5px 10px 1px rgba(0, 0, 0, 0.3)"
                                 : 'none'
                         }}
                     >
+                        {
+                            style.showPlaceholderOnList === true && (
+                                <small className="appdland-ui-selectapp-options-placeholder">{props.placeHolder}</small>
+                            )
+                        }
                         {
                             props.options.map((opcion, index) => (
                                 <p
@@ -130,7 +223,7 @@ export const SelectApp: React.FC<SelectAppProps> = ({ listAnimation = true, erro
                                         cursor: openList === true ? "pointer" : "default"
                                     }}
                                 >
-                                    {opcion}
+                                    {typeof opcion === "string" ? opcion : opcion.label}
                                 </p>
                             ))
                         }

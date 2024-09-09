@@ -1,15 +1,40 @@
 
-export interface SelectAppProps {
-    placeHolder?: string;
-    options: string[];
-    value: string;
-    onChange: (option: string) => void;
-    validator?: boolean;
+interface SelectStyleInt{
+    /**
+     * Define el estilo del input
+     * @default "box"
+     */
+    type?: 'box' | 'bottom-line';
     /**
      * Animación al desplegar la lista de opciones
      * @default true
      */
     listAnimation?: boolean;
+    textAlign?: "left" | "center";
+    /**
+     * @default "solid"
+     */
+    background?: "solid" | "transparent";
+    backgroundColor?: string;
+    color?: string;
+    blurColor?: string;
+    borderRadius?: number;
+    placeholderColor?: string;
+    blurPlaceholderColor?: string;
+    showPlaceholderOnList?: boolean;
+}
+
+export interface OptionsInt{
+    value: string;
+    label: string;
+}
+
+export interface SelectAppProps {
+    placeHolder?: string;
+    options: string[] | OptionsInt[];
+    value: string;
+    onChange: (option: string) => void;
+    validator?: boolean;
     /**
      * Mensaje de error cuando ```validator = {true}```
      */
@@ -24,5 +49,6 @@ export interface SelectAppProps {
      * @default false
      */
     errorBelowSelect?: boolean;
-    textAlign?: "left" | "center";
+    defaultValue?: string;
+    style?: SelectStyleInt;
 }
