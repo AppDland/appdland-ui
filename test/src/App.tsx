@@ -24,7 +24,8 @@ function App() {
             boxSizing: "border-box",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center"
+            justifyContent: "center",
+            backgroundColor: "#00120B"
         }}>
             <FormApp
                 onSubmit={() => console.log(formValues)}
@@ -52,9 +53,14 @@ function App() {
                     }
                     type='money'
                     placeholder='Ingresa Numero'
-                    style='bottom-line'
-                    textAlign='left'
-                    fontSize='large'
+                    style={{
+                        type: "box",
+                        background: "transparent",
+                        color: "blue",
+                        blurColor: "green",
+                        fontSize: "large"
+                    }}
+                    defaultValue='444444'
                     errorOnPlaceholder
                 />
                 <InputApp
@@ -66,10 +72,14 @@ function App() {
                     }
                     type='percentage'
                     placeholder='Ingresa Porcentaje'
-                    style='bottom-line'
-                    textAlign='left'
-                    fontSize='large'
-                    defaultValue='50'
+                    style={{
+                        type: "box",
+                        background: "transparent",
+                        color: "blue",
+                        blurColor: "green",
+                        fontSize: "large"
+                    }}
+                    defaultValue='4'
                     errorOnPlaceholder
                 />
                 <SelectApp

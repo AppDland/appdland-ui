@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { InputAppProps } from './InputApp.types';
 import useInput from './useInput';
 import "./styles.css";
@@ -6,11 +6,13 @@ import "./styles.css";
 export const InputApp: React.FC<InputAppProps> = (
     {
         disabled = false,
-        style = "box",
         showDecimal = true,
-        textAlign = "left",
-        background = "solid",
-        fontSize = "medium",
+        style = {
+            type: "box",
+            textAlign: "left",
+            background: "solid",
+            fontSize: "medium",
+        },
         errorOnPlaceholder = false,
         errorBelowInput = false,
         ...props
@@ -37,38 +39,54 @@ export const InputApp: React.FC<InputAppProps> = (
         handleDecimalBlur,
         handleDecimalClick,
         isNegative
-    } = useInput({ disabled, showDecimal, fontSize, ...props });
+    } = useInput({ disabled, showDecimal, style, ...props });
 
     return (
         <div
-            className={`appdland-ui-inputapp-container ${style === "box" ? "appdland-ui-inputapp-container-box" : "appdland-ui-inputapp-container-bottom-line"}`}
+            className={`appdland-ui-inputapp-container ${style.type === "box" ? "appdland-ui-inputapp-container-box" : "appdland-ui-inputapp-container-bottom-line"}`}
             onClick={handleClick}
             style={{
+                borderRadius: style.type === "box"
+                    ? style.borderRadius
+                        ? style.borderRadius
+                        : "5px"
+                    : "0px",
                 borderColor: props.validator === true
                     ? "red"
-                    : focused ? "black" : 'lightgray',
-                backgroundColor: background === "solid" ? "white" : "transparent"
+                    : focused
+                        ? style.color
+                            ? style.color : "black"
+                        : style.blurColor
+                            ? style.blurColor
+                            : "lightgray",
+                backgroundColor: style.background === "transparent" ? "transparent" : "white"
             }}
         >
             <p
                 className={`appdland-ui-inputapp-placeholder`}
                 style={{
-                    top: background === "solid"
+                    top: style.background === "solid"
                         ? placeholderActive ? "-16%" : "45%"
                         : "45%",
                     left: placeholderActive
-                        ? textAlign === "left" ? "10px" : undefined
-                        : textAlign === "left" ? "0" : undefined,
+                        ? style.textAlign === "left" ? "10px" : undefined
+                        : style.textAlign === "left" ? "0" : undefined,
                     fontSize: placeholderActive ? "small" : "medium",
                     width: placeholderActive ? "auto" : "auto",
                     color: props.validator === true
                         ? focused ? "red" : "lightpink"
-                        : focused ? "black" : "lightgray",
-                    textAlign: textAlign,
-                    opacity: background === "transparent"
+                        : focused
+                            ? style.placeholderColor
+                                ? style.placeholderColor
+                                : "black"
+                            : style.blurPlaceholderColor
+                                ? style.blurPlaceholderColor
+                                : "lightgray",
+                    textAlign: style.textAlign,
+                    opacity: style.background === "transparent"
                         ? placeholderActive ? "0" : "1"
                         : undefined,
-                    backgroundColor: background === "solid" ? "white" : "transparent"
+                    backgroundColor: style.background === "solid" ? "white" : "transparent"
                 }}
             >
                 {
@@ -81,7 +99,11 @@ export const InputApp: React.FC<InputAppProps> = (
                 props.type === "money" && (
                     props.value.length > 0
                         ? <p className="appdland-ui-inputapp-money-symbol" style={{
-                            color: isNegative ? "red" : "black"
+                            color: isNegative
+                                ? "red"
+                                : style.color
+                                    ? style.color
+                                    : "black"
                         }}>$</p>
                         : null
                 )
@@ -104,19 +126,20 @@ export const InputApp: React.FC<InputAppProps> = (
                 }
                 className="appdland-ui-inputapp-input"
                 style={{
-                    padding: props.type === "money" ? "10px 0" : "10px",
-                    width: innerVal && showDecimal
-                        ? props.type === "percentage"
-                            ? `${innerVal.length * 10}px`
-                            : `${inputWidth}px`
+                    // padding: props.type === "money" ? "10px 0" : "10px",
+                    width: innerVal
+                        ? `${inputWidth}px`
                         : "100%",
-                    fontSize: fontSize,
+                    fontSize: style.fontSize ? style.fontSize : "medium",
                     paddingLeft: props.type === "money"
                         ? innerVal
                             ? "0"
                             : "10px"
                         : "10px",
-                    textAlign: textAlign
+                    textAlign: style.textAlign,
+                    color: style.color
+                        ? style.color
+                        : "black"
                 }}
                 spellCheck="false"
             />
@@ -140,11 +163,19 @@ export const InputApp: React.FC<InputAppProps> = (
                         tabIndex={-1}
                         style={{
                             opacity: innerShowDecimal ? "1" : "0",
-                            width: textAlign === "left" ? "100%" : "15px"
+                            width: style.textAlign === "left" ? "100%" : "15px",
+                            color: style.color
+                                ? style.color
+                                : "black"
                         }}
                     />
                 ) : props.type === "percentage" && innerVal ? (
-                    <p className="appdland-ui-inputapp-percentage-symbol">%</p>
+                    <p
+                        className="appdland-ui-inputapp-percentage-symbol"
+                        style={{
+                            color: style.color ? style.color : "black"
+                        }}
+                    >%</p>
                 ) : null
             }
             {
@@ -152,7 +183,7 @@ export const InputApp: React.FC<InputAppProps> = (
                     <p
                         className='appdland-ui-inputapp-error-message'
                         style={{
-                            fontSize: fontSize === "large" ? "small" : "x-small",
+                            fontSize: style.fontSize === "large" ? "small" : "x-small",
                             ...props.errorMessageStyle
                         }}
                     >

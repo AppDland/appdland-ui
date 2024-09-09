@@ -13,7 +13,6 @@
 
 .appdland-ui-inputapp-container-box{
     border: 1px solid;
-    border-radius: 5px;
 }
 
 .appdland-ui-inputapp-container-bottom-line{
@@ -28,6 +27,7 @@
     box-sizing: border-box;
     transform: translate(0, -50%);
     margin: 0;
+    user-select: none;
 }
 
 .appdland-ui-inputapp-money-symbol {
@@ -47,6 +47,9 @@
     outline: none;
     border-radius: 5px;
     background: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 0;
 }
 
 .appdland-ui-inputapp-decimal{
@@ -66,7 +69,8 @@
     z-index: 4;
     margin: 0;
     width: 100%;
-    margin-left: -8px;
+    /* margin-left: -8px; */
+    font-size: small;
 }
 
 .appdland-ui-inputapp-error-message{

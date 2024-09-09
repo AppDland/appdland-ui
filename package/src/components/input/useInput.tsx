@@ -51,33 +51,14 @@ const useInput = (props: InputAppProps) => {
 
     useEffect(() => {
         if (innerVal) {
-            const lenght = String(formatRevertComas(innerVal)).length;
+            const length = String(formatRevertComas(innerVal)).length;
 
-            const [
-                _first,
-                _second,
-                _third,
-                _fourth,
-                _fifth
-            ] = [
-                    props.fontSize === "medium" ? -0.1 : 0,
-                    props.fontSize === "medium" ? 0 : 0.5,
-                    props.fontSize === "medium" ? 0.1 : 1,
-                    props.fontSize === "medium" ? 0.2 : 1.5,
-                    props.fontSize === "medium" ? 0.3 : 2
-                ];
+            const multiplier = props.style?.fontSize === "medium" ? 9 : 10;
 
-            if (lenght < 4) {
-                setInputWidth((lenght + _first) * 10);
-            } else if (lenght < 7) {
-                setInputWidth((lenght + _second) * 10);
-            } else if (lenght < 10) {
-                setInputWidth((lenght + _third) * 10);
-            } else if (lenght < 12) {
-                setInputWidth((lenght + _fourth) * 10);
-            } else {
-                setInputWidth((lenght + _fifth) * 10);
+            const getSize = () => {
+                return (Math.trunc(length / 3.1) * 5) + (length * multiplier);
             }
+            setInputWidth(props.type === "money" ? getSize() : length * multiplier)
         }
     }, [innerVal]);
 

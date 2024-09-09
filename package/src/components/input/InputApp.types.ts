@@ -1,5 +1,31 @@
 import { CSSProperties } from "react";
 
+interface styleInputInt{
+    /**
+     * Define el estilo del input
+     * @default "box"
+     */
+    type?: 'box' | 'bottom-line';
+    /**
+     * @default "left"
+     */
+    textAlign?: "left" | "center";
+    /**
+     * @default "solid"
+     */
+    background?: "solid" | "transparent";
+    backgroundColor?: string;
+    /**
+     * @default "medium"
+     */
+    fontSize?: "medium" | "large";
+    color?: string;
+    blurColor?: string;
+    borderRadius?: number;
+    placeholderColor?: string;
+    blurPlaceholderColor?: string;
+}
+
 export interface InputAppProps {
     /**
      * Establece el tipo de input
@@ -22,11 +48,7 @@ export interface InputAppProps {
      * @default false
     */
     capitalize?: boolean;
-    /**
-     * Define el estilo del input
-     * @default "box"
-     */
-    style?: 'box' | 'bottom-line';
+    style?: styleInputInt;
     validator?: boolean;
     placeholder?: string;
     maxLength?: number;
@@ -37,18 +59,6 @@ export interface InputAppProps {
     showDecimal?: boolean;
     onFocus?: () => void;
     disabled?: boolean;
-    /**
-     * @default "left"
-     */
-    textAlign?: "left" | "center";
-    /**
-     * @default "solid"
-     */
-    background?: "solid" | "transparent";
-    /**
-     * @default "medium"
-     */
-    fontSize?: "medium" | "large";
     /**
      * Muestra el mensaje de error (errorMessage) en la ubicación del placeholder
      * @default false
