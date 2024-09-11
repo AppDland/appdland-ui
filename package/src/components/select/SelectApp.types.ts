@@ -1,3 +1,4 @@
+import { CSSProperties } from "react";
 
 interface SelectStyleInt{
     /**
@@ -15,6 +16,7 @@ interface SelectStyleInt{
      * @default "solid"
      */
     background?: "solid" | "transparent";
+    fontSize?: "medium" | "large";
     backgroundColor?: string;
     color?: string;
     blurColor?: string;
@@ -27,6 +29,14 @@ interface SelectStyleInt{
 export interface OptionsInt{
     value: string;
     label: string;
+}
+
+interface OptionsStyleInt{
+    backgroundColor?: string;
+    optionLineSeparatorColor?: string;
+    color?: string;
+    textAlign?: "left" | "center";
+    optionHoverColor?: string;
 }
 
 export interface SelectAppProps {
@@ -49,6 +59,17 @@ export interface SelectAppProps {
      * @default false
      */
     errorBelowSelect?: boolean;
+    errorMessageStyle?: CSSProperties;
     defaultValue?: string;
     style?: SelectStyleInt;
+    /**
+     * Impide que la opcion se ubique como opcion seleccionada
+     * @default false
+     */
+    preventDefault?: boolean;
+    optionsStyle?: OptionsStyleInt;
+    /**
+     * Agrega una flecha personalizada
+     */
+    customArrow?: React.ReactNode;
 }

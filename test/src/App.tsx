@@ -13,10 +13,6 @@ function App() {
     const { register, validateForm, form, formValues, setForm } = useFormApp<formValsInt>();
     const { setLoading } = useLoading();
 
-    useEffect(() => {
-        console.log(formValues);
-        // setLoading(true);
-    }, [formValues]);
 
     return (
         <div style={{
@@ -44,6 +40,14 @@ function App() {
                         fontSize: "medium",
                     }}
                     maxToday
+                    validator
+                    errorBelowDate
+                    errorMessage='error de prueba'
+                />
+                <InputApp
+                    {...register("texto")}
+                    type='text'
+                    placeholder='Texto'
                 />
                 <InputApp
                     {
@@ -92,11 +96,13 @@ function App() {
                     errorOnPlaceholder
                 />
                 <SelectApp
-                    {...register('selector')}
+                    value=''
+                    validator
+                    onChange={(val) => console.log(val)}
                     options={[{ value: 'opcion 1', label: "OPCION" }, { value: 'opcion 2', label: "SEGUNDA" }]}
                     placeHolder='Test de select'
                     style={{
-                        type: "box",
+                        type: "bottom-line",
                         background: "transparent",
                         color: "rgba(179, 224, 203, 0.88)",
                         blurColor: "rgba(179, 224, 203, 0.5)",
@@ -107,8 +113,16 @@ function App() {
                         listAnimation: true,
                         showPlaceholderOnList: true
                     }}
-                    defaultValue='opcion 2'
-                    errorOnPlaceholder
+                    preventDefault
+                    errorBelowSelect
+                    errorMessage='soy une error'
+                    optionsStyle={{
+                        backgroundColor: "red",
+                        color: "blue",
+                        optionLineSeparatorColor: "green",
+                        textAlign: "center"
+                    }}
+                // defaultValue='opcion 2'
                 />
                 <ButtonApp
                     validateSubmit
@@ -118,7 +132,7 @@ function App() {
                         borderColor: "red",
                         textColor: "white"
                     }}
-                    // actionStyle='cancel' 
+                // actionStyle='cancel' 
                 // icon={{
                 //     icon: deleteIcon,
                 //     // invertColor: true,

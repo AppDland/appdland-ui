@@ -19,6 +19,7 @@
     font-size: medium;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
+    position: relative;
 }
 
 .appdland-ui-selectapp-main-box-box {
@@ -64,7 +65,6 @@
     position: absolute;
     top: 100%;
     z-index: 100;
-    background-color: white;
     margin: 10px 0;
     width: 100%;
     border-radius: 5px;
@@ -77,11 +77,11 @@
     display: flex;
     align-items: center;
     margin: 0;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid;
 }
 
 .appdland-ui-selectapp-options-box p:hover {
-    background-color: rgb(236, 236, 236);
+    background-color: var(--appdland-ui-select-option-hover);
 }
 
 .appdland-ui-selectapp-options-box p:first-child {
@@ -100,6 +100,13 @@
     display: flex;
     align-items: center;
     margin: 0;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid;
     font-style: italic;
+}
+
+.appdland-ui-selectapp-error-message{
+    position: absolute;
+    left: 10px;
+    top: 30px;
+    color: red;
 }

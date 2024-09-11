@@ -3,21 +3,23 @@ import { OptionsInt, SelectAppProps } from "./SelectApp.types";
 import arrowIcon from "./arrow.png";
 import "./styles.css";
 
-export const SelectApp: React.FC<SelectAppProps> = ({ style = { listAnimation: true, textAlign: "left" }, errorOnPlaceholder = false, ...props }) => {
+export const SelectApp: React.FC<SelectAppProps> = ({ style = { listAnimation: true, textAlign: "left" }, optionsStyle = {}, errorOnPlaceholder = false, errorBelowSelect = false, preventDefault = false, ...props }) => {
 
     const [openList, setOpenList] = useState(false);
     const [placeAction, setPlaceAction] = useState(false);
     const [innerVal, setInnerVal] = useState<string | OptionsInt>();
 
     const handleSelect = (option: string | OptionsInt) => {
-        setInnerVal(option);
         if (typeof option === "string") {
             props.onChange(option);
         } else {
             props.onChange(option.value);
         }
+        if (preventDefault === false) {
+            setInnerVal(option);
+            setPlaceAction(true);
+        }
         setOpenList(false);
-        setPlaceAction(true)
     }
 
     const handleClick = () => {
@@ -76,7 +78,7 @@ export const SelectApp: React.FC<SelectAppProps> = ({ style = { listAnimation: t
         ) {
             setPlaceAction(false);
         }
-    }, [props.value, placeAction]);
+    }, [innerVal, placeAction]);
 
     return (
         <div
@@ -181,17 +183,34 @@ export const SelectApp: React.FC<SelectAppProps> = ({ style = { listAnimation: t
                 }
 
                 <div className="appdland-ui-selectapp-arrow">
-                    <img
-                        alt="appdland-ui-arrow"
-                        src={arrowIcon as string}
-                        style={{
-                            rotate: openList
-                                ? "180deg"
-                                : "0deg"
-                        }}
-                    />
+                    {
+                        props.customArrow
+                            ? props.customArrow
+                            : <img
+                                alt="appdland-ui-arrow"
+                                src={arrowIcon as string}
+                                style={{
+                                    rotate: openList
+                                        ? "180deg"
+                                        : "0deg"
+                                }}
+                            />
+                    }
                 </div>
             </div>
+            {
+                errorBelowSelect && errorOnPlaceholder === false && props.validator && (
+                    <p
+                        className='appdland-ui-selectapp-error-message'
+                        style={{
+                            fontSize: style.fontSize === "large" ? "small" : "x-small",
+                            ...props.errorMessageStyle
+                        }}
+                    >
+                        {props.errorMessage}*
+                    </p>
+                )
+            }
             {
                 openList === true || style.listAnimation === true ? (
                     <div
@@ -205,12 +224,22 @@ export const SelectApp: React.FC<SelectAppProps> = ({ style = { listAnimation: t
                             transitionDuration: style.listAnimation ? "0.3s" : undefined,
                             boxShadow: openList === true
                                 ? "0px 5px 10px 1px rgba(0, 0, 0, 0.3)"
-                                : 'none'
+                                : 'none',
+                            backgroundColor: optionsStyle.backgroundColor
+                                ? optionsStyle.backgroundColor
+                                : "white"
                         }}
                     >
                         {
                             style.showPlaceholderOnList === true && (
-                                <small className="appdland-ui-selectapp-options-placeholder">{props.placeHolder}</small>
+                                <small className="appdland-ui-selectapp-options-placeholder" style={{
+                                    borderColor: optionsStyle.optionLineSeparatorColor
+                                        ? optionsStyle.optionLineSeparatorColor
+                                        : "lightgray",
+                                    justifyContent: optionsStyle.textAlign
+                                        ? optionsStyle.textAlign
+                                        : "left"
+                                }}>{props.placeHolder}</small>
                             )
                         }
                         {
@@ -220,7 +249,20 @@ export const SelectApp: React.FC<SelectAppProps> = ({ style = { listAnimation: t
                                     onClick={() => handleSelect(opcion)}
                                     key={index}
                                     style={{
-                                        cursor: openList === true ? "pointer" : "default"
+                                        cursor: openList === true ? "pointer" : "default",
+                                        //@ts-ignore
+                                        '--appdland-ui-select-option-hover': optionsStyle.optionHoverColor
+                                            ? optionsStyle.optionHoverColor
+                                            : "lightgray",
+                                        color: optionsStyle.color
+                                            ? optionsStyle.color
+                                            : "black",
+                                        borderColor: optionsStyle.optionLineSeparatorColor
+                                            ? optionsStyle.optionLineSeparatorColor
+                                            : "lightgray",
+                                        justifyContent: optionsStyle.textAlign
+                                            ? optionsStyle.textAlign
+                                            : "left"
                                     }}
                                 >
                                     {typeof opcion === "string" ? opcion : opcion.label}

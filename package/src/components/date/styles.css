@@ -53,3 +53,10 @@
 .date-picker-app-input::-webkit-calendar-picker-indicator {
     filter: invert(1);
 }
+
+.appdland-ui-datepickerapp-error-message{
+    position: absolute;
+    left: 10px;
+    top: 30px;
+    color: red;
+}

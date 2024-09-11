@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { DatePickerAppProps } from './DatePickerApp,types';
 import "./styles.css";
 
-export const DatePickerApp: React.FC<DatePickerAppProps> = ({ style = {}, ...props }) => {
+export const DatePickerApp: React.FC<DatePickerAppProps> = ({ style = {}, errorBelowDate = false, errorOnPlaceholder = false, ...props }) => {
 
     const [placeholderActive, setPlaceholderActive] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
@@ -117,8 +117,10 @@ export const DatePickerApp: React.FC<DatePickerAppProps> = ({ style = {}, ...pro
                     }}
                 >
                     {
-                        props.validator === true ? props.errorMessage : props.placeholder
-                    }
+                    errorOnPlaceholder && errorBelowDate === false && props.validator
+                        ? props.errorMessage + '*'
+                        : props.placeholder
+                }
                 </p>
             </div>
             <input
@@ -148,6 +150,19 @@ export const DatePickerApp: React.FC<DatePickerAppProps> = ({ style = {}, ...pro
                         : "medium"
                 }}
             />
+            {
+                errorBelowDate && errorOnPlaceholder === false && props.validator && (
+                    <p
+                        className='appdland-ui-datepickerapp-error-message'
+                        style={{
+                            fontSize: style.fontSize === "large" ? "small" : "x-small",
+                            ...props.errorMessageStyle
+                        }}
+                    >
+                        {props.errorMessage}*
+                    </p>
+                )
+            }
         </div>
     )
 }

@@ -231,8 +231,6 @@ export const useFormApp: <T extends object = formValuesInt>() => useFormAppInt<T
                 if (innerValidator === false) {
                     validator = false;
                 }
-            } else {
-                console.log(input);
             }
         }
 

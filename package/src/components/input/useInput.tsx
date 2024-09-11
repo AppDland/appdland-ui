@@ -62,7 +62,6 @@ const useInput = (props: InputAppProps) => {
                 const length = innerVal.length - (innerVal.includes(".") ? 1 : 0);
                 return (innerVal.includes(".") ? 6 : 0) + (length * multiplier);
             }
-            console.log(numberSize());
             setInputWidth(props.type === "money" ? getSize() : numberSize())
         }
     }, [innerVal]);
@@ -118,17 +117,20 @@ const useInput = (props: InputAppProps) => {
                     setDecimal(decimal);
                 }
             }
+            value = value === "0" ? "" : value;
         } else if (props.type === "number") {
             if (isNaN(Number(value)) && value !== "-") {
                 return;
             }
+            value = value === "0" ? "" : value;
         } else if (props.type === "percentage") {
             if (isNaN(Number(value)) && value !== "-") {
                 return;
             }
             setInnerVal(value);
+            value = value === "0" ? "" : value;
         }
-        props.onChange(value === "0" ? "" : value);
+        props.onChange(value);
     }
 
     const handleKeyUp = (e: any) => {
