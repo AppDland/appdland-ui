@@ -65,9 +65,9 @@ export const InputApp: React.FC<InputAppProps> = (
             <p
                 className={`appdland-ui-inputapp-placeholder`}
                 style={{
-                    top: style.background === "solid"
-                        ? placeholderActive ? "-16%" : "45%"
-                        : "45%",
+                    top: style.background === "transparent"
+                        ? "45%"
+                        : placeholderActive ? "-16%" : "45%",
                     left: placeholderActive
                         ? style.textAlign
                             ? style.textAlign === "left"
@@ -96,7 +96,7 @@ export const InputApp: React.FC<InputAppProps> = (
                     opacity: style.background === "transparent"
                         ? placeholderActive ? "0" : "1"
                         : undefined,
-                    backgroundColor: style.background === "solid" ? "white" : "transparent"
+                    backgroundColor: style.background === "transparent" ? "transparent" : "white"
                 }}
             >
                 {
@@ -135,13 +135,16 @@ export const InputApp: React.FC<InputAppProps> = (
                 onBlur={handleBlur}
                 onKeyUp={handleKeyUp}
                 disabled={disabled}
+                autoCapitalize={props.capitalize
+                    ? 'words'
+                    : 'off'
+                }
                 maxLength={props.type === "money"
                     ? 19
                     : props.maxLength ? props.maxLength : undefined
                 }
                 className="appdland-ui-inputapp-input"
                 style={{
-                    // padding: props.type === "money" ? "10px 0" : "10px",
                     width: innerVal
                         ? `${inputWidth}px`
                         : "100%",
@@ -151,6 +154,9 @@ export const InputApp: React.FC<InputAppProps> = (
                             ? "0"
                             : "10px"
                         : "10px",
+                    paddingRight: style.textAlign === "center" && props.type !== "money" && props.type !== "percentage"
+                        ? "10px"
+                        : "0",
                     textAlign: style.textAlign
                         ? style.textAlign
                         : "left",

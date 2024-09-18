@@ -21,7 +21,6 @@ function App() {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            backgroundColor: "#00120B"
         }}>
             <FormApp
                 onSubmit={() => console.log(formValues)}
@@ -31,23 +30,19 @@ function App() {
                 <DatePickerApp
                     {...register("datepicker")}
                     placeholder='Fecha de prueba'
-                    style={{
-                        backgroundColor: "transparent",
-                        color: "rgba(179, 224, 203, 0.88)",
-                        blurColor: "rgba(179, 224, 203, 0.5)",
-                        placeholderColor: "red",
-                        blurPlaceholderColor: "blue",
-                        fontSize: "medium",
-                    }}
                     maxToday
-                    validator
                     errorBelowDate
                     errorMessage='error de prueba'
                 />
                 <InputApp
                     {...register("texto")}
                     type='text'
+                    style={{
+                        type: "bottom-line",
+                        textAlign: "center"
+                    }}
                     placeholder='Texto'
+                    // capitalize
                 />
                 <InputApp
                     {
@@ -64,12 +59,7 @@ function App() {
                     type='money'
                     placeholder='Ingresa Numero'
                     style={{
-                        type: "box",
-                        background: "transparent",
-                        color: "rgba(179, 224, 203, 0.88)",
-                        blurColor: "rgba(179, 224, 203, 0.5)",
-                        fontSize: "large",
-                        placeholderColor: "red",
+                        type: "bottom-line",
                         textAlign: "center"
                     }}
                     defaultValue='5555.5'
@@ -85,43 +75,21 @@ function App() {
                     type='percentage'
                     placeholder='Ingresa Porcentaje'
                     style={{
-                        type: "box",
-                        background: "transparent",
-                        color: "rgba(179, 224, 203, 0.88)",
-                        blurColor: "rgba(179, 224, 203, 0.5)",
-                        fontSize: "large",
-                        textAlign: "left"
+                        type: "bottom-line",
+                        textAlign: "center"
                     }}
                     defaultValue='4'
                     errorOnPlaceholder
                 />
                 <SelectApp
-                    value=''
-                    validator
-                    onChange={(val) => console.log(val)}
-                    options={[{ value: 'opcion 1', label: "OPCION" }, { value: 'opcion 2', label: "SEGUNDA" }]}
-                    placeHolder='Test de select'
+                    {...register('select')}
+                    options={[{ value: 'opcion 1', label: "OPCION super hiper mega larga para test" }, { value: 'opcion 2', label: "SEGUNDA" }]}
+                    placeholder='Test de select super hiper mega largoooo agregando'
                     style={{
                         type: "bottom-line",
-                        background: "transparent",
-                        color: "rgba(179, 224, 203, 0.88)",
-                        blurColor: "rgba(179, 224, 203, 0.5)",
-                        textAlign: "center",
-                        borderRadius: 5,
-                        placeholderColor: "blue",
-                        blurPlaceholderColor: "green",
-                        listAnimation: true,
-                        showPlaceholderOnList: true
-                    }}
-                    preventDefault
-                    errorBelowSelect
-                    errorMessage='soy une error'
-                    optionsStyle={{
-                        backgroundColor: "red",
-                        color: "blue",
-                        optionLineSeparatorColor: "green",
                         textAlign: "center"
                     }}
+                    errorBelowSelect
                 // defaultValue='opcion 2'
                 />
                 <ButtonApp

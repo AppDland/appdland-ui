@@ -40,7 +40,7 @@ interface OptionsStyleInt{
 }
 
 export interface SelectAppProps {
-    placeHolder?: string;
+    placeholder?: string;
     options: string[] | OptionsInt[];
     value: string;
     onChange: (option: string) => void;

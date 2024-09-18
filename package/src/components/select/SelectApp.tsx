@@ -115,7 +115,7 @@ export const SelectApp: React.FC<SelectAppProps> = ({ style = { listAnimation: t
                 }}
             >
                 {
-                    props.placeHolder && (
+                    props.placeholder && (
                         <p
                             className="appdland-ui-selectapp-placeholder"
                             style={{
@@ -160,7 +160,7 @@ export const SelectApp: React.FC<SelectAppProps> = ({ style = { listAnimation: t
                             {
                                 errorOnPlaceholder && props.validator === true
                                     ? props.errorMessage
-                                    : props.placeHolder
+                                    : props.placeholder
                             }
                         </p>
                     )
@@ -239,7 +239,7 @@ export const SelectApp: React.FC<SelectAppProps> = ({ style = { listAnimation: t
                                     justifyContent: optionsStyle.textAlign
                                         ? optionsStyle.textAlign
                                         : "left"
-                                }}>{props.placeHolder}</small>
+                                }}>{props.placeholder}</small>
                             )
                         }
                         {

@@ -21,7 +21,12 @@ const useInput = (props: InputAppProps) => {
                 const isNumber = Number(props.defaultValue);
                 if (!isNaN(isNumber)) {
                     const formated = formatMoney(isNumber);
-                    setInnerVal(formated);
+                    const [integer, decimal] = formated.split('.');
+
+                    setInnerVal(integer);
+                    if (decimal) {
+                        setDecimal(decimal);
+                    }
                 }
 
             } else if (props.type === "percentage") {
@@ -103,9 +108,11 @@ const useInput = (props: InputAppProps) => {
     const innerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value;
         //PASAR ESTA LOGICA AL EFECTO YA QUE SE EJECUTA DOS VECES
-        if (props.type === "text" && props.capitalize) {
-            value = formatUpperEach(value);
-        } else if (props.type === "money") {
+        // if (props.type === "text" && props.capitalize) {
+        //     value = formatUpperEach(value);
+        // } else 
+        
+        if (props.type === "money") {
             value = value === "-" ? value : String(formatRevertComas(value));
             if (isNaN(Number(value)) && value !== "-") {
                 return;

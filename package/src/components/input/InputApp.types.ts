@@ -36,7 +36,7 @@ export interface InputAppProps {
      * 
      * @default "text"
      */
-    type: "text" | "number" | "password" | "money" | "percentage";
+    type: "text" | "number" | "password" | "money" | "percentage" | "email";
     value: string;
     /**
      * evento onChange
