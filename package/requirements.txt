@@ -1,0 +1,7 @@
+input type tel
+input child
+input onBlur
+input capitalize all
+input capitalize dont work on desktop
+
+separate input money if posible to avoid problems

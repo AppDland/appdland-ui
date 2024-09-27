@@ -17,7 +17,6 @@
     height: 100%;
     outline: none;
     font-size: medium;
-    cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     position: relative;
 }
@@ -63,7 +62,7 @@
     align-items: center;
 }
 
-.appdland-ui-selectapp-arrow img{
+.appdland-ui-selectapp-arrow img {
     width: 15px;
     transition-duration: 0.2s;
 }
@@ -75,10 +74,12 @@
     margin: 10px 0;
     width: 100%;
     border-radius: 5px;
-    overflow: hidden;
+    overflow-y: scroll;
+    max-height: 200px;
+    padding-left: 8px;
 }
 
-.appdland-ui-selectapp-options-box p {
+.appdland-ui-selectapp-options-box .appdland-ui-selectapp-option {
     padding: 0 20px;
     height: 45px;
     display: flex;
@@ -87,33 +88,54 @@
     border-bottom: 1px solid;
 }
 
-.appdland-ui-selectapp-options-box p:hover {
+.appdland-ui-selectapp-options-box .appdland-ui-selectapp-option:hover {
     background-color: var(--appdland-ui-select-option-hover);
 }
 
-.appdland-ui-selectapp-options-box p:first-child {
+/* .appdland-ui-selectapp-options-box .appdland-ui-selectapp-option:first-child {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
 
-.appdland-ui-selectapp-options-box p:last-child {
+.appdland-ui-selectapp-options-box .appdland-ui-selectapp-option:last-child {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     border-bottom: none;
-}
-.appdland-ui-selectapp-options-placeholder{
-    padding: 0 20px;
-    height: 30px;
-    display: flex;
-    align-items: center;
+} */
+
+.appdland-ui-selectapp-options-placeholder {
+    padding: 10px 20px;
+    text-align: center;
+    font-size: small;
+    height: 20px;
     margin: 0;
     border-bottom: 1px solid;
     font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.appdland-ui-selectapp-error-message{
+.appdland-ui-selectapp-error-message {
     position: absolute;
     left: 10px;
     top: 30px;
     color: red;
 }
+
+/* SCROLL BAR */
+.appdland-ui-selectapp-options-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.appdland-ui-selectapp-options-box::-webkit-scrollbar-button {
+    width: 3px;
+    height: 10px;
+}
+
+
+.appdland-ui-selectapp-options-box::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--appdland-ui-scrollbar-thumb-color);
+}
+

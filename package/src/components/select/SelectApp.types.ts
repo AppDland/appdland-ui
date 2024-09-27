@@ -5,13 +5,13 @@ interface SelectStyleInt{
      * Define el estilo del input
      * @default "box"
      */
-    type?: 'box' | 'bottom-line';
+    type?: 'box' | 'bottom-line' | 'outline';
+    textAlign?: "left" | "center" | "right";
     /**
-     * Animación al desplegar la lista de opciones
+     * Muestra el placeholder despues de hacer click en el select
      * @default true
      */
-    listAnimation?: boolean;
-    textAlign?: "left" | "center";
+    showPlaceHolderOnFocus?: boolean;
     /**
      * @default "solid"
      */
@@ -23,20 +23,38 @@ interface SelectStyleInt{
     borderRadius?: number;
     placeholderColor?: string;
     blurPlaceholderColor?: string;
-    showPlaceholderOnList?: boolean;
+    /**
+     * Agrega una flecha personalizada
+     */
+    customArrow?: React.ReactNode;
+    arrowType?: "plain" | "curved";
+    arrowColor?: string;
 }
 
 export interface OptionsInt{
     value: string;
     label: string;
+    extra?: string | React.ReactNode;
 }
 
 interface OptionsStyleInt{
+    /**
+     * Animación al desplegar la lista de opciones
+     * @default true
+     */
+    listAnimation?: boolean;
+    showPlaceholderOnList?: boolean;
     backgroundColor?: string;
     optionLineSeparatorColor?: string;
     color?: string;
     textAlign?: "left" | "center";
     optionHoverColor?: string;
+    /**
+     * Número máximo de items a mostrar en la lista
+     * @default 5
+     */
+    maxItems?: number;
+    scrollThumbColor?: string;
 }
 
 export interface SelectAppProps {
@@ -68,8 +86,5 @@ export interface SelectAppProps {
      */
     preventDefault?: boolean;
     optionsStyle?: OptionsStyleInt;
-    /**
-     * Agrega una flecha personalizada
-     */
-    customArrow?: React.ReactNode;
+    disabled?: boolean;
 }

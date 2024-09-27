@@ -1,37 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { OptionsInt, SelectAppProps } from "./SelectApp.types";
 import arrowIcon from "./arrow.png";
+import CustomArrow from "./CustomArrow";
 import "./styles.css";
 
-export const SelectApp: React.FC<SelectAppProps> = ({ style = { listAnimation: true, textAlign: "left" }, optionsStyle = {}, errorOnPlaceholder = false, errorBelowSelect = false, preventDefault = false, ...props }) => {
+export const SelectApp: React.FC<SelectAppProps> = ({ preventDefault = false, ...props }) => {
 
-    const [openList, setOpenList] = useState(false);
-    const [placeAction, setPlaceAction] = useState(false);
     const [innerVal, setInnerVal] = useState<string | OptionsInt>();
+    const [openList, setOpenList] = useState(false);
 
-    const handleSelect = (option: string | OptionsInt) => {
-        if (typeof option === "string") {
-            props.onChange(option);
-        } else {
-            props.onChange(option.value);
-        }
-        if (preventDefault === false) {
-            setInnerVal(option);
-            setPlaceAction(true);
-        }
-        setOpenList(false);
-    }
-
-    const handleClick = () => {
-        if (openList === true) {
-            setOpenList(false)
-        } else {
-            setOpenList(true)
-        }
-
-    }
-
-    const listRef = useRef<HTMLDivElement>(null)
+    const listRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const listClick = (e: any) => {
@@ -56,15 +34,52 @@ export const SelectApp: React.FC<SelectAppProps> = ({ style = { listAnimation: t
         }
     }, []);
 
-    useEffect(() => {
-        if (innerVal) {
-            if (typeof innerVal === "string") {
-                props.onChange(innerVal);
-            } else {
-                props.onChange(innerVal.value);
-            }
+    const handleClick = () => {
+        if (openList === true) {
+            setOpenList(false)
+        } else {
+            setOpenList(true)
         }
-    }, [innerVal]);
+    }
+
+    const handleSelect = (option: string | OptionsInt) => {
+        if (preventDefault === false) {
+            setInnerVal(option);
+        }
+    }
+
+    return (
+        <div
+            ref={listRef}
+            className="appdland-ui-selectapp-container"
+        >
+            <MainBox
+                innerVal={innerVal}
+                handleClick={handleClick}
+                isListOptionActive={openList}
+                {...props}
+            />
+
+            <ListOptions
+                isListOptionActive={openList}
+                setListOptionActive={setOpenList}
+                onSelect={handleSelect}
+                {...props}
+            />
+
+        </div>
+    )
+}
+
+interface MainBoxInt extends SelectAppProps {
+    innerVal: string | OptionsInt | undefined;
+    handleClick: (param?: any) => void;
+    isListOptionActive: boolean;
+}
+
+const MainBox = ({ innerVal, handleClick, isListOptionActive, style = {}, errorOnPlaceholder = false, errorBelowSelect = false, disabled = false, ...props }: MainBoxInt) => {
+
+    const [placeAction, setPlaceAction] = useState(false);
 
     useEffect(() => {
         if (
@@ -80,23 +95,30 @@ export const SelectApp: React.FC<SelectAppProps> = ({ style = { listAnimation: t
         }
     }, [innerVal, placeAction]);
 
+    useEffect(() => {
+        if (innerVal) {
+            if (typeof innerVal === "string") {
+                props.onChange(innerVal);
+            } else {
+                props.onChange(innerVal.value);
+            }
+        }
+    }, [innerVal]);
+
     return (
-        <div
-            ref={listRef}
-            className="appdland-ui-selectapp-container"
-        >
+        <>
             <div
-                className={`appdland-ui-selectapp-main-box ${style.type && style.type === "box" ? "appdland-ui-selectapp-main-box-box" : "appdland-ui-selectapp-main-box-bottom-line"}`}
-                onClick={handleClick}
+                className={`appdland-ui-selectapp-main-box ${style.type && style.type === "box" ? "appdland-ui-selectapp-main-box-box" : style.type === "bottom-line" ? "appdland-ui-selectapp-main-box-bottom-line" : ""}`}
+                onClick={() => disabled === false ? handleClick() : null}
                 style={{
-                    borderRadius: style.type === "bottom-line"
+                    borderRadius: style.type === "bottom-line" || style.type === "outline"
                         ? "0"
                         : style.borderRadius
                             ? style.borderRadius
                             : "5px",
                     borderColor: props.validator === true
                         ? "red"
-                        : openList
+                        : isListOptionActive
                             ? style.color
                                 ? style.color
                                 : "black"
@@ -111,7 +133,13 @@ export const SelectApp: React.FC<SelectAppProps> = ({ style = { listAnimation: t
                             : "transparent"
                         : style.backgroundColor
                             ? style.backgroundColor
-                            : "white"
+                            : "white",
+                    opacity: disabled === true
+                        ? '0.5'
+                        : '1',
+                    cursor: disabled === true
+                        ? 'default'
+                        : 'pointer'
                 }}
             >
                 {
@@ -119,30 +147,34 @@ export const SelectApp: React.FC<SelectAppProps> = ({ style = { listAnimation: t
                         <p
                             className="appdland-ui-selectapp-placeholder"
                             style={{
-                                top: style.background && style.background === "transparent"
+                                top: style.showPlaceHolderOnFocus === false
                                     ? "50%"
-                                    : style.backgroundColor
+                                    : style.background && style.background === "transparent"
                                         ? "50%"
-                                        : placeAction === false
+                                        : style.backgroundColor
                                             ? "50%"
-                                            : "-10%",
-                                // marginLeft: placeAction === false ? "0" : "10px",
+                                            : placeAction === false
+                                                ? "50%"
+                                                : "-10%",
                                 fontSize: placeAction === false ? "medium" : "small",
-                                left: style.textAlign && style.textAlign === "center"
+                                left: style.textAlign === "center"
                                     ? "50%"
-                                    : "0",
+                                    : undefined,
+                                right: style.textAlign === "right"
+                                    ? "30px"
+                                    : undefined,
                                 transform: style.textAlign && style.textAlign === "center"
                                     ? "translate(-50%, -50%)"
                                     : "translate(0, -50%)",
                                 color: props.validator === false
-                                    ? openList
+                                    ? isListOptionActive
                                         ? style.placeholderColor
                                             ? style.placeholderColor
                                             : "black"
                                         : style.blurPlaceholderColor
                                             ? style.blurPlaceholderColor
                                             : "lightgray"
-                                    : openList === false
+                                    : isListOptionActive === false
                                         ? "lightpink"
                                         : "red",
                                 backgroundColor: style.background && style.background === "transparent"
@@ -150,11 +182,11 @@ export const SelectApp: React.FC<SelectAppProps> = ({ style = { listAnimation: t
                                     : style.backgroundColor
                                         ? style.backgroundColor
                                         : "white",
-                                opacity: style.background && style.background === "transparent" || style.backgroundColor
+                                display: style.background === "transparent" || style.backgroundColor || style.showPlaceHolderOnFocus === false
                                     ? placeAction === false
-                                        ? "1"
-                                        : "0"
-                                    : '1'
+                                        ? "block"
+                                        : "none"
+                                    : 'block'
                             }}
                         >
                             {
@@ -174,7 +206,10 @@ export const SelectApp: React.FC<SelectAppProps> = ({ style = { listAnimation: t
                                 : "black",
                             textAlign: style.textAlign
                                 ? style.textAlign
-                                : "left"
+                                : "left",
+                            paddingRight: style.textAlign === "right"
+                                ? "40px"
+                                : undefined
                         }}>{typeof innerVal === "string" ? innerVal : innerVal.label}</p>
 
                     ) : (
@@ -184,17 +219,19 @@ export const SelectApp: React.FC<SelectAppProps> = ({ style = { listAnimation: t
 
                 <div className="appdland-ui-selectapp-arrow">
                     {
-                        props.customArrow
-                            ? props.customArrow
-                            : <img
-                                alt="appdland-ui-arrow"
-                                src={arrowIcon as string}
-                                style={{
-                                    rotate: openList
-                                        ? "180deg"
-                                        : "0deg"
-                                }}
-                            />
+                        style.customArrow
+                            ? style.customArrow
+                            : style.arrowType === "curved"
+                                ? <img
+                                    alt="appdland-ui-arrow"
+                                    src={arrowIcon as string}
+                                    style={{
+                                        rotate: isListOptionActive
+                                            ? "180deg"
+                                            : "0deg"
+                                    }}
+                                />
+                                : <CustomArrow rotate={isListOptionActive} color={style.arrowColor} />
                     }
                 </div>
             </div>
@@ -211,68 +248,97 @@ export const SelectApp: React.FC<SelectAppProps> = ({ style = { listAnimation: t
                     </p>
                 )
             }
+        </>
+    )
+}
+
+interface ListOptionsInt extends SelectAppProps {
+    isListOptionActive: boolean;
+    setListOptionActive: (param: boolean) => void;
+    onSelect?: (param: string | OptionsInt) => void;
+}
+
+const ListOptions = ({ isListOptionActive, setListOptionActive, onSelect, optionsStyle = {}, preventDefault = false, ...props }: ListOptionsInt) => {
+
+    const handleSelect = (option: string | OptionsInt) => {
+        if (typeof option === "string") {
+            props.onChange(option);
+        } else {
+            props.onChange(option.value);
+        }
+        setListOptionActive(false);
+        if (onSelect) {
+            onSelect(option);
+        }
+    }
+
+    return (
+        <div
+            className="appdland-ui-selectapp-options-box"
+            style={{
+                //@ts-ignore
+                '--appdland-ui-scrollbar-thumb-color': optionsStyle.scrollThumbColor
+                    ? optionsStyle.scrollThumbColor
+                    : 'rgb(233, 233, 233)',
+                height: isListOptionActive === true
+                    ? `${props.options.length * 45.8 + (optionsStyle.showPlaceholderOnList === true ? 40.8 : 0)}px`
+                    : '0px',
+                transitionDuration: optionsStyle.listAnimation ? "0.3s" : undefined,
+                boxShadow: isListOptionActive === true
+                    ? "0px 5px 10px 1px rgba(0, 0, 0, 0.3)"
+                    : 'none',
+                backgroundColor: optionsStyle.backgroundColor
+                    ? optionsStyle.backgroundColor
+                    : "white",
+                maxHeight: optionsStyle.maxItems
+                    ? `${optionsStyle.maxItems * 45.8 + (optionsStyle.showPlaceholderOnList === true ? 40.8 : 0)}px`
+                    : "229px"
+            }}
+        >
             {
-                openList === true || style.listAnimation === true ? (
+                optionsStyle.showPlaceholderOnList === true && (
+                    <p onClick={() => handleSelect("")} className="appdland-ui-selectapp-options-placeholder" style={{
+                        borderColor: optionsStyle.optionLineSeparatorColor
+                            ? optionsStyle.optionLineSeparatorColor
+                            : "rgb(233, 233, 233)",
+                        justifyContent: optionsStyle.textAlign
+                            ? optionsStyle.textAlign
+                            : "left"
+                    }}>{props.placeholder}</p>
+                )
+            }
+            {
+                props.options.map((opcion, index) => (
                     <div
-                        className="appdland-ui-selectapp-options-box"
+                        className="appdland-ui-selectapp-option"
+                        onClick={() => handleSelect(opcion)}
+                        key={index}
                         style={{
-                            height: style.listAnimation
-                                ? openList === true
-                                    ? `${props.options.length * 45 + (style.showPlaceholderOnList === true ? 30 : 0)}px`
-                                    : '0px'
-                                : 'auto',
-                            transitionDuration: style.listAnimation ? "0.3s" : undefined,
-                            boxShadow: openList === true
-                                ? "0px 5px 10px 1px rgba(0, 0, 0, 0.3)"
-                                : 'none',
-                            backgroundColor: optionsStyle.backgroundColor
-                                ? optionsStyle.backgroundColor
-                                : "white"
+                            cursor: isListOptionActive === true ? "pointer" : "default",
+                            //@ts-ignore
+                            '--appdland-ui-select-option-hover': optionsStyle.optionHoverColor
+                                ? optionsStyle.optionHoverColor
+                                : "rgb(245, 245, 245)",
+                            color: optionsStyle.color
+                                ? optionsStyle.color
+                                : "black",
+                            borderColor: optionsStyle.optionLineSeparatorColor
+                                ? optionsStyle.optionLineSeparatorColor
+                                : "rgb(245, 245, 245)",
+                            justifyContent: optionsStyle.textAlign && optionsStyle.textAlign === "center"
+                                ? "space-evenly"
+                                : "space-between"
                         }}
                     >
                         {
-                            style.showPlaceholderOnList === true && (
-                                <small className="appdland-ui-selectapp-options-placeholder" style={{
-                                    borderColor: optionsStyle.optionLineSeparatorColor
-                                        ? optionsStyle.optionLineSeparatorColor
-                                        : "lightgray",
-                                    justifyContent: optionsStyle.textAlign
-                                        ? optionsStyle.textAlign
-                                        : "left"
-                                }}>{props.placeholder}</small>
+                            typeof opcion === 'object' && opcion.extra && (
+                                opcion.extra
                             )
                         }
-                        {
-                            props.options.map((opcion, index) => (
-                                <p
-
-                                    onClick={() => handleSelect(opcion)}
-                                    key={index}
-                                    style={{
-                                        cursor: openList === true ? "pointer" : "default",
-                                        //@ts-ignore
-                                        '--appdland-ui-select-option-hover': optionsStyle.optionHoverColor
-                                            ? optionsStyle.optionHoverColor
-                                            : "lightgray",
-                                        color: optionsStyle.color
-                                            ? optionsStyle.color
-                                            : "black",
-                                        borderColor: optionsStyle.optionLineSeparatorColor
-                                            ? optionsStyle.optionLineSeparatorColor
-                                            : "lightgray",
-                                        justifyContent: optionsStyle.textAlign
-                                            ? optionsStyle.textAlign
-                                            : "left"
-                                    }}
-                                >
-                                    {typeof opcion === "string" ? opcion : opcion.label}
-                                </p>
-                            ))
-                        }
+                        <p>{typeof opcion === "string" ? opcion : opcion.label}</p>
                     </div>
-                ) : null
+                ))
             }
-
         </div>
     )
 }

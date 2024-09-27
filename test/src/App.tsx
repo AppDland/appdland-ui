@@ -42,7 +42,7 @@ function App() {
                         textAlign: "center"
                     }}
                     placeholder='Texto'
-                    // capitalize
+                // capitalize
                 />
                 <InputApp
                     {
@@ -83,14 +83,24 @@ function App() {
                 />
                 <SelectApp
                     {...register('select')}
-                    options={[{ value: 'opcion 1', label: "OPCION super hiper mega larga para test" }, { value: 'opcion 2', label: "SEGUNDA" }]}
-                    placeholder='Test de select super hiper mega largoooo agregando'
+                    options={['Nequi', 'Transferencia Argentina', 'opcion3']}
+                    placeholder='Envías muchos pesos'
                     style={{
-                        type: "bottom-line",
-                        textAlign: "center"
+                        type: "outline",
+                        textAlign: "right",
+                        placeholderColor: "#004E77",
+                        blurPlaceholderColor: "#004E77",
+                        color: "#004E77",
+                        blurColor: "#004E77",
+                        arrowColor: "#004E77",
+                        showPlaceHolderOnFocus: false
+                    }}
+                    optionsStyle={{
+                        showPlaceholderOnList: true,
+                        scrollThumbColor: "#004E77",
+                        maxItems: 3
                     }}
                     errorBelowSelect
-                // defaultValue='opcion 2'
                 />
                 <ButtonApp
                     validateSubmit
