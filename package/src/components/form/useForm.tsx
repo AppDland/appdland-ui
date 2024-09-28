@@ -223,7 +223,6 @@ export const useFormApp: <T extends object = formValuesInt>() => useFormAppInt<T
                     .isValid();
 
                 if (state === false) {
-                    console.log(counter);
                     setForm(input, value, true, error);
                     innerValidator = state;
                 }

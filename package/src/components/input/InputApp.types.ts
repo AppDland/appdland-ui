@@ -26,39 +26,19 @@ interface styleInputInt{
     blurPlaceholderColor?: string;
 }
 
-export interface InputAppProps {
+export interface BasicInputProps {
     /**
-     * Establece el tipo de input
-     * @text tipo texto 
-     * @number --not tested--
-     * @password --not tested--
-     * @money input de tipo dinero (máximo números de 15 carácteres)
-     * 
-     * @default "text"
+     * un valor por defecto para inicializar en el input
      */
-    type: "text" | "number" | "password" | "money" | "percentage" | "email";
+    defaultValue?: string;
     value: string;
     /**
      * evento onChange
-     * @param value input value en string
+     * @param value (string)
      */
     onChange: (value: string) => void;
-    /**
-     * Pone en mayuscula cada palabra (únicamente con type: "text")
-     * @default false
-    */
-    capitalize?: boolean;
-    style?: styleInputInt;
     validator?: boolean;
-    placeholder?: string;
     maxLength?: number;
-    /**
-     * Muestra números decimales (funciona con el atributo type: "money")
-     * @default true
-     */
-    showDecimal?: boolean;
-    onFocus?: () => void;
-    disabled?: boolean;
     /**
      * Muestra el mensaje de error (errorMessage) en la ubicación del placeholder
      * @default false
@@ -74,8 +54,44 @@ export interface InputAppProps {
      */
     errorMessage?: string;
     errorMessageStyle?: CSSProperties;
+    style?: styleInputInt;
+    placeholder?: string;
+    disabled?: boolean;
+    onFocus?: () => void;
+    onBlur?: () => void;
+}
+
+export interface InputAppProps extends BasicInputProps {
     /**
-     * un valor por defecto para inicializar en el input
+     * Establece el tipo de input
+     * @text texto 
+     * @number número
+     * @password contraseña
+     * @percentage porcentaje
+     * @email correo electrónico
+     * @tel teléfono
+     * 
+     * @default text
      */
-    defaultValue?: string;
+    type: "text" | "number" | "password" | "percentage" | "email" | "tel";
+    
+    /**
+     * Pone en mayuscula cada palabra (únicamente con type: "text")
+     * @default false
+    */
+    capitalize?: boolean;
+    /**
+     * Pone en mayuscula todo el texto
+     * @default false
+     */
+    capitalizeAll?: boolean;    
+    child?: React.ReactNode;
+}
+
+export interface InputMoneyProps extends BasicInputProps {
+    /**
+     * Muestra números decimales
+     * @default true
+     */
+    showDecimal?: boolean;
 }

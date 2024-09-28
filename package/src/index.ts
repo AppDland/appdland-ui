@@ -1,5 +1,7 @@
-export { InputApp } from './components/input/InputApp';
+export { InputConstructor as InputApp } from './components/input/InputApp';
 export { InputAppProps } from './components/input/InputApp.types';
+export { InputConstructor as InputMoneyApp } from './components/input/InputMoneyApp';
+export { InputMoneyProps } from './components/input/InputApp.types';
 export { ButtonApp } from './components/button/ButtonApp';
 export { ButtonAppProps } from './components/button/ButtonApp.types';
 export { FormApp } from './components/form/FormApp';

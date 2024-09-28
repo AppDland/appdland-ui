@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { InputApp, ButtonApp, FormApp, useFormApp, SelectApp, DatePickerApp, useLoading } from "@juandland/appdland-ui"
+import { InputApp, ButtonApp, FormApp, useFormApp, SelectApp, DatePickerApp, useLoading, InputMoneyApp } from "@juandland/appdland-ui"
 import deleteIcon from "./delete.png";
 import "./App.css";
 
@@ -35,16 +35,19 @@ function App() {
                     errorMessage='error de prueba'
                 />
                 <InputApp
-                    {...register("texto")}
-                    type='text'
+                    {...register("cel", { type: "number" })}
+                    type='tel'
                     style={{
                         type: "bottom-line",
                         textAlign: "center"
                     }}
-                    placeholder='Texto'
+                    placeholder='Celular'
+                    child={
+                        <img alt='' src={deleteIcon} style={{ width: "100%" }} />
+                    }
                 // capitalize
                 />
-                <InputApp
+                <InputMoneyApp
                     {
                     ...register("value", {
                         min: 5,
@@ -56,13 +59,12 @@ function App() {
                         },
                     })
                     }
-                    type='money'
                     placeholder='Ingresa Numero'
                     style={{
                         type: "bottom-line",
                         textAlign: "center"
                     }}
-                    defaultValue='5555.5'
+                    defaultValue='5555.46'
                     errorOnPlaceholder
                 />
                 <InputApp

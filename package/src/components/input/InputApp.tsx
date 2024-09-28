@@ -1,160 +1,130 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { InputAppProps } from './InputApp.types';
-import useInput from './useInput';
-import "./styles.css";
+import { InputProvider, useInputContext } from './InputContext';
+import { BaseInput } from './BaseInput';
+import { formatUpperEach } from '../../functions/formats';
 
-export const InputApp: React.FC<InputAppProps> = (
-    {
-        disabled = false,
-        showDecimal = true,
-        style = {
-            type: "box",
-            textAlign: "left",
-            background: "solid",
-            fontSize: "medium",
-        },
-        errorOnPlaceholder = false,
-        errorBelowInput = false,
-        ...props
+export const InputApp: React.FC<InputAppProps> = ({ style = {}, errorOnPlaceholder = false, errorBelowInput = false, ...props }) => {
+
+    const [inputWidth, setInputWidth] = useState(0);
+    const { placeholderActive, inputRef, innerVal, setInnerVal, basicFocus, basicBlur, setFocused } = useInputContext();
+
+    useEffect(() => {
+        if (props.defaultValue && props.defaultValue.length > 0) {
+            if (props.type === "percentage") {
+                const isNumber = Number(props.defaultValue);
+                if (!isNaN(isNumber)) {
+                    setInnerVal(props.defaultValue);
+                    props.onChange(props.defaultValue);
+                }
+            } else {
+                setInnerVal(props.defaultValue);
+                props.onChange(props.defaultValue);
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        if (innerVal && props.type === "percentage") {
+
+            const multiplier = style.fontSize === "large" ? 10 : 9;
+
+            const getSize = () => {
+                const length = innerVal.length - (innerVal.includes(".") ? 1 : 0);
+                return (innerVal.includes(".") ? 6 : 0) + (length * multiplier);
+            }
+            setInputWidth(getSize())
+        }
+    }, [innerVal]);
+
+    const handleFocus = () => {
+        basicFocus();
+        if (props.onFocus) {
+            props.onFocus();
+        }
     }
-) => {
 
-    const {
-        placeholderActive,
-        innerVal,
-        decimal,
-        inputWidth,
-        focused,
-        inputRef,
-        inputDecimalRef,
-        innerShowDecimal,
-        handleClick,
-        handleBlur,
-        handleFocus,
-        innerChange,
-        handleKeyUp,
-        handleDecimalKeyDown,
-        handleDecimalChange,
-        handleDecimalFocus,
-        handleDecimalBlur,
-        handleDecimalClick,
-        isNegative
-    } = useInput({ disabled, showDecimal, style, ...props });
+    const handleBlur = () => {
+        basicBlur();
+        if (props.onBlur) {
+            props.onBlur();
+        }
+    }
+
+    const handleKeyUp = (e: any) => {
+
+        if (
+            e.key === "Enter" ||
+            e.keyCode === 13 ||
+            e.code === "Enter"
+        ) {
+            setFocused(false);
+            inputRef.current?.blur();
+        }
+    }
+
+    const innerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let value = e.target.value;
+
+        if (props.type === "text" && props.capitalize) {
+            value = formatUpperEach(value);
+        } else if (props.type === "text" && props.capitalizeAll) {
+            value = value.toUpperCase();
+        } else if (props.type === "number" || props.type === "tel") {
+            if (isNaN(Number(value)) && value !== "-") {
+                return;
+            }
+            value = value === "0" ? "" : value;
+        } else if (props.type === "percentage") {
+            if (isNaN(Number(value)) && value !== "-") {
+                return;
+            }
+            setInnerVal(value);
+            value = value === "0" ? "" : value;
+        }
+        props.onChange(value);
+    }
 
     return (
-        <div
-            className={`appdland-ui-inputapp-container ${style.type === "box" ? "appdland-ui-inputapp-container-box" : "appdland-ui-inputapp-container-bottom-line"}`}
-            onClick={handleClick}
-            style={{
-                borderRadius: style.type === "box"
-                    ? style.borderRadius
-                        ? style.borderRadius
-                        : "5px"
-                    : "0px",
-                borderColor: props.validator === true
-                    ? "red"
-                    : focused
-                        ? style.color
-                            ? style.color : "black"
-                        : style.blurColor
-                            ? style.blurColor
-                            : "lightgray",
-                backgroundColor: style.background === "transparent" ? "transparent" : "white"
-            }}
-        >
-            <p
-                className={`appdland-ui-inputapp-placeholder`}
-                style={{
-                    top: style.background === "transparent"
-                        ? "45%"
-                        : placeholderActive ? "-16%" : "45%",
-                    left: placeholderActive
-                        ? style.textAlign
-                            ? style.textAlign === "left"
-                                ? "10px"
-                                : undefined
-                            : "10px"
-                        : style.textAlign
-                            ? style.textAlign === "left"
-                                ? "0"
-                                : undefined
-                            : "0",
-                    fontSize: placeholderActive ? "small" : "medium",
-                    width: placeholderActive ? "auto" : "auto",
-                    color: props.validator === true
-                        ? focused ? "red" : "lightpink"
-                        : focused
-                            ? style.placeholderColor
-                                ? style.placeholderColor
-                                : "black"
-                            : style.blurPlaceholderColor
-                                ? style.blurPlaceholderColor
-                                : "lightgray",
-                    textAlign: style.textAlign
-                        ? style.textAlign
-                        : "left",
-                    opacity: style.background === "transparent"
-                        ? placeholderActive ? "0" : "1"
-                        : undefined,
-                    backgroundColor: style.background === "transparent" ? "transparent" : "white"
-                }}
-            >
-                {
-                    errorOnPlaceholder && errorBelowInput === false && props.validator
-                        ? props.errorMessage + '*'
-                        : props.placeholder
-                }
-            </p>
+        <>
             {
-                props.type === "money" && (
-                    props.value.length > 0
-                        ? <p className="appdland-ui-inputapp-money-symbol" style={{
-                            color: isNegative
-                                ? "red"
-                                : style.color
-                                    ? style.color
-                                    : "black"
-                        }}>$</p>
-                        : null
+                props.child && (
+                    <div className='appdland-ui-inputapp-child-container' style={{ opacity: placeholderActive ? "1" : "0" }}>
+                        {props.child}
+                    </div>
                 )
             }
             <input
                 ref={inputRef}
-                type={props.type === "money" || props.type === "number" ? "text" : props.type}
-                inputMode={props.type === "money" || props.type === "number"
+                type={props.type === "number" ? "text" : props.type}
+                inputMode={props.type === "number"
                     ? "decimal"
                     : props.type === "percentage"
                         ? "numeric"
-                        : "text"
+                        : props.type === "email"
+                            ? "email"
+                            : "text"
                 }
                 autoComplete="off"
-                value={innerVal ? innerVal : props.value}
+                value={innerVal}
                 onChange={innerChange}
                 autoCorrect="off"
                 onFocus={handleFocus}
                 onBlur={handleBlur}
                 onKeyUp={handleKeyUp}
-                disabled={disabled}
-                autoCapitalize={props.capitalize
-                    ? 'words'
-                    : 'off'
-                }
-                maxLength={props.type === "money"
-                    ? 19
-                    : props.maxLength ? props.maxLength : undefined
+                disabled={props.disabled}
+                maxLength={props.maxLength
+                    ? props.maxLength
+                    : undefined
                 }
                 className="appdland-ui-inputapp-input"
                 style={{
-                    width: innerVal
+                    width: props.type === "percentage"
                         ? `${inputWidth}px`
                         : "100%",
                     fontSize: style.fontSize ? style.fontSize : "medium",
-                    paddingLeft: props.type === "money"
-                        ? innerVal
-                            ? "0"
-                            : "10px"
-                        : "10px",
-                    paddingRight: style.textAlign === "center" && props.type !== "money" && props.type !== "percentage"
+                    paddingLeft: "10px",
+                    paddingRight: style.textAlign === "center" && props.type !== "percentage"
                         ? "10px"
                         : "0",
                     textAlign: style.textAlign
@@ -167,36 +137,7 @@ export const InputApp: React.FC<InputAppProps> = (
                 spellCheck="false"
             />
             {
-                props.type === "money" && innerVal && showDecimal ? (
-                    <input
-                        ref={inputDecimalRef}
-                        type="text"
-                        inputMode="numeric"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        maxLength={2}
-                        value={decimal}
-                        onClick={handleDecimalClick}
-                        onFocus={handleDecimalFocus}
-                        onChange={handleDecimalChange}
-                        onKeyDown={handleDecimalKeyDown}
-                        onBlur={handleDecimalBlur}
-                        placeholder="00"
-                        className="appdland-ui-inputapp-decimal"
-                        tabIndex={-1}
-                        style={{
-                            opacity: innerShowDecimal ? "1" : "0",
-                            width: style.textAlign
-                                ? style.textAlign === "left"
-                                    ? "100%"
-                                    : "15px"
-                                : "100%",
-                            color: style.color
-                                ? style.color
-                                : "black"
-                        }}
-                    />
-                ) : props.type === "percentage" && innerVal ? (
+                props.type === "percentage" && innerVal ? (
                     <p
                         className="appdland-ui-inputapp-percentage-symbol"
                         style={{
@@ -211,18 +152,20 @@ export const InputApp: React.FC<InputAppProps> = (
                 ) : null
             }
             {
-                errorBelowInput && errorOnPlaceholder === false && props.validator && (
-                    <p
-                        className='appdland-ui-inputapp-error-message'
-                        style={{
-                            fontSize: style.fontSize === "large" ? "small" : "x-small",
-                            ...props.errorMessageStyle
-                        }}
-                    >
-                        {props.errorMessage}*
-                    </p>
+                props.child && (
+                    <div className='appdland-ui-inputapp-child-container'>
+                        <p style={{ visibility: "hidden" }}>---------</p>
+                    </div>
                 )
             }
-        </div>
+        </>
     )
 }
+
+export const InputConstructor: React.FC<InputAppProps> = (props: InputAppProps) => (
+    <InputProvider>
+        <BaseInput {...props}>
+            <InputApp {...props} />
+        </BaseInput>
+    </InputProvider>
+)

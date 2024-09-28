@@ -1,7 +1,2 @@
-input type tel
-input child
-input onBlur
-input capitalize all
-input capitalize dont work on desktop
-
 separate input money if posible to avoid problems
+input money al presionar punto al parecer se borra todo lo de innerVal, ademas falta la logica de reemplazar en el input decimal

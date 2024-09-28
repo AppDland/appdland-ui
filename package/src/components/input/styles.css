@@ -78,3 +78,14 @@
     top: 30px;
     color: red;
 }
+
+.appdland-ui-inputapp-child-container{
+    max-height: 30px;
+    max-width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-sizing: border-box;
+    transition-duration: 0.1s;
+}
