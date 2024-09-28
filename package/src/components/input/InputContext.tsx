@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useRef, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 
 interface InputContextInt {
     placeholderActive: boolean;
@@ -10,6 +10,7 @@ interface InputContextInt {
     inputRef: React.RefObject<HTMLInputElement>;
     basicFocus: () => void;
     basicBlur: () => void;
+    setClickInside: (param: boolean) => void;
 }
 
 const InputContext = createContext<InputContextInt | null>(null);
@@ -24,6 +25,7 @@ const InputProvider: React.FC<InputProps> = ({ children }) => {
     const [placeholderActive, setPlaceholderActive] = useState(false);
     const [focused, setFocused] = useState(false);
     const [innerVal, setInnerVal] = useState<string>('');
+    const [clickInside, setClickInside] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
     const basicFocus = () => {
@@ -31,12 +33,17 @@ const InputProvider: React.FC<InputProps> = ({ children }) => {
         setFocused(true);
     }
 
-    const basicBlur = () => {
-        if (innerVal === "") {
-            setPlaceholderActive(false);
-        }
+    const basicBlur = () => {        
         setFocused(false);
     }
+
+    useEffect(() => {
+        if (innerVal === "" && clickInside === false) {
+            setPlaceholderActive(false);
+        }
+    }, [clickInside]);
+
+
 
     return (
         <InputContext.Provider
@@ -50,7 +57,8 @@ const InputProvider: React.FC<InputProps> = ({ children }) => {
                     setInnerVal,
                     inputRef,
                     basicFocus,
-                    basicBlur
+                    basicBlur,
+                    setClickInside
                 }
             }
         >

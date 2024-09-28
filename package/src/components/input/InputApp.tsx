@@ -2,17 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { InputAppProps } from './InputApp.types';
 import { InputProvider, useInputContext } from './InputContext';
 import { BaseInput } from './BaseInput';
-import { formatUpperEach } from '../../functions/formats';
+import { formatInteger, formatUpperEach } from '../../functions/formats';
 
-export const InputApp: React.FC<InputAppProps> = ({ style = {}, errorOnPlaceholder = false, errorBelowInput = false, ...props }) => {
+export const InputApp: React.FC<InputAppProps> = ({ style = {}, errorOnPlaceholder = false, errorBelowInput = false, alwaysShowChild = false, ...props }) => {
 
     const [inputWidth, setInputWidth] = useState(0);
-    const { placeholderActive, inputRef, innerVal, setInnerVal, basicFocus, basicBlur, setFocused } = useInputContext();
+    const { placeholderActive, inputRef, innerVal, setInnerVal, basicFocus, basicBlur, setFocused, setClickInside } = useInputContext();
 
     useEffect(() => {
         if (props.defaultValue && props.defaultValue.length > 0) {
-            if (props.type === "percentage") {
+            if (props.type === "percentage" || props.type === "number" || props.type === "tel") {
                 const isNumber = Number(props.defaultValue);
+                console.log(isNumber);
                 if (!isNaN(isNumber)) {
                     setInnerVal(props.defaultValue);
                     props.onChange(props.defaultValue);
@@ -45,7 +46,6 @@ export const InputApp: React.FC<InputAppProps> = ({ style = {}, errorOnPlacehold
     }
 
     const handleBlur = () => {
-        basicBlur();
         if (props.onBlur) {
             props.onBlur();
         }
@@ -70,18 +70,20 @@ export const InputApp: React.FC<InputAppProps> = ({ style = {}, errorOnPlacehold
             value = formatUpperEach(value);
         } else if (props.type === "text" && props.capitalizeAll) {
             value = value.toUpperCase();
-        } else if (props.type === "number" || props.type === "tel") {
+        } else if (props.type === "number") {
             if (isNaN(Number(value)) && value !== "-") {
                 return;
             }
             value = value === "0" ? "" : value;
+        } else if (props.type === "tel"){
+            value = formatInteger(value);
         } else if (props.type === "percentage") {
             if (isNaN(Number(value)) && value !== "-") {
                 return;
             }
-            setInnerVal(value);
             value = value === "0" ? "" : value;
         }
+        setInnerVal(value);
         props.onChange(value);
     }
 
@@ -89,7 +91,17 @@ export const InputApp: React.FC<InputAppProps> = ({ style = {}, errorOnPlacehold
         <>
             {
                 props.child && (
-                    <div className='appdland-ui-inputapp-child-container' style={{ opacity: placeholderActive ? "1" : "0" }}>
+                    <div
+                        className='appdland-ui-inputapp-child-container'
+                        style={{
+                            opacity: alwaysShowChild
+                                ? "1"
+                                : placeholderActive
+                                    ? "1"
+                                    : "0"
+                        }}
+                        onClick={e => setClickInside(true)}
+                    >
                         {props.child}
                     </div>
                 )
@@ -110,6 +122,7 @@ export const InputApp: React.FC<InputAppProps> = ({ style = {}, errorOnPlacehold
                 onChange={innerChange}
                 autoCorrect="off"
                 onFocus={handleFocus}
+                onBlurCapture={basicBlur}
                 onBlur={handleBlur}
                 onKeyUp={handleKeyUp}
                 disabled={props.disabled}
@@ -153,7 +166,9 @@ export const InputApp: React.FC<InputAppProps> = ({ style = {}, errorOnPlacehold
             }
             {
                 props.child && (
-                    <div className='appdland-ui-inputapp-child-container'>
+                    <div
+                        className='appdland-ui-inputapp-child-container'
+                    >
                         <p style={{ visibility: "hidden" }}>---------</p>
                     </div>
                 )

@@ -100,18 +100,6 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
 
     const handleKeyUp = (e: any) => {
         if (
-            e.key === "." ||
-            e.key === "," ||
-            e.keyCode === 190 ||
-            e.keyCode === 188 ||
-            e.keyCode === 229 ||
-            e.code === "Period" ||
-            e.code === "Comma"
-        ) {
-            e.preventDefault();
-            inputDecimalRef.current?.focus();
-        }
-        if (
             e.key === "Enter" ||
             e.keyCode === 13 ||
             e.code === "Enter"
@@ -143,6 +131,19 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
     const handleKeyDown = (e: any) => {
         const position = e.target.selectionEnd;
 
+        if (
+            e.key === "." ||
+            e.key === "," ||
+            e.keyCode === 190 ||
+            e.keyCode === 188 ||
+            e.keyCode === 229 ||
+            e.code === "Period" ||
+            e.code === "Comma"
+        ) {
+            e.preventDefault();
+            inputDecimalRef.current?.focus();
+        }
+
         if (position === innerVal.length) {
             if (
                 e.key === "ArrowRight" ||
@@ -167,26 +168,20 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
                 e.code === "ArrowLeft"
             ) {
                 e.preventDefault();
+                inputRef.current?.setSelectionRange(innerVal.length, innerVal.length);
                 inputRef.current?.focus();
-            } else {
-                setDecimal(decimal.slice(-1));
-                inputDecimalRef.current?.setSelectionRange(0, 0);
             }
         }
     }
 
     const handleDecimalChange = (e: any) => {
-        console.log('change');
-        return;
         const position = e.target.selectionStart;
-        if (position === 0) {
-
-        }
         if (!isNaN(Number(e.target.value))) {
             let value = String(e.target.value);
             if (value.length <= 2) {
                 setDecimal(value);
                 props.onChange(props.value.split(".")[0] + "." + value);
+                inputDecimalRef.current?.setSelectionRange(position, position + 1);
             }
         }
     }
@@ -194,7 +189,7 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
     const handleDecimalFocus = () => {
         setFocused(true);
         setInnerShowDecimal(true);
-        inputDecimalRef.current?.setSelectionRange(0, 0);
+        inputDecimalRef.current?.setSelectionRange(0, 1);
     }
     const handleDecimalBlur = () => {
         if (decimal.length === 0) {
@@ -202,10 +197,10 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
         }
     }
 
-    const handleDecimalClick = () => {
-        // console.log("clicked");
-        // inputDecimalRef.current?.blur();
-        // inputRef.current?.focus();
+    const handleDecimalClick = (e: any) => {
+        setTimeout(() => {
+            inputDecimalRef.current?.focus();
+        }, 1);
     }
 
     return (
@@ -263,6 +258,7 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
                         autoCorrect="off"
                         maxLength={2}
                         value={decimal}
+                        onClick={handleDecimalClick}
                         onFocus={handleDecimalFocus}
                         onChange={handleDecimalChange}
                         onKeyDown={handleDecimalKeyDown}

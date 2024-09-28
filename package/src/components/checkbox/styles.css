@@ -1,0 +1,143 @@
+.appdland-ui-checkboxapp-container {
+    display: flex;
+    user-select: none;
+    align-items: center;
+    width: min-content;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.appdland-ui-checkboxapp-box {
+    height: 16px;
+    width: 16px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.appdland-ui-checkboxapp-container p {
+    margin: 0 6px;
+    color: rgba(0, 78, 119, 1);
+}
+
+
+/* box */
+.appdland-ui-checkboxapp-active {
+    z-index: 1;
+    height: 16px;
+    aspect-ratio: 1/1;
+    border-radius: 25%;
+    border: 1px solid;
+    border-color: var(--appdland-ui-checkboxapp-color);
+    transition-duration: 0.6s;
+}
+
+/* check */
+.appdland-ui-check-active {
+    z-index: 2;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(60%, 50%);
+    rotate: 180deg;
+    visibility: hidden;
+    height: 0px;
+
+}
+
+.appdland-ui-checkboxapp-active-animated {
+    animation: animation 0.3s forwards;
+}
+
+
+.appdland-ui-check-active-animated {
+    animation: animation-check 0.5s forwards;
+    animation-delay: 0.1s;
+}
+
+.appdland-ui-checkboxapp-active-animated-reverse {
+    height: 0px;
+    visibility: hidden;
+    animation: animation-reverse 0.1s forwards;
+    animation-delay: 0.1s;
+}
+
+.appdland-ui-check-active-animated-reverse {
+    animation: animation-check-reverse 0.3s forwards;
+}
+
+@keyframes animation {
+    60% {
+        background-color: var(--appdland-ui-checkboxapp-color);
+        height: 16px;
+    }
+
+    100% {
+        background-color: var(--appdland-ui-checkboxapp-color);
+        height: 0px;
+        visibility: hidden;
+    }
+}
+
+@keyframes animation-reverse {
+    20% {
+        background-color: var(--appdland-ui-checkboxapp-color);
+        height: 0px;
+        visibility: hidden;
+    }
+
+    100% {
+        visibility: visible;
+        background-color: unset;
+        height: 16px;
+    }
+}
+
+@keyframes animation-check {
+    0% {
+        visibility: visible;
+    }
+
+    20% {
+        transform: translate(60%, 50%);
+        rotate: 180deg;
+    }
+
+    60% {
+        transform: translate(-10%, 70%);
+        rotate: 100deg;
+        height: 0px;
+    }
+
+    70% {
+        transform: translate(-50%, 10%);
+        rotate: 45deg;
+        height: 10px;
+    }
+
+    100% {
+        transform: translate(-50%, -50%);
+        rotate: 0deg;
+        height: 16px;
+        visibility: visible;
+    }
+}
+
+
+@keyframes animation-check-reverse {
+    0% {
+        transform: translate(-50%, -50%);
+        rotate: 0deg;
+        height: 16px;
+        visibility: visible;
+    }
+
+    100% {
+        transform: translate(-50%, -50%);
+        rotate: 0deg;
+        height: 0px;
+        visibility: hidden;
+    }
+}

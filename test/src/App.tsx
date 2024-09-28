@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { InputApp, ButtonApp, FormApp, useFormApp, SelectApp, DatePickerApp, useLoading, InputMoneyApp } from "@juandland/appdland-ui"
+import { InputApp, ButtonApp, FormApp, useFormApp, SelectApp, DatePickerApp, useLoading, InputMoneyApp, CheckBoxApp } from "@juandland/appdland-ui"
 import deleteIcon from "./delete.png";
 import "./App.css";
 
@@ -12,7 +12,7 @@ function App() {
 
     const { register, validateForm, form, formValues, setForm } = useFormApp<formValsInt>();
     const { setLoading } = useLoading();
-
+    const [check, setCheck] = useState(false);
 
     return (
         <div style={{
@@ -64,7 +64,7 @@ function App() {
                         type: "bottom-line",
                         textAlign: "center"
                     }}
-                    defaultValue='5555.46'
+                    defaultValue='5555'
                     errorOnPlaceholder
                 />
                 <InputApp
@@ -103,6 +103,14 @@ function App() {
                         maxItems: 3
                     }}
                     errorBelowSelect
+                />
+                <CheckBoxApp 
+                    onChange={val => setCheck(val)}
+                    value={check}
+                    label='Codigo'
+                    style={{
+                        color: "#004E77"
+                    }}
                 />
                 <ButtonApp
                     validateSubmit

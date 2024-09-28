@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { BasicInputProps } from './InputApp.types';
 import { useInputContext } from './InputContext';
 import "./styles.css";
@@ -9,7 +9,8 @@ interface BaseInputInt extends BasicInputProps {
 
 export const BaseInput = ({ children, style = {}, errorOnPlaceholder = false, errorBelowInput = false, disabled = false, ...props }: BaseInputInt) => {
 
-    const { placeholderActive, setPlaceholderActive, focused, setFocused, inputRef} = useInputContext();
+    const { placeholderActive, setPlaceholderActive, focused, setFocused, inputRef, setClickInside } = useInputContext();
+    const containerRef = useRef<HTMLInputElement>(null);
 
     //NO SERIA MEJOR MANEJARLO SIEMPRE CON EVENTO ON CLICK Y ON BLUR?
     useEffect(() => {
@@ -21,6 +22,20 @@ export const BaseInput = ({ children, style = {}, errorOnPlaceholder = false, er
         }
     }, [props.value, placeholderActive]);
 
+    useEffect(() => {
+        const clickEvent = (e: any) => {
+            if (containerRef.current && containerRef.current.contains(e.target)) {
+                setClickInside(true);
+            } else {
+                setClickInside(false);
+            }
+        }
+        document.addEventListener('click', clickEvent);
+        return () => {
+            document.removeEventListener('click', clickEvent);
+        }
+    }, []);
+
     const handleClick = () => {
         if (disabled === false) {
             setPlaceholderActive(true);
@@ -28,11 +43,12 @@ export const BaseInput = ({ children, style = {}, errorOnPlaceholder = false, er
             inputRef.current?.focus();
         }
     }
-    
+
 
 
     return (
         <div
+            ref={containerRef}
             className={`appdland-ui-inputapp-container ${style.type === "box" ? "appdland-ui-inputapp-container-box" : "appdland-ui-inputapp-container-bottom-line"}`}
             onClick={handleClick}
             style={{

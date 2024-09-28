@@ -1,4 +1,3 @@
-// import copy from 'clipboard-copy';
 export const formatComas = (number: number) => {
     return Intl.NumberFormat('es-MX').format(number)
 }
@@ -60,9 +59,4 @@ export const formatInteger = (text: string) => {
  */
 export const formatName = (text: string) => {
     return text.replace(/[^A-Za-zñáéíóúüÜÁÉÍÓÚÑñ\s]/g, '');
-}
-
-export const formatSeparateURL = (text: string) => {
-    const replaced = text.replace('/', '').split("/", 2);
-    return replaced.length === 1 && replaced[0] === "" ? ["/"] : replaced;
 }

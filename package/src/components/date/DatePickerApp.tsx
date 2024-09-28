@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { DatePickerAppProps } from './DatePickerApp,types';
+import { DatePickerAppProps } from './DatePickerApp.types';
 import "./styles.css";
 
 export const DatePickerApp: React.FC<DatePickerAppProps> = ({ style = {}, errorBelowDate = false, errorOnPlaceholder = false, ...props }) => {
