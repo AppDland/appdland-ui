@@ -98,7 +98,10 @@ export const InputApp: React.FC<InputAppProps> = ({ style = {}, errorOnPlacehold
                                 ? "1"
                                 : placeholderActive
                                     ? "1"
-                                    : "0"
+                                    : "0",
+                            maxWidth: props.childSize 
+                            ? `${props.childSize}px`
+                            : '30px'
                         }}
                         onClick={e => setClickInside(true)}
                     >

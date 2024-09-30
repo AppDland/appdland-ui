@@ -5,7 +5,6 @@
     align-items: center;
     position: relative;
     margin: 20px 5px;
-    width: 100%;
     max-width: 300px;
     box-sizing: border-box;
     user-select: none;
@@ -38,7 +37,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 80%;
+    max-width: calc(100% - 35px);
 }
 
 .appdland-ui-selectapp-option-selected {
@@ -74,9 +73,8 @@
     margin: 10px 0;
     width: 100%;
     border-radius: 5px;
-    overflow-y: scroll;
+    overflow-y: auto;
     max-height: 200px;
-    padding-left: 8px;
 }
 
 .appdland-ui-selectapp-options-box .appdland-ui-selectapp-option {
@@ -86,6 +84,13 @@
     align-items: center;
     margin: 0;
     border-bottom: 1px solid;
+}
+
+.appdland-ui-selectapp-option p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
 }
 
 .appdland-ui-selectapp-options-box .appdland-ui-selectapp-option:hover {
@@ -130,7 +135,7 @@
 
 .appdland-ui-selectapp-options-box::-webkit-scrollbar-button {
     width: 3px;
-    height: 10px;
+    height: 0px;
 }
 
 
@@ -139,3 +144,8 @@
     background-color: var(--appdland-ui-scrollbar-thumb-color);
 }
 
+@media (max-width: 600px) {
+    .appdland-ui-selectapp-option p {
+        font-size: small;
+    }
+}

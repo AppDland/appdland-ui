@@ -41,7 +41,7 @@ function App() {
                         type: "bottom-line",
                         textAlign: "center"
                     }}
-                    placeholder='Celular'
+                    placeholder='Ingresa Porcentaje este es un texto largo'
                     child={
                         <img alt='' src={deleteIcon} style={{ width: "100%" }} />
                     }
@@ -75,7 +75,7 @@ function App() {
                     })
                     }
                     type='percentage'
-                    placeholder='Ingresa Porcentaje'
+                    placeholder='Ingresa Porcentaje este es un texto largo de prueba para testear'
                     style={{
                         type: "bottom-line",
                         textAlign: "center"
@@ -85,7 +85,7 @@ function App() {
                 />
                 <SelectApp
                     {...register('select')}
-                    options={['Nequi', 'Transferencia Argentina', 'opcion3']}
+                    options={['Nequi', 'Transferencia Argentina prueba de texto largo', 'opcion3']}
                     placeholder='Envías muchos pesos'
                     style={{
                         type: "outline",
@@ -104,7 +104,7 @@ function App() {
                     }}
                     errorBelowSelect
                 />
-                <CheckBoxApp 
+                <CheckBoxApp
                     onChange={val => setCheck(val)}
                     value={check}
                     label='Codigo'
@@ -127,7 +127,17 @@ function App() {
                 // }}
                 >Boton</ButtonApp>
 
-
+                <div style={{borderStyle: "solid", width: "100px"}}>
+                    <SelectApp
+                        {...register('select')}
+                        options={['hola', 'adios']}
+                        style={{
+                            type: 'bottom-line',
+                            textAlign: "left"
+                        }}
+                        placeholder='Este va ser un placeholder largo para manejar el texto detras de la felcha'
+                    />
+                </div>
             </FormApp>
         </div>
     );

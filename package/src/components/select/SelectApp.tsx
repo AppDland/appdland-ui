@@ -38,7 +38,7 @@ export const SelectApp: React.FC<SelectAppProps> = ({ preventDefault = false, ..
         if (openList === true) {
             setOpenList(false)
         } else {
-            setOpenList(true)
+            setOpenList(true);
         }
     }
 
@@ -108,7 +108,7 @@ const MainBox = ({ innerVal, handleClick, isListOptionActive, style = {}, errorO
     return (
         <>
             <div
-                className={`appdland-ui-selectapp-main-box ${style.type && style.type === "box" ? "appdland-ui-selectapp-main-box-box" : style.type === "bottom-line" ? "appdland-ui-selectapp-main-box-bottom-line" : ""}`}
+                className={`appdland-ui-selectapp-main-box ${style.type === "bottom-line" ? "appdland-ui-selectapp-main-box-bottom-line" : style.type === "outline" ? "" : "appdland-ui-selectapp-main-box-box"}`}
                 onClick={() => disabled === false ? handleClick() : null}
                 style={{
                     borderRadius: style.type === "bottom-line" || style.type === "outline"
@@ -281,7 +281,7 @@ const ListOptions = ({ isListOptionActive, setListOptionActive, onSelect, option
                     ? optionsStyle.scrollThumbColor
                     : 'rgb(233, 233, 233)',
                 height: isListOptionActive === true
-                    ? `${props.options.length * 46 + (optionsStyle.showPlaceholderOnList === true ? 41 : 0)}px`
+                    ? `${props.options.length * 46.1 + (optionsStyle.showPlaceholderOnList === true ? 41.1 : 0)}px`
                     : '0px',
                 transitionDuration: optionsStyle.listAnimation ? "0.3s" : undefined,
                 boxShadow: isListOptionActive === true
@@ -291,7 +291,7 @@ const ListOptions = ({ isListOptionActive, setListOptionActive, onSelect, option
                     ? optionsStyle.backgroundColor
                     : "white",
                 maxHeight: optionsStyle.maxItems
-                    ? `${optionsStyle.maxItems * 46 + (optionsStyle.showPlaceholderOnList === true ? 41 : 0)}px`
+                    ? `${optionsStyle.maxItems * 46.1 + (optionsStyle.showPlaceholderOnList === true ? 41.1 : 0)}px`
                     : "229px"
             }}
         >

@@ -86,7 +86,6 @@ export const BaseInput = ({ children, style = {}, errorOnPlaceholder = false, er
                                 : undefined
                             : "0",
                     fontSize: placeholderActive ? "small" : "medium",
-                    width: placeholderActive ? "auto" : "auto",
                     color: props.validator === true
                         ? focused ? "red" : "lightpink"
                         : focused

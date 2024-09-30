@@ -9,6 +9,7 @@
     justify-self: center;
     -webkit-tap-highlight-color: transparent;
     max-height: 45px;
+    user-select: none;
 }
 
 .appdland-ui-buttonapp-normal{

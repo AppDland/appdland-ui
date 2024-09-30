@@ -14,8 +14,11 @@ export const CheckBoxApp: React.FC<CheckBoxAppProps> = ({ style = {}, ...props }
 
 
     return (
-        <div className="appdland-ui-checkboxapp-container" onClick={handleCheck}>
-            <div className="appdland-ui-checkboxapp-box" >
+        <div className="appdland-ui-checkboxapp-container">
+            <div
+                className="appdland-ui-checkboxapp-box"
+                onClick={handleCheck}
+            >
                 <div
                     className={`appdland-ui-checkboxapp-active ${props.value === true ? "appdland-ui-checkboxapp-active-animated" : isAnimating && props.value === false ? "appdland-ui-checkboxapp-active-animated-reverse" : ""}`}
                     style={{
@@ -48,6 +51,7 @@ export const CheckBoxApp: React.FC<CheckBoxAppProps> = ({ style = {}, ...props }
                 </svg>
             </div>
             <p
+                onClick={handleCheck}
                 style={{
                     color: style.labelColor
                         ? style.labelColor
@@ -59,6 +63,5 @@ export const CheckBoxApp: React.FC<CheckBoxAppProps> = ({ style = {}, ...props }
                 {props.label}
             </p>
         </div>
-
     )
 }

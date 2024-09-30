@@ -87,6 +87,10 @@ export interface InputAppProps extends BasicInputProps {
     capitalizeAll?: boolean;    
     child?: React.ReactNode;
     /**
+     * @default 30
+     */
+    childSize?: number;
+    /**
      * Muestra el elemento incrustado siempre (requiere **child**)
      * 
      * @default false
