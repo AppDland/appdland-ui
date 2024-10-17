@@ -1,0 +1,3 @@
+input child manejar algun tipo de prevent default porque no deja usar un buscador dentro del flag selector de colcambios (probar)
+
+manejo general del tab

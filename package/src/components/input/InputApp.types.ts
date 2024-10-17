@@ -70,10 +70,11 @@ export interface InputAppProps extends BasicInputProps {
      * @percentage porcentaje
      * @email correo electrónico
      * @tel teléfono
+     * @name nombres
      * 
      * @default text
      */
-    type: "text" | "number" | "password" | "percentage" | "email" | "tel";
+    type: "text" | "number" | "password" | "percentage" | "email" | "tel" | "name";
     
     /**
      * Pone en mayuscula cada palabra (únicamente con type: "text")

@@ -80,6 +80,7 @@ export interface SelectAppProps {
     errorMessageStyle?: CSSProperties;
     defaultValue?: string;
     style?: SelectStyleInt;
+    boxStyle?: React.CSSProperties;
     /**
      * Impide que la opcion se ubique como opcion seleccionada
      * @default false

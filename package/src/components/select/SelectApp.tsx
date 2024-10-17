@@ -139,7 +139,8 @@ const MainBox = ({ innerVal, handleClick, isListOptionActive, style = {}, errorO
                         : '1',
                     cursor: disabled === true
                         ? 'default'
-                        : 'pointer'
+                        : 'pointer',
+                    ...props.boxStyle
                 }}
             >
                 {
@@ -148,13 +149,13 @@ const MainBox = ({ innerVal, handleClick, isListOptionActive, style = {}, errorO
                             className="appdland-ui-selectapp-placeholder"
                             style={{
                                 top: style.showPlaceHolderOnFocus === false
-                                    ? "50%"
+                                    ? "46%"
                                     : style.background && style.background === "transparent"
-                                        ? "50%"
+                                        ? "46%"
                                         : style.backgroundColor
-                                            ? "50%"
+                                            ? "46%"
                                             : placeAction === false
-                                                ? "50%"
+                                                ? "46%"
                                                 : "-10%",
                                 fontSize: placeAction === false ? "medium" : "small",
                                 left: style.textAlign === "center"
@@ -236,11 +237,11 @@ const MainBox = ({ innerVal, handleClick, isListOptionActive, style = {}, errorO
                 </div>
             </div>
             {
-                errorBelowSelect && errorOnPlaceholder === false && props.validator && (
+                errorBelowSelect && errorOnPlaceholder === false && props.validator && props.errorMessage && (
                     <p
                         className='appdland-ui-selectapp-error-message'
                         style={{
-                            fontSize: style.fontSize === "large" ? "small" : "x-small",
+                            fontSize: style.fontSize === "large" ? "medium" : "small",
                             ...props.errorMessageStyle
                         }}
                     >
@@ -332,10 +333,14 @@ const ListOptions = ({ isListOptionActive, setListOptionActive, onSelect, option
                     >
                         {
                             typeof opcion === 'object' && opcion.extra && (
-                                opcion.extra
+                                <div className="appdland-ui-selectapp-option-extra">
+                                    {
+                                        opcion.extra
+                                    }
+                                </div>
                             )
                         }
-                        <p>{typeof opcion === "string" ? opcion : opcion.label}</p>
+                        <p className="appdland-ui-selectapp-option-p">{typeof opcion === "string" ? opcion : opcion.label}</p>
                     </div>
                 ))
             }

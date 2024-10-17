@@ -14,6 +14,10 @@ function App() {
     const { setLoading } = useLoading();
     const [check, setCheck] = useState(false);
 
+    useEffect(() => {
+        setForm('select2', '', true, 'un error');
+    }, []);
+
     return (
         <div style={{
             height: "100vh",
@@ -43,7 +47,11 @@ function App() {
                     }}
                     placeholder='Ingresa Porcentaje este es un texto largo'
                     child={
-                        <img alt='' src={deleteIcon} style={{ width: "100%" }} />
+                        <div style={{width:"100%"}}>
+                            <img alt='' src={deleteIcon} style={{ width: "100%" }} />
+                            
+                            <input type='text' />
+                        </div>
                     }
                 // capitalize
                 />
@@ -80,7 +88,7 @@ function App() {
                         type: "bottom-line",
                         textAlign: "center"
                     }}
-                    defaultValue='4'
+                    // defaultValue='4'
                     errorOnPlaceholder
                 />
                 <SelectApp
@@ -104,6 +112,14 @@ function App() {
                     }}
                     errorBelowSelect
                 />
+                <div style={{display: "flex", justifyContent: "center", alignItems: "center", width: "100px"}}>
+                <SelectApp 
+                    {...register('select2')}
+                    options={[{label: 'Cedula de ciudadania', value: 'CC', extra: 'CC'}]}
+                    placeholder='un placeholder largo'
+                    errorBelowSelect
+                />
+                </div>
                 <CheckBoxApp
                     onChange={val => setCheck(val)}
                     value={check}

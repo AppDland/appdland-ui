@@ -5,7 +5,7 @@ import { formatMoney, formatRevertComas } from '../../functions/formats';
 import { BaseInput } from './BaseInput';
 
 export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, style = {}, ...props }: InputMoneyProps) => {
-
+    const [integerVal, setIntegerVal] = useState("");
     const [decimal, setDecimal] = useState("");
     const [inputWidth, setInputWidth] = useState(0);
     const inputDecimalRef = useRef<HTMLInputElement>(null);
@@ -13,14 +13,13 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
     const [isNegative, setIsNegative] = useState(false);
     const { innerVal, setInnerVal, inputRef, basicFocus, basicBlur, setFocused } = useInputContext();
 
-
     const setMoney = (value: string) => {
         const isNumber = Number(value);
         if (!isNaN(isNumber)) {
+            setInnerVal(value);
             const formated = formatMoney(isNumber);
             const [integer, dec] = formated.split('.');
-
-            setInnerVal(integer);
+            setIntegerVal(integer);
             if (dec) {
                 setInnerShowDecimal(true);
                 setDecimal(dec);
@@ -33,18 +32,22 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
             setMoney(props.defaultValue);
             props.onChange(props.defaultValue);
         }
-    }, []);
+    }, [props.defaultValue]);
 
     useEffect(() => {
-        if (innerVal) {
-            const multiplier = style.fontSize === "large" ? 10 : 9;
-            const getSize = () => {
-                const length = String(formatRevertComas(innerVal)).length;
-                return (Math.trunc(length / 3.1) * 5) + (length * multiplier);
-            }
-            setInputWidth(getSize())
+        const multiplier = style.fontSize === "large" ? 10 : 9;
+        const getSize = () => {
+            const length = String(formatRevertComas(integerVal)).length;
+            return (Math.trunc(length / 3.1) * 5) + (length * multiplier);
         }
-    }, [innerVal]);
+        setInputWidth(getSize())
+    }, [integerVal]);
+
+    useEffect(() => {
+        if (innerVal !== (integerVal === "" ? "0" : integerVal.replaceAll(',', '')) + (decimal.length > 0 ? ('.' + decimal) : '')) {
+            setMoney(props.value);
+        }
+    }, [innerVal, integerVal]);
 
     useEffect(() => {
         if (showDecimal) {
@@ -57,25 +60,28 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
         let value = e.target.value;
         const selectionStart = inputRef.current?.selectionStart || 0;
 
+        if (integerVal === "0") {
+            value = value.slice(0, -1);
+        }
+
         value = value === "-" ? value : String(formatRevertComas(value));
+
         if (isNaN(Number(value)) && value !== "-") {
             return;
         } else {
+            setInnerVal(value + (decimal.length > 0 ? ('.' + decimal) : ''));
             const converted = value === "-" ? value : formatMoney(Number(value));
             const [integer] = converted.split(".");
-            setInnerVal(integer);
-
-            const nextSelectionStart = selectionStart + (integer.length - innerVal.length === 2 ? 1 : integer.length - innerVal.length === -2 ? -1 : 0);
+            setIntegerVal(integer);
+            const nextSelectionStart = selectionStart + (integer.length - integerVal.length === 2 ? 1 : integer.length - integerVal.length === -2 ? -1 : 0);
 
             // Esperar a que se actualice el input y luego restaurar la posición del cursor
             setTimeout(() => {
                 inputRef.current?.setSelectionRange(nextSelectionStart, nextSelectionStart);
-            }, 0);
+            }, 1);
         }
-        value = value === "0" ? "" : value;
 
-        props.onChange(value);
-
+        props.onChange(value + (decimal.length > 0 ? ('.' + decimal) : ''));
     }
 
     const handleFocus = () => {
@@ -117,13 +123,15 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
                 props.onChange('-');
                 setIsNegative(true);
             }
-        } else if (e.key === "Backspace" && innerVal?.length === 0) {
-            setIsNegative(false);
-            if (decimal.length > 0) {
-                e.preventDefault();
-                inputDecimalRef.current?.focus();
-            }
         }
+
+        // else if (e.key === "Backspace" && integerVal.length === 0) {
+        //     setIsNegative(false);
+        //     if (decimal.length > 0) {
+        //         e.preventDefault();
+        //         inputDecimalRef.current?.focus();
+        //     }
+        // }
 
 
     }
@@ -144,7 +152,7 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
             inputDecimalRef.current?.focus();
         }
 
-        if (position === innerVal.length) {
+        if (position === integerVal.length) {
             if (
                 e.key === "ArrowRight" ||
                 e.keyCode === 39 ||
@@ -168,7 +176,7 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
                 e.code === "ArrowLeft"
             ) {
                 e.preventDefault();
-                inputRef.current?.setSelectionRange(innerVal.length, innerVal.length);
+                inputRef.current?.setSelectionRange(integerVal.length, integerVal.length);
                 inputRef.current?.focus();
             }
         }
@@ -180,7 +188,8 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
             let value = String(e.target.value);
             if (value.length <= 2) {
                 setDecimal(value);
-                props.onChange(props.value.split(".")[0] + "." + value);
+                setInnerVal(innerVal.split(".")[0] + (value.length > 0 ? ("." + value) : ""));
+                props.onChange(props.value.split(".")[0] + (value.length > 0 ? ("." + value) : ""));
                 inputDecimalRef.current?.setSelectionRange(position, position + 1);
             }
         }
@@ -222,7 +231,7 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
                 type="text"
                 inputMode="decimal"
                 autoComplete="off"
-                value={innerVal}
+                value={integerVal}
                 onChange={innerChange}
                 autoCorrect="off"
                 onFocus={handleFocus}
@@ -235,7 +244,7 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
                 style={{
                     width: `${inputWidth}px`,
                     fontSize: style.fontSize ? style.fontSize : "medium",
-                    paddingLeft: innerVal
+                    paddingLeft: integerVal
                         ? "0"
                         : "10px",
                     paddingRight: "0",
@@ -286,7 +295,7 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
 
 export const InputConstructor: React.FC<InputMoneyProps> = (props: InputMoneyProps) => (
     <InputProvider>
-        <BaseInput {...props}>
+        <BaseInput {...props} isMoney>
             <InputMoneyApp {...props} />
         </BaseInput>
     </InputProvider>

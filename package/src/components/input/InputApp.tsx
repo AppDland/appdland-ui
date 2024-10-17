@@ -13,7 +13,6 @@ export const InputApp: React.FC<InputAppProps> = ({ style = {}, errorOnPlacehold
         if (props.defaultValue && props.defaultValue.length > 0) {
             if (props.type === "percentage" || props.type === "number" || props.type === "tel") {
                 const isNumber = Number(props.defaultValue);
-                console.log(isNumber);
                 if (!isNaN(isNumber)) {
                     setInnerVal(props.defaultValue);
                     props.onChange(props.defaultValue);
@@ -66,9 +65,13 @@ export const InputApp: React.FC<InputAppProps> = ({ style = {}, errorOnPlacehold
     const innerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value;
 
-        if (props.type === "text" && props.capitalize) {
+        if (props.type === "name") {
+            value = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+        }
+
+        if ((props.type === "text" || props.type === "name") && props.capitalize) {
             value = formatUpperEach(value);
-        } else if (props.type === "text" && props.capitalizeAll) {
+        } else if ((props.type === "text" || props.type === "name") && props.capitalizeAll) {
             value = value.toUpperCase();
         } else if (props.type === "number") {
             if (isNaN(Number(value)) && value !== "-") {
@@ -103,7 +106,7 @@ export const InputApp: React.FC<InputAppProps> = ({ style = {}, errorOnPlacehold
                             ? `${props.childSize}px`
                             : '30px'
                         }}
-                        onClick={e => setClickInside(true)}
+                        onClick={e => {setClickInside(true); e.stopPropagation();}}
                     >
                         {props.child}
                     </div>

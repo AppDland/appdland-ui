@@ -3,7 +3,7 @@ import { inputCompleteInt, registerConfig, useInputGroup } from "../../custom/us
 
 interface FormatsInt {
     notEmpty: (param: boolean | undefined, errorMessage?: string | undefined) => FormatsInt;
-    format: (type: "string" | "number", errorMessage?: string | undefined) => FormatsInt;
+    format: (type: "string" | "number" | "name", errorMessage?: string | undefined) => FormatsInt;
     min: (param: number | undefined, errorMessage?: string | undefined) => FormatsInt;
     max: (param: number | undefined, errorMessage?: string | undefined) => FormatsInt;
     positive: (param: boolean | undefined, errorMessage?: string | undefined) => FormatsInt;
@@ -116,14 +116,23 @@ export const useFormApp: <T extends object = formValuesInt>() => useFormAppInt<T
                  * @param type tipo de formato a validar
                  * @param errorMessage mensaje personalizado
                  */
-                format(type: "string" | "number", errorMessage?: string | undefined) {
-                    if (validate && typeof value !== type) {
-                        validate = false;
-                        error = errorMessage
-                            ? errorMessage
-                            : type === "string"
-                                ? "Formato no válido"
-                                : "Ingresa únicamente números"
+                format(type: "string" | "number" | "name", errorMessage?: string | undefined) {
+                    if (validate) {
+                        if (type === "name") {
+                            if (/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/.test(String(value))) {
+                                validate = false;
+                                error = errorMessage
+                                    ? errorMessage
+                                    : "Ingresa un nombre válido"
+                            }
+                        } else if (typeof value !== type) {
+                            validate = false;
+                            error = errorMessage
+                                ? errorMessage
+                                : type === "string"
+                                    ? "Formato no válido"
+                                    : "Ingresa únicamente números"
+                        }
                     }
                     return this;
                 },

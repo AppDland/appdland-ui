@@ -9,6 +9,7 @@
     box-sizing: border-box;
     user-select: none;
     max-height: 45px;
+    width: 100%;
 }
 
 .appdland-ui-selectapp-main-box {
@@ -37,7 +38,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: calc(100% - 35px);
+    max-width: calc(100% - 40px);
 }
 
 .appdland-ui-selectapp-option-selected {
@@ -46,6 +47,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: calc(100% - 40px);
 }
 
 .appdland-ui-selectapp-option-ghost {
@@ -55,7 +57,7 @@
 .appdland-ui-selectapp-arrow {
     position: absolute;
     right: 10px;
-    top: 50%;
+    top: 48%;
     transform: translate(0, -50%);
     display: flex;
     align-items: center;
@@ -78,19 +80,12 @@
 }
 
 .appdland-ui-selectapp-options-box .appdland-ui-selectapp-option {
-    padding: 0 20px;
+    padding: 0 10px;
     height: 45px;
     display: flex;
     align-items: center;
     margin: 0;
     border-bottom: 1px solid;
-}
-
-.appdland-ui-selectapp-option p {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin: 0;
 }
 
 .appdland-ui-selectapp-options-box .appdland-ui-selectapp-option:hover {
@@ -124,7 +119,7 @@
 .appdland-ui-selectapp-error-message {
     position: absolute;
     left: 10px;
-    top: 30px;
+    top: 32px;
     color: red;
 }
 
@@ -144,8 +139,19 @@
     background-color: var(--appdland-ui-scrollbar-thumb-color);
 }
 
+.appdland-ui-selectapp-option-extra {
+    padding: 0 10px;
+}
+
+.appdland-ui-selectapp-option-p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+}
+
 @media (max-width: 600px) {
-    .appdland-ui-selectapp-option p {
+    .appdland-ui-selectapp-option-p {
         font-size: small;
     }
 }

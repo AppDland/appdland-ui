@@ -5,11 +5,12 @@ import "./styles.css";
 
 interface BaseInputInt extends BasicInputProps {
     children: React.ReactNode;
+    isMoney?: boolean;
 }
 
-export const BaseInput = ({ children, style = {}, errorOnPlaceholder = false, errorBelowInput = false, disabled = false, ...props }: BaseInputInt) => {
+export const BaseInput = ({ children, style = {}, errorOnPlaceholder = false, errorBelowInput = false, disabled = false, isMoney = false, ...props }: BaseInputInt) => {
 
-    const { placeholderActive, setPlaceholderActive, focused, setFocused, inputRef, setClickInside } = useInputContext();
+    const { placeholderActive, setPlaceholderActive, focused, setFocused, inputRef, setClickInside, setInnerVal, innerVal } = useInputContext();
     const containerRef = useRef<HTMLInputElement>(null);
 
     //NO SERIA MEJOR MANEJARLO SIEMPRE CON EVENTO ON CLICK Y ON BLUR?
@@ -17,10 +18,15 @@ export const BaseInput = ({ children, style = {}, errorOnPlaceholder = false, er
         if (props.value.length > 0 && placeholderActive === false) {
             setPlaceholderActive(true);
         } else if (props.value.length === 0 && placeholderActive === true && focused === false) {
-            console.log("yes")
             setPlaceholderActive(false);
         }
     }, [props.value, placeholderActive]);
+
+    useEffect(() => {
+        if (props.value !== innerVal) {
+            setInnerVal(props.value);
+        }
+    }, [props.value])
 
     useEffect(() => {
         const clickEvent = (e: any) => {
@@ -43,8 +49,6 @@ export const BaseInput = ({ children, style = {}, errorOnPlaceholder = false, er
             inputRef.current?.focus();
         }
     }
-
-
 
     return (
         <div
