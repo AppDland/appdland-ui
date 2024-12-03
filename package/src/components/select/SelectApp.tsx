@@ -24,15 +24,27 @@ export const SelectApp: React.FC<SelectAppProps> = ({ preventDefault = false, ..
         }
     }, []);
 
+    const findAndSet = (innerVal: string) => {
+        const found = props.options.find((value) => typeof value === "string" ? value === innerVal : value.value === innerVal);
+        if (found) {
+            setInnerVal(found);
+        } else {
+            setInnerVal('');
+        }
+    }
+
     useEffect(() => {
         if (props.defaultValue) {
             props.onChange(props.defaultValue);
-            const found = props.options.find((value) => typeof value === "string" ? value === props.defaultValue : value.value === props.defaultValue);
-            if (found) {
-                setInnerVal(found);
-            }
+            findAndSet(props.defaultValue);
         }
-    }, []);
+    }, [props.defaultValue]);
+
+    useEffect(() => {
+        if (props.value.length > 0 && !innerVal) {
+            findAndSet(props.value);
+        }
+    }, [props.value, innerVal]);
 
     const handleClick = () => {
         if (openList === true) {

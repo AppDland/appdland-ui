@@ -1,3 +1,7 @@
-input child manejar algun tipo de prevent default porque no deja usar un buscador dentro del flag selector de colcambios (probar)
-
 manejo general del tab
+button hover deshabilitado en celulares
+lista crear este nuevo componente el cual incluye un seleccionador y va agregando elementos a una lista
+inputMoney problema con el placeholder y el value, se ve el value aun estando el placeholder
+inputMoney opcion de color para los decimales
+input problema al poner un color de fondo solido no toma ningun color
+input placeholder dinamico, que desaparezca y aparezca por fuera del input

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { inputCompleteInt, registerConfig, useInputGroup } from "../../custom/useInput";
+import { registerConfig, useInputGroup } from "../../custom/useInput";
+import { formValuesInt, RegisterInt, useFormAppProps } from "./FormApp.types";
 
 interface FormatsInt {
     notEmpty: (param: boolean | undefined, errorMessage?: string | undefined) => FormatsInt;
@@ -10,67 +11,7 @@ interface FormatsInt {
     isValid: () => { state: boolean, error: string };
 }
 
-interface RegisterInt {
-    value: string;
-    onChange: (param: string) => void;
-    validator: boolean;
-    errorMessage: string;
-    maxLength: number | undefined;
-}
-
-interface useFormAppInt<T> {
-    /**
-     * Registra un input, se debe usar con el operador Spread.
-     *
-     * *Ejemplo*: 
-     * ```
-     * <InputApp
-        * {...register('inputName')}
-        * otherProps
-     * />
-     * ```
-     * 
-     * | ATRIBUTOS |
-     * 
-     * **name** asigna un nombre al input
-     * 
-     * **settings** ajustes para validar el formulario
-     * 
-     * *return*
-     * - value
-     * - onChange
-     * - validator
-     * - errorMessage
-     * - maxLength
-     * 
-     * NOTA:
-     * 
-     * No reasigne los atributos que se están retornano, esto causaria un posible error
-     */
-    register: (name: string, settings?: registerConfig) => RegisterInt;
-    /**
-     * La función que finalmente valida que los inputs cumplan los requisitos del formulario
-     * 
-     * **settings** configuraciones opcionales
-     */
-    validateForm: () => boolean;
-    /**
-     * 
-     */
-    form: Record<string, inputCompleteInt>;
-    setForm: (key: string, value: string, validate?: boolean, errorMessage?: string) => void;
-    /**
-     * Accede a un objeto con los inputs y sus values
-     */
-    formValues: T | formValuesInt;
-}
-
-type formValuesInt = {
-    [key: string]: any;
-}
-
-
-export const useFormApp: <T extends object = formValuesInt>() => useFormAppInt<T> = <T extends object = formValuesInt>() => {
+export const useForm: <T extends object = formValuesInt>() => useFormAppProps<T> = <T extends object = formValuesInt>() => {
 
     const [formValues, setFormValues] = useState<T>({} as T);
 
@@ -201,7 +142,9 @@ export const useFormApp: <T extends object = formValuesInt>() => useFormAppInt<T
 
     const register: (name: string, settings?: registerConfig) => RegisterInt = (name: string, settings?: registerConfig) => {
 
-        registerInput(name, settings);
+        useEffect(() => {
+            registerInput(name, settings);
+        }, []);
 
         return {
             value: form[name]?.value || "",

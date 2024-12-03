@@ -88,6 +88,10 @@
     border-bottom: 1px solid;
 }
 
+.appdland-ui-selectapp-options-box .appdland-ui-selectapp-option:last-child{
+    border-bottom: none;
+}
+
 .appdland-ui-selectapp-options-box .appdland-ui-selectapp-option:hover {
     background-color: var(--appdland-ui-select-option-hover);
 }
@@ -119,7 +123,7 @@
 .appdland-ui-selectapp-error-message {
     position: absolute;
     left: 10px;
-    top: 32px;
+    top: 36px;
     color: red;
 }
 
