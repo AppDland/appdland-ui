@@ -20,15 +20,15 @@ export const InputApp: React.FC<InputAppProps> = ({ style = {}, errorOnPlacehold
             } else {
                 setInnerVal(props.defaultValue);
                 props.onChange(props.defaultValue);
+                // console.log(props.onChange)
             }
         }
     }, []);
 
     useEffect(() => {
+        // console.log(innerVal);
         if (innerVal && props.type === "percentage") {
-
             const multiplier = style.fontSize === "large" ? 10 : 9;
-
             const getSize = () => {
                 const length = innerVal.length - (innerVal.includes(".") ? 1 : 0);
                 return (innerVal.includes(".") ? 6 : 0) + (length * multiplier);
@@ -78,7 +78,7 @@ export const InputApp: React.FC<InputAppProps> = ({ style = {}, errorOnPlacehold
                 return;
             }
             value = value === "0" ? "" : value;
-        } else if (props.type === "tel"){
+        } else if (props.type === "tel") {
             value = formatInteger(value);
         } else if (props.type === "percentage") {
             if (isNaN(Number(value)) && value !== "-") {
@@ -102,11 +102,11 @@ export const InputApp: React.FC<InputAppProps> = ({ style = {}, errorOnPlacehold
                                 : placeholderActive
                                     ? "1"
                                     : "0",
-                            maxWidth: props.childSize 
-                            ? `${props.childSize}px`
-                            : '30px'
+                            maxWidth: props.childSize
+                                ? `${props.childSize}px`
+                                : '30px'
                         }}
-                        onClick={e => {setClickInside(true); e.stopPropagation();}}
+                        onClick={e => { setClickInside(true); e.stopPropagation(); }}
                     >
                         {props.child}
                     </div>

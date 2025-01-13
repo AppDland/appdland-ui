@@ -9,6 +9,7 @@ export { FormApp } from './components/form/FormApp';
 export { useFormApp } from './components/form/FormApp';
 export { useFormAppProps } from './components/form/FormApp.types';
 export { SelectApp } from './components/select/SelectApp';
+export { SelectListApp } from './components/select/SelectListApp';
 export { SelectAppProps } from './components/select/SelectApp.types';
 export { DatePickerApp } from './components/date/DatePickerApp';
 export { DatePickerAppProps } from './components/date/DatePickerApp.types';

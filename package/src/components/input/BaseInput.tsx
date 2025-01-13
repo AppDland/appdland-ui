@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { BasicInputProps } from './InputApp.types';
 import { useInputContext } from './InputContext';
 import "./styles.css";
@@ -11,6 +11,7 @@ interface BaseInputInt extends BasicInputProps {
 export const BaseInput = ({ children, style = {}, errorOnPlaceholder = false, errorBelowInput = false, disabled = false, isMoney = false, ...props }: BaseInputInt) => {
 
     const { placeholderActive, setPlaceholderActive, focused, setFocused, inputRef, setClickInside, setInnerVal, innerVal } = useInputContext();
+    const [showAbovePlaceholder, setShowAbovePlaceholder] = useState(false);
     const containerRef = useRef<HTMLInputElement>(null);
 
     //NO SERIA MEJOR MANEJARLO SIEMPRE CON EVENTO ON CLICK Y ON BLUR?
@@ -47,8 +48,17 @@ export const BaseInput = ({ children, style = {}, errorOnPlaceholder = false, er
             setPlaceholderActive(true);
             setFocused(true);
             inputRef.current?.focus();
+            setTimeout(() => {
+                setShowAbovePlaceholder(true);
+            }, 100);
         }
     }
+
+    useEffect(() => {
+        if (!placeholderActive) {
+            setShowAbovePlaceholder(false);
+        }
+    }, [placeholderActive]);
 
     return (
         <div
@@ -69,16 +79,43 @@ export const BaseInput = ({ children, style = {}, errorOnPlaceholder = false, er
                         : style.blurColor
                             ? style.blurColor
                             : "lightgray",
-                backgroundColor: style.background === "transparent" ? "transparent" : "white"
+                backgroundColor: style.background === "transparent"
+                    ? "transparent"
+                    : style.backgroundColor
+                        ? style.backgroundColor
+                        : "white",
             }}
         >
+            {
+                showAbovePlaceholder && style.placholderTop === true && (style.background === "transparent" || style.backgroundColor) && (
+                    <p
+                        className='appdland-ui-inputapp-top-placeholder'
+                        style={{
+                            color: props.validator === true
+                                ? focused ? "red" : "lightpink"
+                                : focused
+                                    ? style.placeholderColor
+                                        ? style.placeholderColor
+                                        : "black"
+                                    : style.blurPlaceholderColor
+                                        ? style.blurPlaceholderColor
+                                        : "lightgray",
+                            textAlign: style.textAlign
+                                ? style.textAlign
+                                : "left",
+                        }}
+                    >
+                        {props.placeholder}
+                    </p>
+                )
+            }
             <p
                 className={`appdland-ui-inputapp-placeholder`}
                 style={{
-                    top: style.background === "transparent"
+                    top: style.background === "transparent" || style.backgroundColor
                         ? "45%"
                         : placeholderActive ? "-16%" : "45%",
-                    left: placeholderActive
+                    left: placeholderActive && !style.backgroundColor
                         ? style.textAlign
                             ? style.textAlign === "left"
                                 ? "10px"
@@ -102,10 +139,14 @@ export const BaseInput = ({ children, style = {}, errorOnPlaceholder = false, er
                     textAlign: style.textAlign
                         ? style.textAlign
                         : "left",
-                    opacity: style.background === "transparent"
+                    opacity: style.background === "transparent" || style.backgroundColor
                         ? placeholderActive ? "0" : "1"
                         : undefined,
-                    backgroundColor: style.background === "transparent" ? "transparent" : "white"
+                    backgroundColor: style.background === "transparent"
+                        ? "transparent"
+                        : style.backgroundColor
+                            ? style.backgroundColor
+                            : "white",
                 }}
             >
                 {

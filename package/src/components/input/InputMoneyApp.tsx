@@ -44,10 +44,19 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
     }, [integerVal]);
 
     useEffect(() => {
-        if (innerVal !== (integerVal === "" ? "0" : integerVal.replaceAll(',', '')) + (decimal.length > 0 ? ('.' + decimal) : '')) {
+        const getNumberBuild = () => {
+            let dec = decimal.length > 0 ? ('.' + decimal) : '';
+            if (dec.length > 0) {
+                return (integerVal === "" ? "0" : integerVal.replaceAll(',', '')) + dec;
+            } else {
+                return "";
+            }
+        }
+
+        if (innerVal !== getNumberBuild()) {
             setMoney(props.value);
         }
-    }, [innerVal, integerVal]);
+    }, [innerVal, integerVal, decimal]);
 
     useEffect(() => {
         if (showDecimal) {
@@ -69,19 +78,22 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
         if (isNaN(Number(value)) && value !== "-") {
             return;
         } else {
-            setInnerVal(value + (decimal.length > 0 ? ('.' + decimal) : ''));
+            const realVal = value + (decimal.length > 0 ? ('.' + decimal) : '');
+
+            setInnerVal(realVal);
+
             const converted = value === "-" ? value : formatMoney(Number(value));
             const [integer] = converted.split(".");
-            setIntegerVal(integer);
+            setIntegerVal(value === "" ? value : integer);
             const nextSelectionStart = selectionStart + (integer.length - integerVal.length === 2 ? 1 : integer.length - integerVal.length === -2 ? -1 : 0);
 
             // Esperar a que se actualice el input y luego restaurar la posición del cursor
             setTimeout(() => {
                 inputRef.current?.setSelectionRange(nextSelectionStart, nextSelectionStart);
             }, 1);
+            props.onChange(realVal);
         }
 
-        props.onChange(value + (decimal.length > 0 ? ('.' + decimal) : ''));
     }
 
     const handleFocus = () => {
@@ -91,6 +103,9 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
         }
         if (showDecimal) {
             setInnerShowDecimal(true);
+        }
+        if (innerVal.length === 0) {
+            inputRef.current?.setSelectionRange(0, 0);
         }
     }
 
@@ -149,7 +164,13 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
             e.code === "Comma"
         ) {
             e.preventDefault();
-            inputDecimalRef.current?.focus();
+            if (innerVal.length === 0) {
+                props.onChange("0");
+                setInnerVal("0");
+            }
+            setTimeout(() => {
+                inputDecimalRef.current?.focus();
+            }, 10)
         }
 
         if (position === integerVal.length) {
@@ -214,18 +235,22 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
 
     return (
         <>
-            <p
-                className="appdland-ui-inputapp-money-symbol"
-                style={{
-                    color: isNegative
-                        ? "red"
-                        : style.color
-                            ? style.color
-                            : "black"
-                }}
-            >
-                $
-            </p>
+            {
+                innerVal.length > 0 && (
+                    <p
+                        className="appdland-ui-inputapp-money-symbol"
+                        style={{
+                            color: isNegative
+                                ? "red"
+                                : style.color
+                                    ? style.color
+                                    : "black"
+                        }}
+                    >
+                        $
+                    </p>
+                )
+            }
             <input
                 ref={inputRef}
                 type="text"
@@ -258,7 +283,7 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
                 spellCheck="false"
             />
             {
-                showDecimal ? (
+                showDecimal && innerVal.length > 0 ? (
                     <input
                         ref={inputDecimalRef}
                         type="text"
@@ -276,6 +301,8 @@ export const InputMoneyApp: React.FC<InputMoneyProps> = ({ showDecimal = true, s
                         className="appdland-ui-inputapp-decimal"
                         tabIndex={-1}
                         style={{
+                            //@ts-ignore
+                            "--input-decimal-placeholder-color": style.placeholderColor,
                             opacity: innerShowDecimal ? "1" : "0",
                             width: style.textAlign
                                 ? style.textAlign === "left"

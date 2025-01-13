@@ -65,8 +65,9 @@
     background: none;
 }
 
-.inputgb-decimal::placeholder{
+.appdland-ui-inputapp-decimal::placeholder{
     opacity: 0.5;
+    color: var(--input-decimal-placeholder-color);
 }
 
 .appdland-ui-inputapp-percentage-symbol{
@@ -90,4 +91,34 @@
     align-items: center;
     box-sizing: border-box;
     transition-duration: 0.1s;
+}
+
+.appdland-ui-inputapp-top-placeholder{
+    z-index: 5;
+    position: absolute;
+    transition-duration: 0.1s;
+    box-sizing: border-box;
+    top: -16px;
+    transform: translate(0, -50%);
+    margin: 0;
+    user-select: none;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    animation: top-placeholder-intro 0.1s;
+    font-size: small;
+}
+
+@keyframes top-placeholder-intro{
+    0%{
+        opacity: 0;
+        transform: translate(0, -50%) scale(0.5);
+        top: 0;
+    }
+    100%{
+        opacity: 1;
+        transform: translate(0, -50%) scale(1);
+        top: -16px;
+    }
 }

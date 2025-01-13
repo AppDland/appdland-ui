@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { InputApp, FormApp, useLoading, FormAppProvider, useFormApp, DatePickerApp, ButtonApp, SelectApp, CheckBoxApp, InputMoneyApp } from "@juandland/appdland-ui"
+import { InputApp, FormApp, useLoading, FormAppProvider, useFormApp, DatePickerApp, ButtonApp, SelectApp, CheckBoxApp, InputMoneyApp, SelectListApp } from "@juandland/appdland-ui"
 import deleteIcon from "./delete.png";
 import "./App.css";
 
@@ -12,18 +12,30 @@ interface formValsInt {
 }
 
 const Custom = () => {
-    const { register, formValues } = useFormApp();
+    const { register, formValues, setForm } = useFormApp();
 
     useEffect(() => {
         console.log(formValues);
     }, [formValues]);
 
+    // useEffect(() => {
+    //     setForm('nombre', 'hola')
+    // }, [])
 
     return (
         <InputApp
             {...register("nombre", { type: "string", min: 5, max: 30 })}
             type='text'
             placeholder='Ingresa tu nombre'
+            defaultValue="adios"
+            style={{
+                type: 'box',
+                borderRadius: 10,
+                background: 'transparent',
+                // textAlign: "center",
+                // placholderTop: true,
+                // backgroundColor: "red"
+            }}
         />
     )
 }
@@ -41,7 +53,8 @@ const Form = () => {
     const [check, setCheck] = useState(false);
 
 
-    const { register, validateForm, form, formValues, setForm } = useFormApp();
+    const { register, validateForm, form, formValues, setForm } = useFormApp<formValsInt>();
+    const [list, setList] = useState<string[]>([]);
 
     return (
         <FormApp onSubmit={(values) => console.log(values)}>
@@ -54,20 +67,14 @@ const Form = () => {
                 errorMessage='error de prueba'
             />
             <InputApp
-                {...register("cel", { type: "number" })}
-                type='tel'
+                {...register("cel", { type: "string" })}
+                type='text'
                 style={{
                     type: "bottom-line",
                     textAlign: "center"
                 }}
+                defaultValue='hola'
                 placeholder='Ingresa Porcentaje este es un texto largo'
-                child={
-                    <div style={{ width: "100%" }}>
-                        <img alt='' src={deleteIcon} style={{ width: "100%" }} />
-
-                        <input type='text' />
-                    </div>
-                }
             // capitalize
             />
             <InputMoneyApp
@@ -84,10 +91,16 @@ const Form = () => {
                 }
                 placeholder='Ingresa Numero'
                 style={{
-                    type: "bottom-line",
-                    textAlign: "center"
+                    type: 'bottom-line',
+                    background: "transparent",
+                    textAlign: "center",
+                    blurColor: '#378064',
+                    blurPlaceholderColor: 'blue',
+                    color: "#B3E0CB",
+                    placeholderColor: 'blue',
+                    placholderTop: true,
                 }}
-                defaultValue='5555'
+                defaultValue='5555.55'
                 errorOnPlaceholder
             />
             <InputApp
@@ -157,6 +170,22 @@ const Form = () => {
                     placeholder='Este va ser un placeholder largo para manejar el texto detras de la felcha'
                 />
             </div>
+
+            <SelectListApp
+                options={[
+                    { value: 'hola', label: 'hola' },
+                    { value: 'adios', label: 'adios' },
+                    { value: 'chao', label: 'chao' },
+                ]}
+                value={list}
+                onChange={val => setList(val)}
+                placeholder='Selecciona un elemento de la lista'
+                style={{
+                    deleteIconColor: 'red',
+                    backgroundColor: 'green',
+                    color: 'white',
+                }}
+            />
 
 
             <ButtonApp

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { registerConfig, useInputGroup } from "../../custom/useInput";
 import { formValuesInt, RegisterInt, useFormAppProps } from "./FormApp.types";
 
@@ -16,6 +16,7 @@ export const useForm: <T extends object = formValuesInt>() => useFormAppProps<T>
     const [formValues, setFormValues] = useState<T>({} as T);
 
     const [form, setForm, registerInput] = useInputGroup();
+    const registeredInputs = useRef(new Set<string>());
 
     useEffect(() => {
         let vals = {};
@@ -143,8 +144,11 @@ export const useForm: <T extends object = formValuesInt>() => useFormAppProps<T>
     const register: (name: string, settings?: registerConfig) => RegisterInt = (name: string, settings?: registerConfig) => {
 
         useEffect(() => {
-            registerInput(name, settings);
-        }, []);
+            if (!registeredInputs.current.has(name)) {
+                registeredInputs.current.add(name);
+                registerInput(name, settings);
+            }
+        }, [name, settings]);
 
         return {
             value: form[name]?.value || "",

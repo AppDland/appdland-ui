@@ -3,7 +3,7 @@ export const formatComas = (number: number) => {
 }
 
 export const formatRevertComas = (number: string) => {
-    return Number(number.replaceAll(",", ""));
+    return number.replaceAll(",", "");
 }
 
 /**

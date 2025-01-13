@@ -1,6 +1,6 @@
 import { CSSProperties } from "react";
 
-interface SelectStyleInt{
+export interface SelectStyleInt {
     /**
      * Define el estilo del input
      * @default "box"
@@ -31,13 +31,13 @@ interface SelectStyleInt{
     arrowColor?: string;
 }
 
-export interface OptionsInt{
+export interface OptionsInt {
     value: string;
     label: string;
     extra?: string | React.ReactNode;
 }
 
-interface OptionsStyleInt{
+interface OptionsStyleInt {
     /**
      * Animación al desplegar la lista de opciones
      * @default true
@@ -66,7 +66,7 @@ export interface SelectAppProps {
     /**
      * Mensaje de error cuando ```validator = {true}```
      */
-    errorMessage?:string;
+    errorMessage?: string;
     /**
      * Muestra el mensaje de error (errorMessage) en la ubicación del placeholder
      * @default false

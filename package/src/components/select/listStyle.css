@@ -1,0 +1,28 @@
+.appdland-ui-selectlistapp-list-container{
+    max-width: 300px;
+    margin: 0 5px;
+    box-sizing: border-box;
+    user-select: none;
+}
+.appdland-ui-selectlistapp-element{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    border-radius: 5px;
+    padding: 0 10px;
+}
+
+.appdland-ui-selectlistapp-element-delete{
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: content-box;
+    cursor: pointer;
+}
+
+.appdland-ui-selectlistapp-element-delete:hover{
+    opacity: 0.4;
+}

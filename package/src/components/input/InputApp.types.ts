@@ -1,6 +1,6 @@
 import { CSSProperties } from "react";
 
-interface styleInputInt{
+interface styleInputInt {
     /**
      * Define el estilo del input
      * @default "box"
@@ -24,6 +24,13 @@ interface styleInputInt{
     borderRadius?: number;
     placeholderColor?: string;
     blurPlaceholderColor?: string;
+    /**
+     * Muestra el placeholder en la parte superior del input cuando este está enfocado
+     * 
+     * **Nota:** solo funciona con background: "transparent" o backgroundColor
+     * @default false
+     */
+    placholderTop?: boolean;
 }
 
 export interface BasicInputProps {
@@ -75,7 +82,7 @@ export interface InputAppProps extends BasicInputProps {
      * @default text
      */
     type: "text" | "number" | "password" | "percentage" | "email" | "tel" | "name";
-    
+
     /**
      * Pone en mayuscula cada palabra (únicamente con type: "text")
      * @default false
@@ -85,7 +92,7 @@ export interface InputAppProps extends BasicInputProps {
      * Pone en mayuscula todo el texto
      * @default false
      */
-    capitalizeAll?: boolean;    
+    capitalizeAll?: boolean;
     child?: React.ReactNode;
     /**
      * @default 30

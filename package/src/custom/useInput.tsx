@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface ValidateInputInt {
     value: string;
@@ -8,7 +8,7 @@ interface ValidateInputInt {
 
 export interface inputCompleteInt extends registerConfig, ValidateInputInt { };
 
-interface errorEventsInt{
+interface errorEventsInt {
     onFormatError?: string;
     onRequiredError?: string;
     onMinError?: string;
@@ -53,7 +53,7 @@ export const useInputGroup = (): [Record<string, inputCompleteInt>, (key: string
         setState(prevState => ({
             ...prevState,
             [key]: {
-                ...state[key],
+                ...prevState[key],
                 value,
                 validate,
                 errorMessage
