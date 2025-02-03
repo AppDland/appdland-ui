@@ -7,7 +7,7 @@ import { formatInteger, formatUpperEach } from '../../functions/formats';
 export const InputApp: React.FC<InputAppProps> = ({ style = {}, errorOnPlaceholder = false, errorBelowInput = false, alwaysShowChild = false, ...props }) => {
 
     const [inputWidth, setInputWidth] = useState(0);
-    const { placeholderActive, inputRef, innerVal, setInnerVal, basicFocus, basicBlur, setFocused, setClickInside } = useInputContext();
+    const { placeholderActive, inputRef, innerVal, setInnerVal, basicFocus, basicBlur, setFocused, setClickInside, setPlaceholderActive } = useInputContext();
 
     useEffect(() => {
         if (props.defaultValue && props.defaultValue.length > 0) {
@@ -23,7 +23,7 @@ export const InputApp: React.FC<InputAppProps> = ({ style = {}, errorOnPlacehold
                 // console.log(props.onChange)
             }
         }
-    }, []);
+    }, [props.defaultValue]);
 
     useEffect(() => {
         // console.log(innerVal);
@@ -88,6 +88,7 @@ export const InputApp: React.FC<InputAppProps> = ({ style = {}, errorOnPlacehold
         }
         setInnerVal(value);
         props.onChange(value);
+        if (value.length > 0 && !placeholderActive) setPlaceholderActive(true);
     }
 
     return (

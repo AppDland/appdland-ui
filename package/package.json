@@ -1,6 +1,6 @@
 {
     "name": "appdland-ui",
-    "version": "0.7.0",
+    "version": "0.7.3",
     "description": "AppDland basic UI components",
     "main": "./dist/index.js",
     "module": "./dist/index.mjs",
@@ -10,7 +10,8 @@
     ],
     "scripts": {
         "build": "tsup ./src",
-        "watch": "tsup ./src --watch"
+        "watch": "tsup ./src --watch",
+        "start": "node --preserve-symlinks node_modules/.bin/react-scripts start"
     },
     "repository": {
         "type": "git",
@@ -31,14 +32,14 @@
         "esbuild": "^0.23.1",
         "postcss": "^8.4.41",
         "postcss-import": "^16.1.0",
-        "react": "^18.3.1",
-        "react-dom": "^18.3.1",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
         "tsup": "^8.2.4",
         "typescript": "^5.5.4",
         "typescript-plugin-css-modules": "^5.1.0"
     },
     "peerDependencies": {
-        "react": "^18.3.1",
-        "react-dom": "^18.3.1"
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0"
     }
 }

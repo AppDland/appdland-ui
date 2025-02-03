@@ -38,7 +38,7 @@ interface LoadingProps {
  * Provider de loading, habilita el uso de useLoading
  * @returns 
  */
-const LoadingProvider: React.FC<LoadingProps> = ({ children, background, loadingColor, spinners }) => {
+const LoadingProvider = ({ children, background, loadingColor, spinners }: LoadingProps) => {
 
     const [loading, setInnerLoading] = useState(false);
 
@@ -61,7 +61,7 @@ const LoadingProvider: React.FC<LoadingProps> = ({ children, background, loading
             {
                 loading === true && (
                     <Loading background={background} loadingColor={loadingColor} spinners={spinners} />
-                ) 
+                )
             }
             {children}
 

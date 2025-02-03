@@ -9,11 +9,25 @@ export const DatePickerApp: React.FC<DatePickerAppProps> = ({ style = {}, errorB
     const inputRef = useRef<HTMLDivElement>(null);
     const datePickerRef = useRef<HTMLInputElement>(null);
     const [today, setToday] = useState("");
+    const [showAbovePlaceholder, setShowAbovePlaceholder] = useState(false);
 
     const handleClick = () => {
         setIsFocused(true);
         setPlaceholderActive(true);
-        datePickerRef.current?.showPicker();
+
+        if (datePickerRef.current) {
+            datePickerRef.current.focus();
+            setTimeout(() => {
+                setShowAbovePlaceholder(true);
+                if (datePickerRef.current) {
+                    try {
+                        datePickerRef.current.showPicker();
+                    } catch (error) {
+                        datePickerRef.current.click();
+                    }
+                }
+            }, 10);
+        }
     }
 
     useEffect(() => {
@@ -23,8 +37,17 @@ export const DatePickerApp: React.FC<DatePickerAppProps> = ({ style = {}, errorB
     }, [isFocused, props.value]);
 
     useEffect(() => {
+        if (props.defaultValue) {
+            props.onChange(props.defaultValue);
+            setPlaceholderActive(true);
+            setShowAbovePlaceholder(true);
+        }
+    }, [props.defaultValue]);
+
+    useEffect(() => {
 
         const handlePlaceholder = (e: any) => {
+
             if (inputRef.current && !inputRef.current.contains(e.target)) {
                 setIsFocused(false);
             }
@@ -46,6 +69,12 @@ export const DatePickerApp: React.FC<DatePickerAppProps> = ({ style = {}, errorB
             setToday(fullDate);
         }
     }, []);
+
+    useEffect(() => {
+        if (!placeholderActive) {
+            setShowAbovePlaceholder(false);
+        }
+    }, [placeholderActive]);
 
     return (
         <div
@@ -73,27 +102,47 @@ export const DatePickerApp: React.FC<DatePickerAppProps> = ({ style = {}, errorB
 
             }}
         >
+            {
+                showAbovePlaceholder && style.backgroundColor && (
+                    <p
+                        className='date-picker-app-top-placeholder'
+                        style={{
+                            color: props.validator === true
+                                ? isFocused ? "red" : "lightpink"
+                                : isFocused
+                                    ? style.placeholderColor
+                                        ? style.placeholderColor
+                                        : "black"
+                                    : style.blurPlaceholderColor
+                                        ? style.blurPlaceholderColor
+                                        : "lightgray",
+                            textAlign: style.textAlign
+                                ? style.textAlign
+                                : "left",
+                            backgroundColor: style.backgroundColor
+                        }}
+                    >
+                        {props.placeholder}
+                    </p>
+                )
+            }
             <div
                 className='date-picker-app-placeholder'
                 style={{
                     top: style.backgroundColor
-                        ? "50%"
-                        : placeholderActive
-                            ? "-12%"
-                            : "50%",
+                        ? "45%"
+                        : placeholderActive ? "-16%" : "45%",
                     backgroundColor: style.backgroundColor
                         ? style.backgroundColor
                         : placeholderActive
                             ? 'transparent'
                             : "white",
+                    opacity: style.backgroundColor
+                        ? placeholderActive ? "0" : "1"
+                        : undefined,
                     justifyContent: style.textAlign
                         ? style.textAlign
                         : "left",
-                    opacity: style.backgroundColor
-                        ? placeholderActive
-                            ? "0"
-                            : "1"
-                        : "1"
                 }}
             >
                 <p
@@ -117,17 +166,24 @@ export const DatePickerApp: React.FC<DatePickerAppProps> = ({ style = {}, errorB
                     }}
                 >
                     {
-                    errorOnPlaceholder && errorBelowDate === false && props.validator
-                        ? props.errorMessage + '*'
-                        : props.placeholder
-                }
+                        errorOnPlaceholder && errorBelowDate === false && props.validator
+                            ? props.errorMessage + '*'
+                            : props.placeholder
+                    }
                 </p>
             </div>
             <input
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    // Remover readonly al hacer click para permitir la interacción
+                    if (datePickerRef.current) {
+                        datePickerRef.current.removeAttribute('readonly');
+                    }
+                }}
                 onFocus={() => setIsFocused(true)}
                 ref={datePickerRef}
                 type="date"
+                readOnly // Esto ayuda a prevenir el teclado en iOS
                 value={props.value}
                 onChange={({ target }) => props.onChange(target.value)}
                 className='date-picker-app-input'

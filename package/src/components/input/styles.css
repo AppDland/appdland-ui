@@ -1,4 +1,4 @@
-.appdland-ui-inputapp-container{
+.appdland-ui-inputapp-container {
     position: relative;
     cursor: text;
     margin: 20px 0;
@@ -11,11 +11,11 @@
     box-sizing: border-box;
 }
 
-.appdland-ui-inputapp-container-box{
+.appdland-ui-inputapp-container-box {
     border: 1px solid;
 }
 
-.appdland-ui-inputapp-container-bottom-line{
+.appdland-ui-inputapp-container-bottom-line {
     border-bottom: 1px solid;
 }
 
@@ -45,7 +45,7 @@
     align-items: center;
 }
 
-.appdland-ui-inputapp-input{
+.appdland-ui-inputapp-input {
     z-index: 2;
     border: none;
     outline: none;
@@ -56,7 +56,7 @@
     padding-right: 0;
 }
 
-.appdland-ui-inputapp-decimal{
+.appdland-ui-inputapp-decimal {
     z-index: 4;
     margin-bottom: -2px;
     border: none;
@@ -65,26 +65,26 @@
     background: none;
 }
 
-.appdland-ui-inputapp-decimal::placeholder{
+.appdland-ui-inputapp-decimal::placeholder {
     opacity: 0.5;
     color: var(--input-decimal-placeholder-color);
 }
 
-.appdland-ui-inputapp-percentage-symbol{
+.appdland-ui-inputapp-percentage-symbol {
     z-index: 4;
     margin: 0;
     margin-left: 2px;
     font-size: small;
 }
 
-.appdland-ui-inputapp-error-message{
+.appdland-ui-inputapp-error-message {
     position: absolute;
     left: 10px;
     top: 30px;
     color: red;
 }
 
-.appdland-ui-inputapp-child-container{
+.appdland-ui-inputapp-child-container {
     max-height: 30px;
     display: flex;
     justify-content: center;
@@ -93,7 +93,7 @@
     transition-duration: 0.1s;
 }
 
-.appdland-ui-inputapp-top-placeholder{
+.appdland-ui-inputapp-top-placeholder {
     z-index: 5;
     position: absolute;
     transition-duration: 0.1s;
@@ -110,13 +110,14 @@
     font-size: small;
 }
 
-@keyframes top-placeholder-intro{
-    0%{
+@keyframes top-placeholder-intro {
+    0% {
         opacity: 0;
         transform: translate(0, -50%) scale(0.5);
         top: 0;
     }
-    100%{
+
+    100% {
         opacity: 1;
         transform: translate(0, -50%) scale(1);
         top: -16px;

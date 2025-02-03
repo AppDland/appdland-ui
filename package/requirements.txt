@@ -1,3 +1,5 @@
 manejo general del tab
 button hover deshabilitado en celulares
-lista crear este nuevo componente el cual incluye un seleccionador y va agregando elementos a una lista
+crear popUp
+input focus pone el cursor siempre al final
+verificar estilo backdrop del modal validateForm de button

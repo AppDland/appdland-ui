@@ -10,36 +10,71 @@
     box-sizing: border-box;
     user-select: none;
     cursor: pointer;
+    min-height: 43px;
     max-height: 45px;
 }
 
-.date-picker-app-box{
+.date-picker-app-box {
     border: 1px solid;
     border-radius: 5px;
 }
 
-.date-picker-app-bottom-line{
+.date-picker-app-bottom-line {
     border-radius: 0;
     border-bottom: 1px solid;
 }
 
 .date-picker-app-placeholder {
-    z-index: 2;
+    z-index: 5;
     position: absolute;
-    width: 100%;
+    transition-duration: 0.1s;
     box-sizing: border-box;
     left: 0;
-    padding: 0 10px;
     transform: translate(0, -50%);
-    transition-duration: 0.1s;
-    height: 60%;
+    margin: 0;
+    user-select: none;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     display: flex;
-    align-items: center;
+}
+
+.date-picker-app-top-placeholder {
+    z-index: 5;
+    position: absolute;
+    transition-duration: 0.1s;
+    box-sizing: border-box;
+    top: -16px;
+    transform: translate(0, -50%);
+    margin: 0;
+    user-select: none;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    animation: date-picker-placeholder-intro 0.1s;
+    font-size: small;
+}
+
+@keyframes date-picker-placeholder-intro {
+    0% {
+        opacity: 0;
+        transform: translate(0, -50%) scale(0.5);
+        top: 0;
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(0, -50%) scale(1);
+        top: -16px;
+    }
 }
 
 .date-picker-app-placeholder p {
     margin: 0;
-    width: fit-content;
+    margin: 0 10px;
+    width: min-content;
 }
 
 .date-picker-app-input {
@@ -49,12 +84,20 @@
     outline: none;
     font-family: Arial, Helvetica, sans-serif;
     justify-content: center;
+    height: 100%;
+    line-height: normal;
+    padding: 0 10px;
+    margin: 0;
+    text-align: inherit;
+    display: flex;
+    align-items: center;
 }
+
 .date-picker-app-input::-webkit-calendar-picker-indicator {
     filter: invert(1);
 }
 
-.appdland-ui-datepickerapp-error-message{
+.appdland-ui-datepickerapp-error-message {
     position: absolute;
     left: 10px;
     top: 30px;

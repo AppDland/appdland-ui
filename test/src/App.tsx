@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { InputApp, FormApp, useLoading, FormAppProvider, useFormApp, DatePickerApp, ButtonApp, SelectApp, CheckBoxApp, InputMoneyApp, SelectListApp } from "@juandland/appdland-ui"
+import { InputApp, FormApp, FormAppProvider, useFormApp, DatePickerApp, ButtonApp, SelectApp, CheckBoxApp, InputMoneyApp, SelectListApp } from "appdland-ui"
 import deleteIcon from "./delete.png";
 import "./App.css";
 
@@ -18,21 +18,20 @@ const Custom = () => {
         console.log(formValues);
     }, [formValues]);
 
-    // useEffect(() => {
-    //     setForm('nombre', 'hola')
-    // }, [])
+    useEffect(() => {
+        // setForm('nombre', 'hola')
+    }, [])
 
     return (
         <InputApp
             {...register("nombre", { type: "string", min: 5, max: 30 })}
             type='text'
             placeholder='Ingresa tu nombre'
-            defaultValue="adios"
+            capitalize
             style={{
-                type: 'box',
+                type: 'bottom-line',
                 borderRadius: 10,
-                background: 'transparent',
-                // textAlign: "center",
+                textAlign: "center",
                 // placholderTop: true,
                 // backgroundColor: "red"
             }}
@@ -49,7 +48,6 @@ function App() {
 
 const Form = () => {
 
-    const { setLoading } = useLoading();
     const [check, setCheck] = useState(false);
 
 
@@ -65,15 +63,26 @@ const Form = () => {
                 maxToday
                 errorBelowDate
                 errorMessage='error de prueba'
+                style={{
+                    type: "box",
+                    backgroundColor: "transparent",
+                    color: "#B3E0CB",
+                    blurColor: '#378064',
+                    placeholderColor: '#B3E0CB',
+                    blurPlaceholderColor: '#378064',
+                    textAlign: "center",
+                    borderRadius: 20,
+                }}
+                defaultValue='2025-02-04'
             />
             <InputApp
                 {...register("cel", { type: "string" })}
                 type='text'
                 style={{
                     type: "bottom-line",
-                    textAlign: "center"
+                    // textAlign: "center"
                 }}
-                defaultValue='hola'
+                // defaultValue='hola'
                 placeholder='Ingresa Porcentaje este es un texto largo'
             // capitalize
             />

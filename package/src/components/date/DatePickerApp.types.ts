@@ -1,6 +1,6 @@
 import { CSSProperties } from "react";
 
-interface StyleDateInt{
+interface StyleDateInt {
     /**
      * @default "box"
      */
@@ -18,7 +18,7 @@ interface StyleDateInt{
     blurPlaceholderColor?: string;
 }
 
-export interface DatePickerAppProps{
+export interface DatePickerAppProps {
     value: string;
     onChange: (val: string) => void;
     validator?: boolean;
@@ -40,4 +40,5 @@ export interface DatePickerAppProps{
     placeholder?: string;
     maxToday?: boolean;
     style?: StyleDateInt;
+    defaultValue?: string;
 }
